@@ -4,11 +4,18 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 
 ## [Unreleased]
 
-### Cycle 2026-07-24 — autonomous /owl:evolve (shadow mode, proposed on a branch)
+### 🦉 Milestone — Self-Improvement Loop LIVE (2026-07-24)
+the-owl now improves its own agents autonomously, on a daily schedule, with a human merge gate.
+- **Live & armed:** `/owl:evolve` runs headless daily at 07:13 via launchd (`scripts/owl-daily.sh` + `com.evolvelabs.owl.daily.plist`), shadow-only by default (opens a PR; never auto-touches `main`).
+- **3 autonomous cycles proposed, reviewed, and MERGED to `main`:** handoff-contract convention (ADR-004) → rolled into architect/builder/chronicler (ADR-006/007/008) → role-ownership convention (ADR-009). All PR branches cleaned up.
+- **10 ADRs** (001–010) record every decision. Load-bearing invariant **NFR-SEC-1** (ADR-001): the loop may improve any agent **except its own guardrails** (sentinel veto, guardian gate, challenger, rubric safety floor, scope allow-list, `.owl/loop-config.yml`, schedule, `~/.ssh`, secrets) — those stay human-only. 0 carve-out contact across all 3 cycles.
+- **Proven behaviors:** dual research (codex + scout), rigorous scoring (it *rejected* `isolated-workspaces` at 41/100), gap-analysis against our own code (ADR-005), and reliable headless execution with per-phase output verification (ADR-010).
+
+### Cycle 2026-07-24 — autonomous /owl:evolve (merged via PR #3)
 - **Fresh dual research:** codex brief `research-vault/inbox/research-brief-2026-07-24.md` (22 sources, 16 ideas — default model `gpt-5.6-luna` via `~/.codex`; the deep-research model is not available on this ChatGPT account, so the skill's documented fallback was used) + scout live pass (`scout-notes-2026-07-24.md`, x1–x5).
 - **L1.5 grounding (ADR-005) mattered:** scoring against the real code found ownership is already in `.meta.yaml` for **8/11** agents, but `scout`, `curator`, `sentinel` lack it — a concrete inconsistency (sentinel = carve-out, human-only).
 - **1 accepted / 1 rejected / rest deferred** — accepted `role-ownership` (87/100, promotes the previously-deferred `explicit-role-boundaries` with today's stronger evidence); rejected `isolated-workspaces` (41 — runtime-shaped, applicability 2/5).
-- **Change proposed (not on main):** **ADR-009** + `docs/conventions/role-ownership.md` (the "Papel & Não-Papel" ownership convention). Gate (guardian/sentinel/challenger) PASS; **0 carve-out contact**. Challenger flag (non-blocking): two conventions (handoff-contract, role-ownership) now await rollout — prioritize rollout over new conventions next cycle. On branch `owl/evolve-2026-07-24-role-ownership`.
+- **Change (merged):** **ADR-009** + `docs/conventions/role-ownership.md` (the "Papel & Não-Papel" ownership convention). Gate (guardian/sentinel/challenger) PASS; **0 carve-out contact**. Challenger flag (non-blocking): two conventions (handoff-contract, role-ownership) now await rollout — prioritize rollout over new conventions next cycle.
 
 ### Cycle 2026-07-23b — /owl:evolve continuation (merged via PR #2)
 - **Same-day guard honored:** no new codex research spend — the cycle-1 brief was still fresh, so the loop processed the **queued backlog** instead of re-running L0.
@@ -17,10 +24,10 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 - **Change:** ADR-006 (architect) + ADR-007 (builder) + ADR-008 (chronicler), each = 1 additive, agent-specific handoff-contract section. Gate (guardian/sentinel/challenger) **PASS** — additive-only, role boundaries preserved, no injection/secrets, 0 carve-out contact, real (not cargo-cult) improvement.
 - **Queued next:** roll the same convention into scout/curator (partial) + strategist/system-designer; the deferred backlog ideas remain untouched (not re-litigated).
 
-### Cycle 2026-07-23 — first autonomous /owl:evolve (shadow mode, proposed on a branch)
+### Cycle 2026-07-23 — first autonomous /owl:evolve (merged via PR #1)
 - **Dual research proven:** codex brief (ChatGPT-side) + scout live web research (Claude-side), merged/deduped by curator.
 - **1 accepted / 9 deferred** — curator scored the merged set; accepted `handoff-contract` (91/100), rest deferred (evidence captured, not re-litigated).
-- **Change proposed (not on main):** ADR-004 + `docs/conventions/handoff-contract.md` (standardized agent handoff contract). Gate (guardian/sentinel/challenger) PASS; 0 carve-out contact. On branch `owl/evolve-2026-07-23-handoff-contract`.
+- **Change (merged):** ADR-004 + `docs/conventions/handoff-contract.md` (standardized agent handoff contract). Gate (guardian/sentinel/challenger) PASS; 0 carve-out contact.
 
 ### Added — Self-Improvement Loop (planning + architecture)
 - **PRD** `docs/planning/prd-owl-self-improvement.md` — the daily autonomous loop that lets the-owl improve its own agents from field research, with rigorous scoring and a safe self-modification model.
@@ -37,7 +44,14 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 - **Schedule** — `scripts/owl-daily.sh` + launchd template `scripts/com.evolvelabs.owl.daily.plist` (human loads it once; not auto-installed).
 - **Config** `.owl/loop-config.yml` — landing mode (default `pr`/shadow), circuit breaker, rubric threshold + safety floor.
 
-### Remaining
-- (Optional) wire the L4 gate role explicitly into `sentinel`/`guardian` prompts — `/owl:evolve` already instructs them per-run.
-- First real `/owl:evolve` run to validate the codex output-capture flag + the pipeline end-to-end (shadow mode).
-- Human step to arm the daily schedule: `launchctl load ~/Library/LaunchAgents/com.evolvelabs.owl.daily.plist`.
+### Done since
+- ✅ First `/owl:evolve` run validated the codex output-capture flag + the full pipeline (verified `codex exec -o/--output-last-message`, committed in `bfcdbf7`).
+- ✅ Daily schedule armed (`launchctl bootstrap`, `com.evolvelabs.owl.daily` loaded; first scheduled run fired 2026-07-24 07:13).
+- ✅ Headless reliability hardened — inline phase execution + per-phase output verification (ADR-010), after the first scheduled run exposed a silent scout no-op.
+
+### Known follow-ups (non-blocking)
+- **Convention rollout > new conventions** (the loop's own challenger flag): roll handoff-contract + role-ownership into the remaining agents (scout/curator/strategist/system-designer; sentinel/guardian/challenger = human-only, carve-out).
+- **codex deep-research model** unavailable on the account → falls back to `gpt-5.6-luna`. Point `research.model` at an available model if the deep-research tier is wanted.
+- **Tokenless launchd PR-open:** scheduled runs push the branch but can't open the PR (no `gh`/token in that env) — a human opens it. ADR-010 records the branch + compare URL fallback.
+- **Docs:** `docs/wiki/` not yet initialized; `.devflow/knowledge-graph.json` referenced in `project.yaml` but not present (regenerate via `/graph regenerate`).
+- **Diagrams:** architecture diagrams added in `docs/architecture/diagrams/` (Mermaid).

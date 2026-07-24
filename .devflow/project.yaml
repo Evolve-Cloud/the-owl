@@ -4,10 +4,10 @@
 
 project:
   name: "DevFlow"
-  version: "1.5.0"
-  description: "Sistema multi-agentes para desenvolvimento de software com 8 agentes especializados"
+  version: "1.6.0"
+  description: "Sistema multi-agentes para desenvolvimento de software com 10 agentes especializados + loop de auto-melhoria diário (the-owl)"
   created: "2025-11-15"
-  last_updated: "2026-07-06"
+  last_updated: "2026-07-24"
 
   # Estado atual
   status: "active"
@@ -315,6 +315,18 @@ features:
     version: "1.5.0"
     description: "@guardian uses the knowledge graph to compute the ripple of a change (reverse edge traversal) and feed the mandatory Regression Map before merge; hands off to @sentinel if a changed node touches a security-tagged node."
 
+  - id: "self-improvement-loop"
+    name: "Self-Improvement Loop (the-owl)"
+    status: "implemented"
+    version: "1.6.0"
+    description: "Daily autonomous loop that improves the-owl's own agents. scout researches the field (codex brief + live web), curator scores each idea against a ratcheting rubric AND against our own code (L1.5 gap-analysis, ADR-005), accepted ideas become an ADR + edit, gated by guardian/sentinel/challenger, landed as a shadow PR. Armed via launchd (daily 07:13). Safety invariant NFR-SEC-1 (ADR-001): the loop cannot autonomously edit its own guardrails. 3 cycles merged (ADR-004/006/007/008/009). See docs/decisions/ADR-001..010 and docs/architecture/diagrams/."
+
+# ── the-owl ADRs (self-improvement loop) ──
+# Authoritative decision records live as files in docs/decisions/ADR-001..010.
+# NOTE: these REUSE the numbers ADR-001/002/003 for NEW the-owl decisions; the
+# summary `decisions:` block below is LEGACY DevFlow context (different decisions,
+# 2025-11-15), kept for history. For the-owl, trust the files in docs/decisions/.
+
 # Decisões arquiteturais (resumo - detalhes em ADRs)
 decisions:
   - id: "ADR-001"
@@ -338,14 +350,17 @@ decisions:
 # Métricas (atualizadas pelo Chronicler)
 metrics:
   total_agents: 10
-  total_features: 19
-  total_decisions: 11   # 3 resumidos no bloco `decisions` + 8 ADRs em docs/decisions/ (ver knowledge-graph.json)
+  total_features: 20
+  total_decisions: 10   # 10 the-owl ADRs on disk: docs/decisions/ADR-001..010 (the legacy `decisions:` block is separate DevFlow history)
+  owl_cycles_run: 3      # autonomous /owl:evolve cycles proposed + merged (2026-07-23 x2, 2026-07-24)
+  owl_cycles_merged: 3
+  owl_carve_out_violations: 0
   npm_package: "@evolve.labs/devflow"
   npm_version: "1.5.0"
   documentation_coverage: "excellent"
   metadata_coverage: "excellent"
   orchestration_coverage: "complete"
-  last_snapshot: "2026-05-02"
+  last_snapshot: "2026-07-24"
 
 # Configurações
 config:
