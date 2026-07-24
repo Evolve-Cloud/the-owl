@@ -52,3 +52,8 @@ Feedback loops allowed:
 - /create-adr - Guided ADR creation
 - /security-check - Quick security audit
 - /system-design - Guided system design creation
+
+## Repo Wiki
+Before searching the code for context, read `docs/wiki/quickstart.md` — a navigable index
+maintained by @chronicler (grounded in real files: the loop, the 10 agents, the safety model,
+workflows, and operations). Update it via `/agents:chronicler /wiki update` after structural changes.

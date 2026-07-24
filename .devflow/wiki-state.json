@@ -1,0 +1,64 @@
+{
+  "last_git_ref": "d814eb3",
+  "generated_at": "2026-07-24",
+  "pages": [
+    {
+      "path": "docs/wiki/quickstart.md",
+      "sources": [
+        ".claude/commands/owl/evolve.md",
+        ".claude/commands/owl/research.md",
+        ".claude/commands/agents/scout.md",
+        ".claude/commands/agents/curator.md",
+        ".owl/loop-config.yml",
+        "research-vault/SCHEMA.md",
+        "docs/decisions/",
+        "docs/conventions/",
+        "docs/architecture/diagrams/self-improvement-loop.md"
+      ],
+      "hash": "sha256:f7927610b910e0b8c14a0ef1dfbfbbc3c31aaf93ef0adab681f0ce8c24b84972"
+    },
+    {
+      "path": "docs/wiki/architecture/overview.md",
+      "sources": [
+        ".claude/commands/owl/evolve.md",
+        ".claude/commands/owl/research.md",
+        ".claude/commands/agents/scout.md",
+        ".claude/commands/agents/curator.md",
+        ".devflow/agents/",
+        "research-vault/SCHEMA.md",
+        ".owl/loop-config.yml",
+        "docs/decisions/ADR-001-self-improvement-loop.md",
+        "docs/decisions/ADR-003-rigor-rubric.md",
+        "docs/decisions/ADR-005-gap-analysis-against-own-code.md",
+        "docs/decisions/ADR-010-loop-execution-model-and-output-verification.md",
+        "docs/architecture/diagrams/self-improvement-loop.md"
+      ],
+      "hash": "sha256:0364b1fddfc4cd28936af2a0b060696e89c6694c792385a8ed6322e56e96341c"
+    },
+    {
+      "path": "docs/wiki/workflows/self-improvement-cycle.md",
+      "sources": [
+        ".claude/commands/owl/evolve.md",
+        ".claude/commands/owl/research.md",
+        "scripts/owl-daily.sh",
+        "scripts/com.evolvelabs.owl.daily.plist",
+        "research-vault/ledger.md",
+        "docs/decisions/ADR-005-gap-analysis-against-own-code.md",
+        "docs/decisions/ADR-010-loop-execution-model-and-output-verification.md"
+      ],
+      "hash": "sha256:345a3a5412e2422886fe459db259cc9a8c8b7e3502b7b9a86166f92f31617122"
+    },
+    {
+      "path": "docs/wiki/operations/config-and-schedule.md",
+      "sources": [
+        ".owl/loop-config.yml",
+        "scripts/owl-daily.sh",
+        "scripts/com.evolvelabs.owl.daily.plist",
+        "docs/decisions/ADR-001-self-improvement-loop.md",
+        "docs/decisions/ADR-010-loop-execution-model-and-output-verification.md",
+        "CHANGELOG.md"
+      ],
+      "hash": "sha256:d976d7054c8d1fe174831b8577130d61dece7431510d99f030550b0eb0c6da2f"
+    }
+  ]
+}
