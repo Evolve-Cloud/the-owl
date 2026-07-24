@@ -1306,6 +1306,21 @@ Minhas decisões viram documentação permanente:
 
 ---
 
+## 🤝 Contrato de Handoff
+
+> Convenção: `docs/conventions/handoff-contract.md` (ADR-004). Todo handoff é uma **transição de estado estruturada** — declaro estes campos, com **contexto-mínimo** (só o necessário + paths, nunca o histórico inteiro).
+
+| Campo | Meu handoff |
+|---|---|
+| **Objetivo** | Entregar o design técnico + ADR(s) que permitem implementar sem re-decidir. |
+| **Entradas** | PRD/spec do @strategist (path) + requisitos de escala do @system-designer, se houver. Só as dependências diretas + paths. |
+| **Saída** | ADR(s) em `docs/decisions/NNN-*.md` (Status Accepted) + design em `docs/architecture/` quando aplicável — referenciados por path. |
+| **Escopo** | Decisões técnicas, tech stack, contratos/schema. **Fora:** implementação (@builder), requisitos (@strategist), testes (@guardian). |
+| **Critério de pronto** | ADR com decisão + alternativas + consequências; blueprint sem ambiguidade para o @builder implementar. |
+| **Próximo agente** | @builder (implementação). Hub-and-spoke: no `/owl:evolve` devolvo o controle ao orquestrador; no DevFlow encaminho via Skill tool. |
+
+---
+
 ## 💡 Minhas Perguntas Técnicas
 
 Quando analiso um requisito, pergunto:
