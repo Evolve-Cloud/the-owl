@@ -16,11 +16,18 @@ Gera o brief diário de pesquisa externa que alimenta o loop de auto-melhoria. �
 4. Chamar o **codex CLI em modo não-interativo**, que já está autenticado via `~/.codex` (não precisa de `OPENAI_API_KEY`):
 
    ```bash
-   codex exec -m "<research.model>" "<prompt final>" > research-vault/inbox/research-brief-$(date +%F).md
+   # VERIFIED 2026-07-23 (codex-cli 0.144.4): -o/--output-last-message grava SÓ a
+   # mensagem final (markdown limpo); -s read-only + --ephemeral = não-interativo,
+   # nunca pede aprovação (approval: never). Modelo default gpt-5.6-luna via ~/.codex.
+   cat "$PROMPT_FILE" | codex exec \
+     -m "<research.model>" \
+     -s read-only --skip-git-repo-check --ephemeral \
+     -o "research-vault/inbox/research-brief-$(date +%F).md"
    ```
 
-   - Se o codex expuser um flag de captura de mensagem final (ex.: `--output-last-message <arquivo>`), prefira-o para gravar SÓ o documento (sem scaffolding da sessão). **Verificar na primeira execução real** e ajustar.
-   - `codex` é um agente de código; instrua explicitamente no prompt: *"Output ONLY the markdown research document conforming to the schema — no preamble, no tool logs."*
+   - Passe o prompt final (longo) via **stdin** (sem arg → codex lê stdin), não como argumento.
+   - Use **`-o` (`--output-last-message`)** para capturar só o documento; **NÃO** redirecione stdout (contém o log da sessão do codex).
+   - Reforce no prompt: *"Output ONLY the markdown research document conforming to the schema — no preamble, no tool logs."*
 5. Validar que a saída parseia: frontmatter + tabela `## Sources` + ≥1 bloco `### <id>` com YAML. Se não parsear, marcar o arquivo como quarentena (renomear `*.quarantine.md`) e logar.
 6. **Fallback:** se o codex falhar E já existir um brief solto em `research-vault/inbox/`, seguir com ele.
 
