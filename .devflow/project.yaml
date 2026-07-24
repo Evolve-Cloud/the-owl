@@ -1,0 +1,344 @@
+# DevFlow Project Metadata
+# Este arquivo contém informação estruturada sobre o estado do projeto
+# Atualizado automaticamente pelo @chronicler
+
+project:
+  name: "DevFlow"
+  version: "1.5.0"
+  description: "Sistema multi-agentes para desenvolvimento de software com 8 agentes especializados"
+  created: "2025-11-15"
+  last_updated: "2026-07-06"
+
+  # Estado atual
+  status: "active"
+  phase: "stable-community"
+
+  # Repositório
+  repository:
+    url: "https://github.com/evolve-labs-cloud/devflow"
+    main_branch: "main"
+
+# Agentes disponíveis
+agents:
+  - id: "strategist"
+    name: "Strategist"
+    role: "planning"
+    focus: "Planejamento & Produto"
+    triggers:
+      - "@strategist"
+      - "PRD"
+      - "requirements"
+      - "user stories"
+    outputs:
+      - "docs/planning/"
+      - "PRDs"
+      - "User stories"
+
+  - id: "architect"
+    name: "Architect"
+    role: "design"
+    focus: "Design & Arquitetura"
+    triggers:
+      - "@architect"
+      - "ADR"
+      - "design"
+      - "architecture"
+    outputs:
+      - "docs/decisions/"
+      - "docs/architecture/"
+      - "ADRs"
+      - "Diagramas técnicos"
+
+  - id: "system-designer"
+    name: "System Designer"
+    role: "system-design"
+    focus: "System Design, Escalabilidade & Confiabilidade"
+    triggers:
+      - "@system-designer"
+      - "system design"
+      - "SDD"
+      - "RFC"
+      - "capacity planning"
+      - "scalability"
+      - "SLA"
+      - "infrastructure"
+      - "sharding"
+      - "reliability"
+    outputs:
+      - "docs/system-design/"
+      - "SDDs"
+      - "RFCs"
+      - "Capacity Plans"
+      - "Trade-off Analysis"
+
+  - id: "builder"
+    name: "Builder"
+    role: "implementation"
+    focus: "Implementação"
+    triggers:
+      - "@builder"
+      - "implement"
+      - "code"
+      - "refactor"
+    outputs:
+      - "Código fonte"
+      - "Testes"
+      - "Code reviews"
+
+  - id: "guardian"
+    name: "Guardian"
+    role: "quality"
+    focus: "Qualidade & Testes"
+    triggers:
+      - "@guardian"
+      - "test"
+      - "regression"
+      - "performance"
+      - "coverage"
+    outputs:
+      - "Estratégia de testes"
+      - "Regression Map"
+      - "Performance reports"
+      - "Coverage reports"
+
+  - id: "sentinel"
+    name: "Sentinel"
+    role: "security"
+    focus: "Segurança & Vulnerabilidades"
+    triggers:
+      - "@sentinel"
+      - "security"
+      - "owasp"
+      - "cve"
+      - "vulnerabilidade"
+      - "audit"
+    outputs:
+      - "Sentinel Security Report"
+      - "docs/security/"
+      - "CVSS scores"
+      - "STRIDE threat model"
+
+  - id: "challenger"
+    name: "Challenger"
+    role: "adversarial-review"
+    focus: "Revisão Adversarial"
+    triggers:
+      - "@challenger"
+      - "challenge"
+      - "adversarial review"
+      - "devflow challenge"
+    outputs:
+      - "Adversarial review findings"
+      - "Challenger verdict"
+
+  - id: "chronicler"
+    name: "Chronicler"
+    role: "documentation"
+    focus: "Documentação & Memória"
+    triggers:
+      - "@chronicler"
+      - "document"
+      - "snapshot"
+      - "changelog"
+    outputs:
+      - "docs/CHANGELOG.md"
+      - ".devflow/snapshots/"
+      - "ADRs automáticos"
+      - "Knowledge graph"
+      - "docs/wiki/"
+      - ".devflow/wiki-state.json"
+
+# Tecnologias e stack
+tech_stack:
+  core:
+    - "Markdown"
+    - "YAML"
+    - "JSON"
+    - "Bash"
+
+  tools:
+    - "Claude Code"
+    - "Git"
+
+# Estrutura do projeto
+structure:
+  source_dirs:
+    - ".devflow/"
+    - "docs/"
+
+  documentation_dirs:
+    - "docs/decisions/"
+    - "docs/architecture/"
+    - "docs/planning/"
+    - "docs/api/"
+    - "docs/migration/"
+    - "docs/system-design/"
+    - "docs/wiki/"
+
+  output_dirs:
+    - ".devflow/snapshots/"
+
+# Features implementadas
+features:
+  - id: "multi-agent-system"
+    name: "Sistema Multi-Agentes"
+    status: "implemented"
+    version: "0.1.0"
+    description: "6 agentes especializados para desenvolvimento"
+
+  - id: "documentation-automation"
+    name: "Documentação Automática"
+    status: "implemented"
+    version: "0.1.0"
+    description: "Chronicler mantém CHANGELOG e snapshots"
+
+  - id: "context-snapshots"
+    name: "Context Snapshots"
+    status: "implemented"
+    version: "0.1.0"
+    description: "Prevenção de drift através de snapshots"
+
+  - id: "structured-metadata"
+    name: "Metadata Estruturada"
+    status: "implemented"
+    version: "0.2.0"
+    description: "YAML/JSON para parse rápido pela IA"
+
+  - id: "hard-stops"
+    name: "Hard Stops & Role Enforcement"
+    status: "implemented"
+    version: "0.3.0"
+    description: "Regras explícitas que impedem agentes de fazer trabalho de outros"
+
+  - id: "mandatory-delegation"
+    name: "Delegação Obrigatória"
+    status: "implemented"
+    version: "0.3.0"
+    description: "Fluxo mandatório de delegação entre agentes"
+
+  - id: "auto-story-generation"
+    name: "Geração Automática de Stories"
+    status: "implemented"
+    version: "0.3.0"
+    description: "Chronicler gera stories se strategist não criar"
+
+  - id: "system-designer-agent"
+    name: "System Designer Agent"
+    status: "implemented"
+    version: "0.6.0"
+    description: "6th agent specializing in system design at scale (DDIA, SRE)"
+
+  - id: "challenger-agent"
+    name: "Challenger Agent"
+    status: "implemented"
+    version: "1.2.0"
+    description: "7th agent — adversarial review with OpenAI o3 after Guardian; available as standalone (devflow challenge) or via --challenger flag in autopilot"
+
+  - id: "persistent-memory"
+    name: "Persistent Memory"
+    status: "implemented"
+    version: "1.2.0"
+    description: "Each autopilot execution recorded in .devflow/memory.json — sessions, technical decisions, per-agent artifacts. Zero context drift across sessions."
+
+  - id: "adaptive-autopilot"
+    name: "Adaptive Autopilot"
+    status: "implemented"
+    version: "1.2.0"
+    description: "LLM classifies spec complexity (TRIVIAL/SIMPLE/MODERATE/COMPLEX) and decides which phases to run. Shows plan and asks for confirmation. --adaptive flag."
+
+  - id: "context-isolation"
+    name: "Context Isolation"
+    status: "implemented"
+    version: "1.2.0"
+    description: "Each agent receives only the output of the previous agent (N-1 scoped context), reducing ~87% tokens. --full-context restores full pipeline context."
+
+  - id: "dual-scaling-modes"
+    name: "Dual Scaling Modes per Agent"
+    status: "implemented"
+    version: "1.1.1"
+    description: "Each agent supports Parallel Subagents (Agent tool, default) and Claude Agent Teams (peer-to-peer, 'team' argument). Backward compatible."
+    trigger: "/agents:<name> team <task>"
+
+  - id: "agent-teams-default"
+    name: "Agent Teams Enabled by Default"
+    status: "implemented"
+    version: "1.2.3"
+    description: "devflow init and devflow update write CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 to .claude/settings.json automatically, activating team mode for all 7 agents without manual setup."
+
+  - id: "sentinel-security-agent"
+    name: "Sentinel Security Agent"
+    status: "implemented"
+    version: "1.4.0"
+    description: "8th agent specializing in security audits — OWASP Top 10, CWE Top 25, CVSS v3.1/v4.0, STRIDE, 0-day mindset. Runs by default after @guardian in the pipeline. @guardian refocused on tests only with mandatory Regression Map output."
+
+  - id: "repo-wiki"
+    name: "Repo Wiki"
+    status: "implemented"
+    version: "1.5.0"
+    description: "@chronicler generates/maintains docs/wiki/ — a navigable, agent-optimized wiki grounded in real source files. /quick:wiki (init/update) with incremental state in .devflow/wiki-state.json. Inspired by OpenWiki conventions (no dependency)."
+
+  - id: "knowledge-graph-grounded"
+    name: "Grounded & Regenerable Knowledge Graph"
+    status: "implemented"
+    version: "1.5.0"
+    description: "knowledge-graph.json regenerated deterministically from sources (project.yaml, docs/decisions/, .claude/commands/agents/); every node cites a real file; reconcile check flags graph-vs-source drift. /quick:graph (check/regenerate)."
+
+  - id: "guardian-diff-impact"
+    name: "Guardian Diff-Impact"
+    status: "implemented"
+    version: "1.5.0"
+    description: "@guardian uses the knowledge graph to compute the ripple of a change (reverse edge traversal) and feed the mandatory Regression Map before merge; hands off to @sentinel if a changed node touches a security-tagged node."
+
+# Decisões arquiteturais (resumo - detalhes em ADRs)
+decisions:
+  - id: "ADR-001"
+    title: "6 Agentes especializados ao invés de 19+ (inicialmente 5, expandido para 6 em v0.7.0)"
+    status: "accepted"
+    date: "2025-11-15"
+    tags: ["architecture", "agents", "simplicity"]
+
+  - id: "ADR-002"
+    title: "Documentação centralizada em docs/"
+    status: "accepted"
+    date: "2025-11-15"
+    tags: ["structure", "documentation"]
+
+  - id: "ADR-003"
+    title: "Metadata estruturada (YAML/JSON)"
+    status: "accepted"
+    date: "2025-11-15"
+    tags: ["metadata", "ai-optimization"]
+
+# Métricas (atualizadas pelo Chronicler)
+metrics:
+  total_agents: 8
+  total_features: 18
+  total_decisions: 11   # 3 resumidos no bloco `decisions` + 8 ADRs em docs/decisions/ (ver knowledge-graph.json)
+  npm_package: "@evolve.labs/devflow"
+  npm_version: "1.5.0"
+  documentation_coverage: "excellent"
+  metadata_coverage: "excellent"
+  orchestration_coverage: "complete"
+  last_snapshot: "2026-05-02"
+
+# Configurações
+config:
+  chronicler:
+    auto_snapshot: false
+    snapshot_frequency: "on-demand"
+    auto_changelog: true
+    repo_wiki:
+      enabled: true
+      dir: "docs/wiki/"
+      state_file: ".devflow/wiki-state.json"
+      update_on_structural_change: true
+      max_pages_init: 8
+
+  documentation:
+    format: "markdown"
+    adr_template: "docs/decisions/000-template.md"
+
+  quality:
+    require_tests: true
+    require_security_review: true
+    require_documentation: true

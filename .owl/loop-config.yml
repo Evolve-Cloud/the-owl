@@ -1,0 +1,30 @@
+# the-owl — self-improvement loop configuration
+#
+# ⚠️  INSIDE THE NFR-SEC-1 CARVE-OUT (ADR-001).
+# This file is HUMAN-ONLY. The autonomous loop MUST NOT edit it. sentinel refuses
+# any proposed diff that touches this path. It is the loop's brake pedal.
+
+# Where accepted changes land.
+#   pr   = shadow mode: open a PR / dry-run to a branch, never touch main (DEFAULT — rollout weeks 1-2)
+#   main = auto-commit to main (flip here only after shadow validation)
+landing: pr
+
+# Circuit breaker — bounds the blast radius of a bad cycle.
+circuit_breaker:
+  max_accepted_changes_per_cycle: 3
+  halt_on_consecutive_gate_failures: 3
+
+# Rigor rubric (see PRD §9 / ADR-003 when written).
+rubric:
+  threshold: 75          # accept >= threshold. Ratchets +5 per minor version, cap 90.
+  reject_below: 60        # < this => reject. Between => defer.
+  safety_floor: 7         # Safety sub-score < this => auto-reject regardless of total. Non-overridable.
+
+# Research (codex CLI). @builder confirms exact model/flags against the installed CLI.
+research:
+  model: "<codex deep-research / high-reasoning model>"
+  budget_usd_per_call: 0.50
+  output_dir: "research-vault/inbox"
+
+schedule:
+  cadence: daily

@@ -1,0 +1,22 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Node (if any tooling is added later)
+node_modules/
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+
+# the-owl loop runtime state (ephemeral; not the vault, not the config)
+.owl/state/
+.owl/last-run.json
+
+# DevFlow ephemeral sessions
+.devflow/sessions/
