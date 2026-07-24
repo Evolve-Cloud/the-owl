@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  the-owl daily self-improvement schedule (macOS launchd).
+
+  INSTALL (human-only — this is a system change + recurring cost, so it is NOT
+  auto-loaded by the loop; run it yourself once):
+
+    cp scripts/com.evolvelabs.owl.daily.plist ~/Library/LaunchAgents/
+    chmod +x scripts/owl-daily.sh
+    launchctl load ~/Library/LaunchAgents/com.evolvelabs.owl.daily.plist
+
+  Fires daily at 07:13 (off the :00/:30 marks). Adjust StartCalendarInterval as desired.
+  Uninstall: launchctl unload ~/Library/LaunchAgents/com.evolvelabs.owl.daily.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.evolvelabs.owl.daily</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/rafaelribeiro/Evolve Labs/the-owl/scripts/owl-daily.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>7</integer>
+        <key>Minute</key>
+        <integer>13</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/rafaelribeiro/Evolve Labs/the-owl/.owl/state/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/rafaelribeiro/Evolve Labs/the-owl/.owl/state/launchd.err.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

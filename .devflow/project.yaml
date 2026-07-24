@@ -148,6 +148,32 @@ agents:
       - "docs/wiki/"
       - ".devflow/wiki-state.json"
 
+  - id: "scout"
+    name: "Scout"
+    role: "research"
+    focus: "Pesquisa de Campo (Agent-Team Engineering)"
+    triggers:
+      - "@scout"
+      - "research"
+      - "scout"
+      - "best practices"
+    outputs:
+      - "research-vault/inbox/"
+      - "research-vault/sources/"
+
+  - id: "curator"
+    name: "Curator"
+    role: "curation"
+    focus: "Rigor & Conhecimento (Agent-Team Engineering)"
+    triggers:
+      - "@curator"
+      - "score"
+      - "curate"
+      - "rubric"
+    outputs:
+      - "research-vault/ (vault ownership)"
+      - "research-vault/ledger.md"
+
 # Tecnologias e stack
 tech_stack:
   core:
@@ -311,8 +337,8 @@ decisions:
 
 # Métricas (atualizadas pelo Chronicler)
 metrics:
-  total_agents: 8
-  total_features: 18
+  total_agents: 10
+  total_features: 19
   total_decisions: 11   # 3 resumidos no bloco `decisions` + 8 ADRs em docs/decisions/ (ver knowledge-graph.json)
   npm_package: "@evolve.labs/devflow"
   npm_version: "1.5.0"
