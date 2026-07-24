@@ -2,7 +2,7 @@
 title: Research Vault — Index
 type: index
 tags: []
-updated: 2026-07-23
+updated: 2026-07-24
 ---
 
 # the-owl Research Vault — Master Index
@@ -10,20 +10,26 @@ updated: 2026-07-23
 External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] for conventions and workflows. Separate from the internal `docs/wiki/`.
 
 ## Status
-- **Cycles run:** 2 (2026-07-23; cycle 2 = same-day continuation, no new codex spend — processed the queued rollout)
-- **Ideas decided:** 11 (2 accepted, 9 deferred) — see [[ledger]]
+- **Cycles run:** 3 (2026-07-23 cycle 1; 2026-07-23 continuation → PR #2 merged; 2026-07-24)
+- **Ideas decided:** 22 (4 accepted, 1 rejected, 17 deferred) — see [[ledger]]
 - **Synthesis:** see [[overview]]
 
 ## Sources
-- `inbox/research-brief-2026-07-23.md` — codex brief (ChatGPT-side): 8 sources, 9 ideas.
-- [[scout-notes-2026-07-23]] — scout live research (Claude-side): w1–w4.
+- `inbox/research-brief-2026-07-23.md` — codex brief (cycle 1): 8 sources, 9 ideas.
+- [[scout-notes-2026-07-23]] — scout live research (cycle 1): w1–w4.
+- `inbox/research-brief-2026-07-24.md` — codex brief (cycle 2): 22 sources, 16 ideas.
+- [[scout-notes-2026-07-24]] — scout live research (cycle 2): x1–x5.
 
 ## Patterns
+- [[role-decomposition]] — roles / ownership boundaries (cycle 2).
 - _communication / handoff — captured in [[handoff-contract]] + `docs/conventions/handoff-contract.md` (dedicated pattern page: lint follow-up)._
 
 ## Ideas
-- [[handoff-contract]] — **accepted (91)** → ADR-004. Others deferred; see [[ledger]].
+- [[handoff-contract]] — **accepted (91)** → ADR-004.
 - [[handoff-contract-rollout]] — **accepted (94)** → ADR-006/007/008 (architect/builder/chronicler). The queued ADR-004 follow-up, grounded via L1.5 (ADR-005).
+- [[role-ownership]] — **accepted (87)** → ADR-009 (promotes previously-deferred `explicit-role-boundaries`).
+- [[isolated-workspaces-for-parallel-coding]] — **rejected (41)** — runtime-shaped, low fit.
+- Others deferred; see [[ledger]].
 
 ## Sections
 - [[overview]] — evolving synthesis: how to build the best agent team
