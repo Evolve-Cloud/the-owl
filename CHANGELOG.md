@@ -4,6 +4,11 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 
 ## [Unreleased]
 
+### Cycle 2026-07-23 — first autonomous /owl:evolve (shadow mode, proposed on a branch)
+- **Dual research proven:** codex brief (ChatGPT-side) + scout live web research (Claude-side), merged/deduped by curator.
+- **1 accepted / 9 deferred** — curator scored the merged set; accepted `handoff-contract` (91/100), rest deferred (evidence captured, not re-litigated).
+- **Change proposed (not on main):** ADR-004 + `docs/conventions/handoff-contract.md` (standardized agent handoff contract). Gate (guardian/sentinel/challenger) PASS; 0 carve-out contact. On branch `owl/evolve-2026-07-23-handoff-contract`.
+
 ### Added — Self-Improvement Loop (planning + architecture)
 - **PRD** `docs/planning/prd-owl-self-improvement.md` — the daily autonomous loop that lets the-owl improve its own agents from field research, with rigorous scoring and a safe self-modification model.
 - **EPIC-001** `docs/planning/stories/EPIC-001-self-improvement-loop.md` — US-001…US-009, MoSCoW, dependency graph.
