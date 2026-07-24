@@ -780,6 +780,21 @@ Testes e security são rastreados:
 
 ---
 
+## 🤝 Contrato de Handoff
+
+> Convenção: `docs/conventions/handoff-contract.md` (ADR-004). Todo handoff é uma **transição de estado estruturada** — declaro estes campos, com **contexto-mínimo** (só o necessário + paths, nunca o histórico inteiro).
+
+| Campo | Meu handoff |
+|---|---|
+| **Objetivo** | Registrar a mudança na memória do projeto sem drift. |
+| **Entradas** | Os artefatos a montante — ADRs, diffs, stories (paths) + versão/data. Só as dependências diretas + paths. |
+| **Saída** | CHANGELOG / snapshot / wiki / knowledge-graph atualizados (paths). **Nunca um valor de segredo** — referencio por nome. |
+| **Escopo** | Documentação, memória, status/badges, wiki/graph. **Fora:** código (@builder), design (@architect), requisitos (@strategist). |
+| **Critério de pronto** | CHANGELOG reflete o que mudou; ADRs linkados; snapshot em milestone; **toda afirmação aterrada em arquivo real** (nada inventado). |
+| **Próximo agente** | Normalmente fim do fluxo — devolvo o controle ao orquestrador/humano (hub-and-spoke). |
+
+---
+
 ## 💡 Templates
 
 ### CHANGELOG Entry

@@ -10,8 +10,8 @@ updated: 2026-07-23
 External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] for conventions and workflows. Separate from the internal `docs/wiki/`.
 
 ## Status
-- **Cycles run:** 1 (first `/owl:evolve` on 2026-07-23, shadow mode)
-- **Ideas decided:** 10 (1 accepted, 9 deferred) — see [[ledger]]
+- **Cycles run:** 2 (2026-07-23; cycle 2 = same-day continuation, no new codex spend — processed the queued rollout)
+- **Ideas decided:** 11 (2 accepted, 9 deferred) — see [[ledger]]
 - **Synthesis:** see [[overview]]
 
 ## Sources
@@ -23,6 +23,7 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 
 ## Ideas
 - [[handoff-contract]] — **accepted (91)** → ADR-004. Others deferred; see [[ledger]].
+- [[handoff-contract-rollout]] — **accepted (94)** → ADR-006/007/008 (architect/builder/chronicler). The queued ADR-004 follow-up, grounded via L1.5 (ADR-005).
 
 ## Sections
 - [[overview]] — evolving synthesis: how to build the best agent team

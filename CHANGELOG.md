@@ -4,6 +4,13 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 
 ## [Unreleased]
 
+### Cycle 2026-07-23b — /owl:evolve continuation (shadow mode, proposed on a branch)
+- **Same-day guard honored:** no new codex research spend — the cycle-1 brief was still fresh, so the loop processed the **queued backlog** instead of re-running L0.
+- **First cycle to use L1.5 grounding (ADR-005):** audited the real agent files — architect/builder/chronicler had **no** handoff-contract section (only informal prose); scout/curator partial. This grounded the acceptance in the real gap.
+- **1 accepted (94/100):** `handoff-contract-rollout` — the follow-up ADR-004 explicitly deferred. Rolled the "🤝 Contrato de Handoff" convention (6 fields) into the three integrate→land agents, **at the circuit-breaker cap (3)**.
+- **Change proposed (not on main):** ADR-006 (architect) + ADR-007 (builder) + ADR-008 (chronicler), each = 1 additive, agent-specific handoff-contract section. Gate (guardian/sentinel/challenger) **PASS** — additive-only, role boundaries preserved, no injection/secrets, 0 carve-out contact, real (not cargo-cult) improvement. On branch `owl/evolve-2026-07-23-handoff-rollout`.
+- **Queued next:** roll the same convention into scout/curator (partial) + strategist/system-designer; the deferred backlog ideas remain untouched (not re-litigated).
+
 ### Cycle 2026-07-23 — first autonomous /owl:evolve (shadow mode, proposed on a branch)
 - **Dual research proven:** codex brief (ChatGPT-side) + scout live web research (Claude-side), merged/deduped by curator.
 - **1 accepted / 9 deferred** — curator scored the merged set; accepted `handoff-contract` (91/100), rest deferred (evidence captured, not re-litigated).
