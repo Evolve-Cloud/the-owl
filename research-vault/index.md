@@ -10,8 +10,8 @@ updated: 2026-07-24
 External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] for conventions and workflows. Separate from the internal `docs/wiki/`.
 
 ## Status
-- **Cycles run:** 2 (`/owl:evolve` 2026-07-23 shadow, 2026-07-24 shadow)
-- **Ideas decided:** 21 (3 accepted, 1 rejected, 17 deferred) — see [[ledger]]
+- **Cycles run:** 3 (2026-07-23 cycle 1; 2026-07-23 continuation → PR #2 merged; 2026-07-24)
+- **Ideas decided:** 22 (4 accepted, 1 rejected, 17 deferred) — see [[ledger]]
 - **Synthesis:** see [[overview]]
 
 ## Sources
@@ -26,7 +26,8 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 
 ## Ideas
 - [[handoff-contract]] — **accepted (91)** → ADR-004.
-- [[role-ownership]] — **accepted (87)** → ADR-009 (promotes deferred `explicit-role-boundaries`).
+- [[handoff-contract-rollout]] — **accepted (94)** → ADR-006/007/008 (architect/builder/chronicler). The queued ADR-004 follow-up, grounded via L1.5 (ADR-005).
+- [[role-ownership]] — **accepted (87)** → ADR-009 (promotes previously-deferred `explicit-role-boundaries`).
 - [[isolated-workspaces-for-parallel-coding]] — **rejected (41)** — runtime-shaped, low fit.
 - Others deferred; see [[ledger]].
 

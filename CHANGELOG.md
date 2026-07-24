@@ -7,9 +7,15 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 ### Cycle 2026-07-24 — autonomous /owl:evolve (shadow mode, proposed on a branch)
 - **Fresh dual research:** codex brief `research-vault/inbox/research-brief-2026-07-24.md` (22 sources, 16 ideas — default model `gpt-5.6-luna` via `~/.codex`; the deep-research model is not available on this ChatGPT account, so the skill's documented fallback was used) + scout live pass (`scout-notes-2026-07-24.md`, x1–x5).
 - **L1.5 grounding (ADR-005) mattered:** scoring against the real code found ownership is already in `.meta.yaml` for **8/11** agents, but `scout`, `curator`, `sentinel` lack it — a concrete inconsistency (sentinel = carve-out, human-only).
-- **1 accepted / 1 rejected / rest deferred** — accepted `role-ownership` (87/100, promotes the deferred `explicit-role-boundaries` with today's stronger evidence); rejected `isolated-workspaces` (41 — runtime-shaped, applicability 2/5).
+- **1 accepted / 1 rejected / rest deferred** — accepted `role-ownership` (87/100, promotes the previously-deferred `explicit-role-boundaries` with today's stronger evidence); rejected `isolated-workspaces` (41 — runtime-shaped, applicability 2/5).
 - **Change proposed (not on main):** **ADR-009** + `docs/conventions/role-ownership.md` (the "Papel & Não-Papel" ownership convention). Gate (guardian/sentinel/challenger) PASS; **0 carve-out contact**. Challenger flag (non-blocking): two conventions (handoff-contract, role-ownership) now await rollout — prioritize rollout over new conventions next cycle. On branch `owl/evolve-2026-07-24-role-ownership`.
-- **ADR numbering:** `006–008` are reserved by the in-flight handoff-rollout shadow PR; this cycle used `009`.
+
+### Cycle 2026-07-23b — /owl:evolve continuation (merged via PR #2)
+- **Same-day guard honored:** no new codex research spend — the cycle-1 brief was still fresh, so the loop processed the **queued backlog** instead of re-running L0.
+- **First cycle to use L1.5 grounding (ADR-005):** audited the real agent files — architect/builder/chronicler had **no** handoff-contract section (only informal prose); scout/curator partial. This grounded the acceptance in the real gap.
+- **1 accepted (94/100):** `handoff-contract-rollout` — the follow-up ADR-004 explicitly deferred. Rolled the "🤝 Contrato de Handoff" convention (6 fields) into the three integrate→land agents, **at the circuit-breaker cap (3)**.
+- **Change:** ADR-006 (architect) + ADR-007 (builder) + ADR-008 (chronicler), each = 1 additive, agent-specific handoff-contract section. Gate (guardian/sentinel/challenger) **PASS** — additive-only, role boundaries preserved, no injection/secrets, 0 carve-out contact, real (not cargo-cult) improvement.
+- **Queued next:** roll the same convention into scout/curator (partial) + strategist/system-designer; the deferred backlog ideas remain untouched (not re-litigated).
 
 ### Cycle 2026-07-23 — first autonomous /owl:evolve (shadow mode, proposed on a branch)
 - **Dual research proven:** codex brief (ChatGPT-side) + scout live web research (Claude-side), merged/deduped by curator.
