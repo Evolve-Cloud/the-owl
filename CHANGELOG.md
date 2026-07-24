@@ -4,6 +4,13 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 
 ## [Unreleased]
 
+### Cycle 2026-07-24 — autonomous /owl:evolve (shadow mode, proposed on a branch)
+- **Fresh dual research:** codex brief `research-vault/inbox/research-brief-2026-07-24.md` (22 sources, 16 ideas — default model `gpt-5.6-luna` via `~/.codex`; the deep-research model is not available on this ChatGPT account, so the skill's documented fallback was used) + scout live pass (`scout-notes-2026-07-24.md`, x1–x5).
+- **L1.5 grounding (ADR-005) mattered:** scoring against the real code found ownership is already in `.meta.yaml` for **8/11** agents, but `scout`, `curator`, `sentinel` lack it — a concrete inconsistency (sentinel = carve-out, human-only).
+- **1 accepted / 1 rejected / rest deferred** — accepted `role-ownership` (87/100, promotes the deferred `explicit-role-boundaries` with today's stronger evidence); rejected `isolated-workspaces` (41 — runtime-shaped, applicability 2/5).
+- **Change proposed (not on main):** **ADR-009** + `docs/conventions/role-ownership.md` (the "Papel & Não-Papel" ownership convention). Gate (guardian/sentinel/challenger) PASS; **0 carve-out contact**. Challenger flag (non-blocking): two conventions (handoff-contract, role-ownership) now await rollout — prioritize rollout over new conventions next cycle. On branch `owl/evolve-2026-07-24-role-ownership`.
+- **ADR numbering:** `006–008` are reserved by the in-flight handoff-rollout shadow PR; this cycle used `009`.
+
 ### Cycle 2026-07-23 — first autonomous /owl:evolve (shadow mode, proposed on a branch)
 - **Dual research proven:** codex brief (ChatGPT-side) + scout live web research (Claude-side), merged/deduped by curator.
 - **1 accepted / 9 deferred** — curator scored the merged set; accepted `handoff-contract` (91/100), rest deferred (evidence captured, not re-litigated).
