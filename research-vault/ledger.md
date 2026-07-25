@@ -35,6 +35,8 @@ Before scoring any candidate, `curator` checks this table. A decided `id` is **s
 | human-approval-at-side-effect-boundaries | Approval gate at side-effects | — | deferred | | 2026-07-24 | 2026-07-24 |
 | directed-handoff-graph | Directed edges, no free mesh | — | deferred | | 2026-07-24 | 2026-07-24 |
 | adr-backed-prompt-evolution | Extend ADR template for prompt changes | — | deferred | | 2026-07-24 | 2026-07-24 |
+| handoff-role-rollout-completion | Finish handoff-contract + role-ownership across all pipeline agents | — | accepted | ADR-011 | 2026-07-24 | 2026-07-24 |
+| efficiency-scorecard | Rollout-coverage scorecard + weekly cadence | — | accepted | ADR-012 | 2026-07-24 | 2026-07-24 |
 
 > Cycle 2026-07-23: circuit breaker cap = 3 accepted/cycle; cycle 1 kept conservative → **1 accepted**, rest **deferred** (revisit next cycles, evidence already captured; not re-litigated).
 >

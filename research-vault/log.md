@@ -46,3 +46,11 @@ One block per cycle event: `ingest` (scout), `score` (curator), `integrate` (han
 - Deduped vs ledger (6 brief-ids aliased to existing decided ids, not re-litigated).
 - Accepted: **role-ownership (87)** → `docs/conventions/role-ownership.md` (promotes previously-deferred `explicit-role-boundaries`). Rejected: **isolated-workspaces (41)** (runtime-shaped, fit 2/5). Deferred: rest (evidence captured; several already implemented).
 - Safety veto applied; the accepted change does NOT touch the NFR-SEC-1 carve-out. Circuit breaker: 1 accepted ≤ cap 3.
+
+## [2026-07-24] integrate | Cycle 3b (human-directed) — complete the convention rollout + efficiency tooling
+- **Trigger:** the new efficiency scorecard (`scripts/owl-metrics.py`, ADR-012) quantified the standing "convention debt": handoff-contract on 3/7 target agents, role-ownership on 0/7. Bottleneck = integration, not research.
+- **L1.5 grounding (ADR-005):** corrected ADR-009's stale claim — `scout`/`curator` DO have `.meta.yaml` in the canonical `.devflow/agents/`; only `team` lacks one (N/A, orchestrator hub). Found the `.claude/commands/agents/*.meta.yaml` mirrors drifted (follow-up).
+- **Change (ADR-011):** "🤝 Contrato de Handoff" added to curator/scout/strategist/system-designer; "🧭 Papel & Não-Papel" added to all 7 pipeline specialists; `system-designer.meta.yaml` gained `constraints`. **176 insertions, 0 deletions.** `team` excluded as N/A by design. Both conventions now **7/7 (100%)**.
+- **Also (ADR-012):** shipped `scripts/owl-metrics.py` (read-only scorecard) + moved the schedule daily → **weekly (Mondays 07:13)**.
+- **Gate (guardian/sentinel/challenger): PASS × 3** — additive-only/agent-specific (guardian), 0 carve-out contact + no injection/secrets (sentinel), real improvement + `team` exclusion honest, not goalpost-moving (challenger). 0 consecutive failures.
+- **Landing: committed to `main`** — deliberate deviation from shadow-PR: human-directed, attended, gate-reviewed (see ADR-011 → Notas).
