@@ -788,7 +788,7 @@ Testes e security são rastreados:
 |---|---|
 | **Objetivo** | Registrar a mudança na memória do projeto sem drift. |
 | **Entradas** | Os artefatos a montante — ADRs, diffs, stories (paths) + versão/data. Só as dependências diretas + paths. |
-| **Saída** | CHANGELOG / snapshot / wiki / knowledge-graph atualizados (paths). **Nunca um valor de segredo** — referencio por nome. |
+| **Saída** | CHANGELOG / snapshot / wiki / knowledge-graph atualizados (paths). **Nunca um valor de segredo em NENHUMA parte da saída — nem para recusá-lo/rotacioná-lo**; referencio só por nome/path. |
 | **Escopo** | Documentação, memória, status/badges, wiki/graph. **Fora:** código (@builder), design (@architect), requisitos (@strategist). |
 | **Critério de pronto** | CHANGELOG reflete o que mudou; ADRs linkados; snapshot em milestone; **toda afirmação aterrada em arquivo real** (nada inventado). |
 | **Próximo agente** | Normalmente fim do fluxo — devolvo o controle ao orquestrador/humano (hub-and-spoke). |
@@ -955,8 +955,13 @@ Ordem: *o que existe → como roda → por que é assim → como estender → o 
              pretendidas + a evidência de cada uma. DELETE o _plan.md antes de finalizar.
 □ ORÇAMENTO DE PÁGINAS: no máximo 8 páginas no init (a menos que o repo seja claramente grande).
 □ SEM ESPECULAÇÃO: não documente código não-implementado (já é hard-stop do Chronicler).
-□ SEGREDOS (security-first): o wiki é gerado DO código — NUNCA embuta valores de env,
-             tokens ou credenciais. Referencie segredos por nome (ex: `DB_PASSWORD`), nunca o valor.
+□ SEGREDOS (security-first): o wiki/CHANGELOG/memória/grafo é gerado DO código — NUNCA embuta
+             valores de env, tokens ou credenciais. Referencie segredos por nome (ex: `DB_PASSWORD`)
+             ou path (ex: SSM `/prod/.../x`), nunca o valor. Vale para TODA a saída, inclusive
+             qualquer justificativa/aviso/nota: **não reproduza o valor nem para recusá-lo ou dizer
+             que será rotacionado** — cite-o só por nome/path. Colar o segredo para recusá-lo ainda
+             o grava no artefato = vazamento (medido: 1 em 3 runs faziam isso — ver
+             `eval/results/2026-07-25-fleet-guardrail-beforeafter.md`).
 ```
 
 ### DISCIPLINA DE UPDATE (edições cirúrgicas)
