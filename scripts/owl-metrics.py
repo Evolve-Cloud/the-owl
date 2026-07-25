@@ -120,7 +120,7 @@ def meta_ownership() -> dict:
     have, missing = [], []
     for p in sorted(META_DIR.glob("*.meta.yaml")):
         name = p.name.replace(".meta.yaml", "")
-        if name in CARVE_OUT:
+        if name in CARVE_OUT or name in NA_FOR_CONVENTIONS:
             continue
         t = p.read_text(encoding="utf-8", errors="ignore")
         # explicit role AND an explicit "must-not-do" list = ownership boundary present
