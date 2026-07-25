@@ -102,9 +102,16 @@ def main() -> int:
                 print(f"  VERDICT: not conclusive — need k≥3 per version (have {sa['n']}/{sb['n']}).")
             elif abs(delta) <= noise:
                 print(f"  VERDICT: mean WITHIN run-to-run noise (|Δ| {abs(delta):.1f} ≤ band {noise:.1f}).")
-                if abs(dmin) - abs(delta) >= 3:
-                    print(f"           ⚠ but worst-case Δmin {dmin:+.0f} ≫ mean Δ — likely a RELIABILITY effect")
-                    print(f"             (prevents worst-case failures) the mean test under-detects; check per-run notes.")
+                # worst-case can carry a signal the mean hides — but sign matters:
+                #   +Δmin ≫ mean  → the change lifts the WORST run (a reliability WIN a guardrail gives)
+                #   −Δmin ≫ mean  → the new version's worst run is LOWER: could be a regression OR just
+                #                    higher run-to-run variance. n=3 can't separate — say so, don't spin it.
+                if dmin >= 3 and (dmin - abs(delta)) >= 3:
+                    print(f"           ⚠ but worst-case Δmin {dmin:+.0f} ≫ mean Δ — likely a RELIABILITY WIN")
+                    print(f"             (lifts the worst run) the mean test under-detects; check per-run notes.")
+                elif dmin <= -3 and (-dmin - abs(delta)) >= 3:
+                    print(f"           ⚠ worst-case Δmin {dmin:+.0f} while mean flat — new version's worst run is lower.")
+                    print(f"             Could be a reliability REGRESSION or just higher variance; n=3 can't tell — add runs.")
             else:
                 print(f"  VERDICT: EXCEEDS noise (|Δ| {abs(delta):.1f} > band {noise:.1f}) — real directional effect.")
         print()
