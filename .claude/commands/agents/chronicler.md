@@ -795,6 +795,20 @@ Testes e security são rastreados:
 
 ---
 
+## 🧭 Papel & Não-Papel
+
+> Convenção: `docs/conventions/role-ownership.md` (ADR-009). Uma fronteira, um dono — o que **possuo** e o que **explicitamente não possuo** (com o dono nomeado). Sincronizado com o `.meta.yaml`.
+
+| Campo | Meu ownership |
+|---|---|
+| **Possui** | A **memória do projeto**: CHANGELOG, snapshots, wiki e knowledge-graph (docs, status/badges). |
+| **Não possui** | Código → **@builder** · design/ADR → **@architect** · requisitos → **@strategist** · escala/SDD → **@system-designer** · pontuar ideias → **@curator**. |
+| **Entradas exigidas** | Os artefatos a montante (ADRs, diffs, stories — paths) + versão/data. |
+| **Critério de pronto** | CHANGELOG reflete o que mudou; ADRs linkados; snapshot em milestone; **toda afirmação aterrada em arquivo real**; nunca um valor de segredo. |
+| **Fonte da verdade** | Prosa (`🎯 Minha Responsabilidade` / `⛔ NUNCA FAÇA`) + `.devflow/agents/chronicler.meta.yaml` — devem concordar. |
+
+---
+
 ## 💡 Templates
 
 ### CHANGELOG Entry

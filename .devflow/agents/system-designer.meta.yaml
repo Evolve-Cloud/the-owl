@@ -141,6 +141,24 @@ responsibilities:
       location: "docs/system-design/trade-offs/"
       format: "markdown"
 
+# Papel & Não-Papel (ADR-009) — deve concordar com a seção "🧭 Papel & Não-Papel" do .md.
+constraints:
+  should_not_do:
+    - "Escrever ADR / decidir software design (é @architect)"
+    - "Definir requisitos de produto (é @strategist)"
+    - "Implementar ou aplicar IaC (é @builder)"
+    - "Escrever/executar testes ou chaos (é @guardian)"
+
+  should_delegate_to:
+    - agent: "architect"
+      when: "Decisão precisa de ADR ou é software design"
+    - agent: "builder"
+      when: "Provisionar / implementar o blueprint"
+    - agent: "strategist"
+      when: "Requisitos de produto não estão claros"
+    - agent: "guardian"
+      when: "Testes, chaos engineering ou security review"
+
 workflow:
   position: 3
   phase: "system-design"
