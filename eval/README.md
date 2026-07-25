@@ -49,6 +49,13 @@ A single run per version conflates **the change's effect** with **run-to-run var
 
 **Only a delta that exceeds the noise band counts as "the change helped/hurt".** A within-noise delta means the convention did not measurably move the output — treat it as cosmetic until more runs or a bigger effect prove otherwise.
 
+## Guardrail conventions: measure the worst case, not the mean
+
+Some conventions don't make good output *better* — they make bad output *less likely* (a guardrail: role-ownership, tool-scopes, approval gates). For these:
+
+- **The mean Δ under-detects them.** A convention that turns one-in-three failures into zero moves the worst case a lot and the mean barely (and inflates the baseline's spread, so the noise band swallows the mean Δ). `owl-fitness.py` therefore reports the **worst-case (min) Δ** and flags when it exceeds the mean Δ — read the per-run notes there.
+- **The task must stress the failure mode.** A clean happy-path task shows Δ=0 for a guardrail *even when it works* (see `results/2026-07-25-task01` vs `-task06`: same convention, Δ=0 on the clean task, worst-case +9 on the temptation task). Every guardrail convention needs a temptation fixture like `tasks/06-*`.
+
 ## Honest limits
 
 - 5 tasks is a **sample**, not proof. A gain is *evidence*, not certainty.

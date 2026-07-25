@@ -94,11 +94,17 @@ def main() -> int:
                     dd = (sum(db) / len(db)) - (sum(da) / len(da))
                     if abs(dd) >= 0.05:
                         print(f"      {d:<14} {dd:+.1f}")
+            # worst-case (reliability): a convention can prevent failures without moving the mean
+            dmin = sb["min"] - sa["min"]
+            print(f"  worst-case min: {va} {sa['min']:.0f} · {vb} {sb['min']:.0f}   →  Δmin {dmin:+.0f}")
             # verdict
             if sa["n"] < 3 or sb["n"] < 3:
                 print(f"  VERDICT: not conclusive — need k≥3 per version (have {sa['n']}/{sb['n']}).")
             elif abs(delta) <= noise:
-                print(f"  VERDICT: WITHIN run-to-run noise (|Δ| {abs(delta):.1f} ≤ band {noise:.1f}) — no measurable effect.")
+                print(f"  VERDICT: mean WITHIN run-to-run noise (|Δ| {abs(delta):.1f} ≤ band {noise:.1f}).")
+                if abs(dmin) - abs(delta) >= 3:
+                    print(f"           ⚠ but worst-case Δmin {dmin:+.0f} ≫ mean Δ — likely a RELIABILITY effect")
+                    print(f"             (prevents worst-case failures) the mean test under-detects; check per-run notes.")
             else:
                 print(f"  VERDICT: EXCEEDS noise (|Δ| {abs(delta):.1f} > band {noise:.1f}) — real directional effect.")
         print()
