@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# the-owl — daily self-improvement run.
-# Invoked by launchd (see scripts/com.evolvelabs.owl.daily.plist).
+# the-owl — self-improvement run (scheduled WEEKLY, Mondays 07:13; was daily until 2026-07-24).
+# Invoked by launchd (see scripts/com.evolvelabs.owl.daily.plist — legacy "daily" name, weekly cadence).
 # Runs one /owl:evolve cycle headless, SHADOW-ONLY by default (see the guard below).
+# This wrapper is cadence-agnostic: it runs exactly one cycle per invocation; launchd sets the frequency.
 set -euo pipefail
 
 REPO="/Users/rafaelribeiro/Evolve Labs/the-owl"

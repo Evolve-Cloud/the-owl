@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  the-owl daily self-improvement schedule (macOS launchd).
+  the-owl WEEKLY self-improvement schedule (macOS launchd).
+  NOTE: the Label/filename keep the legacy "daily" name (referenced by ops docs +
+  launchctl commands) but the job runs WEEKLY. Cadence lives in StartCalendarInterval.
 
   INSTALL (human-only — this is a system change + recurring cost, so it is NOT
   auto-loaded by the loop; run it yourself once):
@@ -9,7 +11,8 @@
     chmod +x scripts/owl-daily.sh
     launchctl load ~/Library/LaunchAgents/com.evolvelabs.owl.daily.plist
 
-  Fires daily at 07:13 (off the :00/:30 marks). Adjust StartCalendarInterval as desired.
+  Fires WEEKLY, Mondays at 07:13 (Weekday=1; off the :00/:30 marks). Change the day via
+  the Weekday key (0/7=Sun,1=Mon…6=Sat); drop Weekday to go back to daily.
   Uninstall: launchctl unload ~/Library/LaunchAgents/com.evolvelabs.owl.daily.plist
 -->
 <plist version="1.0">
@@ -24,6 +27,8 @@
 
     <key>StartCalendarInterval</key>
     <dict>
+        <key>Weekday</key>
+        <integer>1</integer>
         <key>Hour</key>
         <integer>7</integer>
         <key>Minute</key>

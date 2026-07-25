@@ -27,4 +27,10 @@ research:
   output_dir: "research-vault/inbox"
 
 schedule:
-  cadence: daily
+  # weekly (was daily until 2026-07-24). The binding constraint is absorption/rollout,
+  # not research supply — the same-day guard was already firing on daily. Weekly gives
+  # each merged change a week to be used before the next cycle. Enforced by launchd
+  # (StartCalendarInterval Weekday=1); this key is descriptive.
+  cadence: weekly
+  day: monday
+  time: "07:13"
