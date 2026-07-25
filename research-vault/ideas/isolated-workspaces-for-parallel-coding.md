@@ -33,4 +33,5 @@ Parallel coding agents work in separate worktrees / isolated workspaces with exp
 Total 41 < 60 → **REJECTED** (low architectural fit — a clean signal the loop discriminates against runtime-shaped ideas). Not re-litigated unless the-owl gains parallel execution.
 
 ## Related
-- [[role-ownership]] · [[handoff-contract]] · source: codex `research-brief-2026-07-24`
+- [[role-ownership]] · [[handoff-contract]]
+- **Sources:** [[claude-code-worktrees]] · [[claude-code-agent-teams]] · [[openhands]] · [[swe-agent]] · [[swe-agent-paper]] · [[research-brief-2026-07-24]] (codex)

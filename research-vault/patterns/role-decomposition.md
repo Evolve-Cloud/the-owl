@@ -16,7 +16,8 @@ How a multi-agent team divides work into **narrow, single-owner roles** so respo
 
 ## Evidence / sources
 - [[scout-notes-2026-07-24]] — live corroboration (x1 PubNub, x3 Anthropic, x4 CrewAI/MetaGPT).
-- codex `research-brief-2026-07-24` — ideas `narrow-single-owner-roles`, `manager-retains-control`, `directed-handoff-graph`, `sop-as-executable-contract` (sources s1/s2/s11/s19).
+- codex [[research-brief-2026-07-24]] — ideas `narrow-single-owner-roles`, `manager-retains-control`, `directed-handoff-graph`, `sop-as-executable-contract`.
+- **Sources:** [[anthropic-building-effective-agents]] · [[claude-code-subagents]] · [[metagpt]] · [[metagpt-paper]] · [[openai-agents-sdk-orchestration]] · [[magentic-one-paper]] · [[crewai]] · [[langgraph]].
 
 ## How it maps to the-owl
 the-owl already embodies much of this: hub-and-spoke, "specialists never call each other", per-agent `🎯 Minha Responsabilidade` / `⛔ NUNCA FAÇA` / `⚠️ Quando NÃO me usar`, and `.meta.yaml` `responsibilities`/`constraints`/`outputs`/`should_delegate_to`. **Gaps found (L1.5):** (1) no convention names this as the standard; (2) `scout`, `curator`, `sentinel` lack `.meta.yaml` (8/11 have it). → Adopted `docs/conventions/role-ownership.md` (ADR-009). sentinel's completion is human-only (NFR-SEC-1 carve-out).

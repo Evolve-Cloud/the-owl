@@ -54,3 +54,9 @@ One block per cycle event: `ingest` (scout), `score` (curator), `integrate` (han
 - **Also (ADR-012):** shipped `scripts/owl-metrics.py` (read-only scorecard) + moved the schedule daily → **weekly (Mondays 07:13)**.
 - **Gate (guardian/sentinel/challenger): PASS × 3** — additive-only/agent-specific (guardian), 0 carve-out contact + no injection/secrets (sentinel), real improvement + `team` exclusion honest, not goalpost-moving (challenger). 0 consecutive failures.
 - **Landing: committed to `main`** — deliberate deviation from shadow-PR: human-directed, attended, gate-reviewed (see ADR-011 → Notas).
+
+## [2026-07-24] lint | Sources layer materialized + first vault health pass
+- **Materialized `sources/`** (was empty — the SCHEMA INGEST step never ran; the scout no-op'd): **25 source notes**, one per ingested codex-brief source across both cycles (deduped). name/URL/stars copied **verbatim** from `research-brief-2026-07-{23,24}.md` — no fabrication (`n/a` stays `n/a`; dual-cycle star counts noted). Scout sources (w1–w4, x1–x5) were already captured in the `type: source` scout-notes.
+- **Wired provenance:** idea/pattern `## Related` now link `[[source]]` notes (opaque `s#`/`x#`/`w#` IDs replaced by real wikilinks); the two briefs are **de-orphaned** (every source note links `[[research-brief-*]]`); `overview.md` gains a `## Sources` hub linking all 25.
+- **Health:** wikilinks **47 → 177**. **0 real broken links** (the 5 flagged are SCHEMA.md's own doc placeholders). **0 orphan notes** (was 2 briefs + 7 deferred-only sources — all now anchored).
+- **Findings / next-cycle:** (1) 7 sources are cited only by *deferred* ideas → they gain idea-side inbound links when those ideas materialize; (2) `.meta.yaml` still carry stale paths (`docs/CHANGELOG.md`, `knowledge-graph.json`) → separate meta-accuracy pass; (3) no dedicated `patterns/` page for communication/handoff yet (only `role-decomposition`).

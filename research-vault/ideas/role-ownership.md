@@ -37,4 +37,6 @@ Adopt a standardized **"Convenção — Papel & Não-Papel"** at `docs/conventio
 Challenger caveat (non-blocking, same as handoff-contract): a convention not yet rolled into agents has deferred impact → the rollout is the tracked next-cycle follow-up; the L1.5-surfaced meta.yaml inconsistency is the concrete near-term target.
 
 ## Related
-- [[role-decomposition]] · [[handoff-contract]] · [[overview]] · sources: codex `research-brief-2026-07-24`, [[scout-notes-2026-07-24]] (x1–x5)
+- [[role-decomposition]] · [[handoff-contract]] · [[overview]]
+- **Sources:** [[anthropic-building-effective-agents]] · [[claude-code-subagents]] · [[metagpt]] · [[metagpt-paper]] · [[crewai]] · [[ag2]] · [[wshobson-agents]]
+- [[scout-notes-2026-07-24]] · [[research-brief-2026-07-24]] (codex, x1–x5)

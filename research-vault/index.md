@@ -10,14 +10,15 @@ updated: 2026-07-24
 External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] for conventions and workflows. Separate from the internal `docs/wiki/`.
 
 ## Status
-- **Cycles run:** 3 (2026-07-23 cycle 1; 2026-07-23 continuation → PR #2 merged; 2026-07-24)
-- **Ideas decided:** 22 (4 accepted, 1 rejected, 17 deferred) — see [[ledger]]
+- **Cycles run:** 4 (2026-07-23 cycle 1; 2026-07-23b continuation → PR #2; 2026-07-24 → PR #3; 2026-07-24b human-directed rollout completion)
+- **Decided:** 24 (6 accepted, 1 rejected, 17 deferred) — see [[ledger]]
 - **Synthesis:** see [[overview]]
 
 ## Sources
-- `inbox/research-brief-2026-07-23.md` — codex brief (cycle 1): 8 sources, 9 ideas.
+**25 source notes in `sources/`** — one page per ingested codex-brief source (name/URL/stars + what it contributes + links to the ideas it informs). Materialized 2026-07-24. Key: [[anthropic-building-effective-agents]] · [[metagpt]] · [[langgraph]] · [[crewai]] · [[microsoft-autogen]] · [[openhands]] · [[swe-agent]] · [[openai-agents-sdk-handoffs]] · [[wshobson-agents]].
+- [[research-brief-2026-07-23]] — codex brief (cycle 1): 8 sources, 9 ideas.
 - [[scout-notes-2026-07-23]] — scout live research (cycle 1): w1–w4.
-- `inbox/research-brief-2026-07-24.md` — codex brief (cycle 2): 22 sources, 16 ideas.
+- [[research-brief-2026-07-24]] — codex brief (cycle 2): 22 sources, 16 ideas.
 - [[scout-notes-2026-07-24]] — scout live research (cycle 2): x1–x5.
 
 ## Patterns

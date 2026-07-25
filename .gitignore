@@ -20,3 +20,8 @@ node_modules/
 
 # DevFlow ephemeral sessions
 .devflow/sessions/
+
+# Obsidian local UI state (keep shareable config: app/appearance/core-plugins/graph)
+research-vault/.obsidian/workspace.json
+research-vault/.obsidian/workspace-mobile.json
+research-vault/.obsidian/cache

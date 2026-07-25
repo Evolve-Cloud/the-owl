@@ -32,4 +32,5 @@ Adopt a standardized **"Contrato de Handoff"** convention (`docs/conventions/han
 Challenger caveat (non-blocking): a convention not yet applied to agents has deferred impact → tracked as a follow-up for the next cycle.
 
 ## Related
-- [[scout-notes-2026-07-23]] · sources: codex `research-brief-2026-07-23`, w1–w4
+- **Sources:** [[anthropic-building-effective-agents]] · [[langgraph]] · [[ag2]] · [[microsoft-autogen]] · [[openai-agents-sdk-handoffs]] · [[langgraph-multi-agent-handoffs]] · [[metagpt]]
+- [[scout-notes-2026-07-23]] · [[research-brief-2026-07-23]] (codex, w1–w4)

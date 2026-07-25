@@ -2,7 +2,7 @@
 title: Overview — How to Build the Best Agent Team
 type: overview
 tags: []
-sources: 12
+sources: 25
 updated: 2026-07-24
 ---
 
@@ -28,6 +28,14 @@ Scoring against the real code revealed ownership is *already* encoded but **unev
 - Least-privilege tool scopes per agent (near-threshold 78; deserves a careful, security-adjacent cycle).
 - Evidence-log / provenance convention (ReAct-style) · durable-artifact classes · extend the ADR template for prompt-surface changes.
 - Concrete 2026 frontmatter fields (`maxTurns`, `Memory`, `isolation`) — applicability to slash-command agents needs care.
+
+## Sources
+This synthesis is grounded in the 25 materialized source notes (`sources/`). By type:
+- **Primary guidance:** [[anthropic-building-effective-agents]]
+- **Claude / Agent SDK:** [[claude-code-subagents]] · [[claude-code-agent-teams]] · [[claude-code-worktrees]] · [[claude-agent-sdk-subagents]] · [[claude-agent-sdk-typescript]] · [[claude-platform-cli-sdks]]
+- **OpenAI / LangGraph docs:** [[openai-agents-sdk-orchestration]] · [[openai-agents-sdk-handoffs]] · [[openai-agents-sdk-guardrails]] · [[langgraph-multi-agent-handoffs]] · [[langgraph-persistence]]
+- **Frameworks (repos):** [[metagpt]] · [[openhands]] · [[swe-agent]] · [[microsoft-autogen]] · [[crewai]] · [[langgraph]] · [[openai-swarm]] · [[ag2]] · [[wshobson-agents]]
+- **Papers:** [[metagpt-paper]] · [[magentic-one-paper]] · [[swe-agent-paper]] · [[react-paper]]
 
 ## Related
 - [[SCHEMA]] · [[ledger]] · [[index]] · [[handoff-contract]] · [[role-ownership]] · [[role-decomposition]]
