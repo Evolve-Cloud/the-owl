@@ -25,6 +25,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 LEDGER = REPO / "research-vault" / "ledger.md"
 LAST_RUN = REPO / ".owl" / "state" / "last-run.json"
+LAST_CYCLE_METRICS = REPO / ".owl" / "state" / "last-cycle-metrics.json"
 AGENTS_DIR = REPO / ".claude" / "commands" / "agents"
 META_DIR = REPO / ".devflow" / "agents"
 
@@ -53,6 +54,13 @@ def _rule(char: str = "─", n: int = 72) -> str:
 def load_last_run() -> dict:
     try:
         return json.loads(LAST_RUN.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def load_cycle_metrics() -> dict:
+    try:
+        return json.loads(LAST_CYCLE_METRICS.read_text(encoding="utf-8"))
     except Exception:
         return {}
 
@@ -152,6 +160,7 @@ def fmt_list(xs: list[str]) -> str:
 
 def main() -> int:
     lr = load_last_run()
+    cm = load_cycle_metrics()
     rows = parse_ledger()
     cov = rollout_coverage()
     meta = meta_ownership()
@@ -220,11 +229,14 @@ def main() -> int:
     print(f"  landed cycle commits {git['landed_commits']}   ·   merged PRs {git['merged_prs']}")
     print()
 
-    # ---- Cost (not yet instrumented) ----
-    print("COST / EFFICIENCY RATIO  (needs instrumentation)")
-    print(f"  codex $ + tokens     {lr.get('cost', '— (não instrumentado)')}")
-    print(f"  human review minutes {lr.get('human_review_minutes', '— (não instrumentado)')}")
-    print("  → add 'cost' + 'human_review_minutes' to last-run.json to compute cost-per-durable-change")
+    # ---- Cost (partially instrumented: wall-clock is real; $/tokens are TODO) ----
+    print("COST / EFFICIENCY RATIO  (partially instrumented)")
+    wc = cm.get("wall_clock_s")
+    wc_str = f"{wc}s ({wc // 60}m{wc % 60:02d}s)" if isinstance(wc, int) else "— (run the loop once via owl-daily.sh)"
+    print(f"  wall-clock (last cycle) {wc_str}   ← real, captured by owl-daily.sh")
+    print(f"  codex $ + tokens        {lr.get('cost') or cm.get('cost_usd') or '— TODO (populate from codex/claude session usage)'}")
+    print(f"  human review minutes    {lr.get('human_review_minutes', '— TODO')}")
+    print("  → $/tokens must be written to last-run.json by the loop; then cost-per-durable-change is computable")
     print(_rule("═"))
     print()
     return 0

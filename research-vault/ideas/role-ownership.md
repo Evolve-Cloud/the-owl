@@ -36,6 +36,17 @@ Adopt a standardized **"Convenção — Papel & Não-Papel"** at `docs/conventio
 **Safety sub-score 10 ≥ floor (7).** No carve-out contact. Total 87 ≥ 75 → **ACCEPTED.**
 Challenger caveat (non-blocking, same as handoff-contract): a convention not yet rolled into agents has deferred impact → the rollout is the tracked next-cycle follow-up; the L1.5-surfaced meta.yaml inconsistency is the concrete near-term target.
 
+## Claim verification
+_(ADR-013 — verified live 2026-07-25 via WebFetch. Retroactive: this idea landed before ADR-013; verified now as the worked example.)_
+- **Claim:** narrow, single-owner roles with explicit boundaries beat a pile of overlapping agents; simplicity + separation of concerns reduce duplicated work and coordination conflicts.
+- **Source:** [Anthropic — Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents) — primary ([[anthropic-building-effective-agents]], s1).
+- **Verdict:** **confirmed.**
+- **Evidence:**
+  > "the most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns."
+  > "Maintain simplicity in your agent's design."
+  > "This workflow allows for separation of concerns, and building more specialized prompts."
+- **Note:** the specific "vague roles → duplicated work" wording is CrewAI 2026 (secondary/blog, x4); the **load-bearing** thesis (narrow specialists + simplicity + separation of concerns) is confirmed by the Anthropic **primary** source above.
+
 ## Related
 - [[role-decomposition]] · [[handoff-contract]] · [[overview]]
 - **Sources:** [[anthropic-building-effective-agents]] · [[claude-code-subagents]] · [[metagpt]] · [[metagpt-paper]] · [[crewai]] · [[ag2]] · [[wshobson-agents]]

@@ -113,6 +113,7 @@ Reference an immutable brief/clipping from a wiki page by name as a wikilink (`[
 1. For each `ideas/<id>.md`: **check `ledger.md`** — if the id is already decided, skip (do not re-litigate).
 2. **Ground against the real code first (L1.5, ADR-005):** for each candidate answer `já_implementado?` / `onde_está_o_gap` / `arquivo_alvo` before scoring.
 3. **Score** against the PRD §9 rubric (0–100) and apply the **safety hard-veto** (Safety sub-score < `safety_floor` ⇒ reject, regardless of total).
+3b. **Verify the claim (ADR-013).** For every idea you are about to mark `accepted`, fetch its cited **primary source** and confirm the central claim — a targeted confirmation fetch (≠ @scout's open research). Record `## Claim verification` (verdict + real quote). `contradicted` / `unreachable` ⇒ **`deferred`**, not accepted. Never accept on unverified evidence.
 4. Set `status`/`score` in the idea's frontmatter; write the rationale (breakdown per criterion, Safety sub-score explicit) in the body.
 5. **Update** `ledger.md`, `index.md`, and — if the picture shifted — `overview.md`; create/extend the relevant `patterns/` page; **link everything** (`[[...]]`).
 6. Respect `circuit_breaker.max_accepted_changes_per_cycle` — if exceeded, defer the lowest-scoring, and log that you did.
@@ -224,6 +225,13 @@ The exact prompt/convention edit.
 | Simplicity & reversibility (15) | | |
 | Safety (10) | | Safety sub-score < 7 ⇒ auto-reject. |
 | Non-duplication (10) | | |
+
+## Claim verification
+_(accepted ideas only — ADR-013; verify BEFORE landing.)_
+- **Claim:** the central evidence claim being relied on.
+- **Source:** [Title](url) — the cited primary source.
+- **Verdict:** confirmed | contradicted | unreachable.
+- **Evidence:** > "a real quote or close paraphrase from the fetched source."
 
 ## Related
 - **Sources:** [[source]] · … · [[research-brief-YYYY-MM-DD]]

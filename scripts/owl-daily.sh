@@ -24,10 +24,30 @@ if [ "$LANDING" != "pr" ] && [ "${OWL_AUTONOMOUS_MAIN:-0}" != "1" ]; then
   exit 3
 fi
 
+START_EPOCH=$(date +%s)
+STARTED_AT="$(date -u +%FT%TZ)"
+echo "==== [$(date)] /owl:evolve START (landing=$LANDING) ====" >> "$LOG"
+# Headless. --permission-mode bypassPermissions: no prompts (unattended).
+# Risk bounded by shadow mode + guardian/sentinel/challenger gate + NFR-SEC-1 carve-out.
+set +e
+claude -p --permission-mode bypassPermissions "/owl:evolve" >> "$LOG" 2>&1
+RUN_EXIT=$?
+set -e
+END_EPOCH=$(date +%s)
+echo "==== [$(date)] /owl:evolve END (exit $RUN_EXIT, $((END_EPOCH - START_EPOCH))s wall) ====" >> "$LOG"
+
+# Real wall-clock cost signal (ADR-012 FP5). token/$ are NOT captured here — they must be
+# written into .owl/state/last-run.json by the loop itself from the codex/claude session
+# usage (still TODO; do NOT fabricate). owl-metrics.py reads this file for the COST section.
+cat > "$REPO/.owl/state/last-cycle-metrics.json" <<EOF
 {
-  echo "==== [$(date)] /owl:evolve START (landing=$LANDING) ===="
-  # Headless. --permission-mode bypassPermissions: no prompts (unattended).
-  # Risk bounded by shadow mode + guardian/sentinel/challenger gate + NFR-SEC-1 carve-out.
-  claude -p --permission-mode bypassPermissions "/owl:evolve"
-  echo "==== [$(date)] /owl:evolve END (exit $?) ===="
-} >> "$LOG" 2>&1
+  "started_at": "$STARTED_AT",
+  "ended_at": "$(date -u +%FT%TZ)",
+  "wall_clock_s": $((END_EPOCH - START_EPOCH)),
+  "run_exit": $RUN_EXIT,
+  "cost_usd": null,
+  "tokens": null,
+  "note": "wall_clock_s is real; cost_usd/tokens are TODO (populate from codex/claude session usage)"
+}
+EOF
+exit $RUN_EXIT
