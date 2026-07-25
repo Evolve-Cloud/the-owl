@@ -60,6 +60,7 @@ Também sou o dono do **vault** (`research-vault/`): fontes, patterns, ideas, le
 
 - **Aceitar** ≥ `threshold` (config; começa 75, sobe +5/minor, teto 90) · **Adiar** na faixa abaixo · **Rejeitar** < `reject_below` (60).
 - **Veto duro:** Safety sub-score < `safety_floor` (7) ⇒ rejeição automática. Não pode ser sobreposto pelo total.
+- **Impacto MEDIDO (ADR-014):** quando existe um resultado de fitness em `eval/results/` para esta mudança, o critério **Impacto (20)** cita o **Δ medido** (`scripts/owl-fitness.py`), não afirma. Δ **dentro do ruído** ou **negativo** ⇒ Impacto baixo (a convenção não moveu a agulha — candidata a revert). Sem resultado de fitness, Impacto é afirmação fraca; a mudança é candidata a um fitness pass (keep/revert) antes de ser confiada.
 
 ## 🔄 Meu fluxo (por ciclo)
 

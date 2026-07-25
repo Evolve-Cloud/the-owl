@@ -31,6 +31,24 @@ To measure whether a landed convention actually improved an agent:
 
 **A drop is a real signal the change hurt** — the curator/gate should reconsider (phased wiring, ADR-014).
 
+## k≥3 — from anecdote to measurement
+
+A single run per version conflates **the change's effect** with **run-to-run variance** (the LLM produces a different artifact each time). One before/after pair is an anecdote, not a measurement. So:
+
+1. Run each version **k ≥ 3 times** (same task, same prompt) → k artifacts per version.
+2. The judge scores **all of them blind** (shuffle to neutral names so it can't group by version).
+3. For each judged artifact, write a **run record** to `results/runs/<task>-<version>-run<N>.json`:
+   ```json
+   { "task": "01-architect-adr", "version": "old", "run": 1, "total": 91,
+     "scores": {"decision": 24, "alternatives": 18, "handoff": 22, "lane": 17, "structure": 10} }
+   ```
+4. Aggregate: `python3 scripts/owl-fitness.py` → per-version **mean + spread**, the **Δ of means**, and a verdict:
+   - `not conclusive` (k<3), or
+   - `WITHIN run-to-run noise` (|Δ| ≤ the spread band — no measurable effect), or
+   - `EXCEEDS noise` (a real directional effect).
+
+**Only a delta that exceeds the noise band counts as "the change helped/hurt".** A within-noise delta means the convention did not measurably move the output — treat it as cosmetic until more runs or a bigger effect prove otherwise.
+
 ## Honest limits
 
 - 5 tasks is a **sample**, not proof. A gain is *evidence*, not certainty.

@@ -39,9 +39,11 @@ eval/
 - **Sensitive tasks** — each task's rubric must score the dimension the change targets, or the delta is noise. (Task 01 scores handoff clarity + lane-discipline precisely because the recent conventions — handoff-contract, role-ownership — target those.)
 - **Grounded** — fixtures are realistic mini-scenarios of what the agents actually do (ADR, PRD, SDD, edit, CHANGELOG), so a score gain reflects better *real* output.
 
-**Integration (phased):**
-- **Now (this ADR):** the harness + fixtures + the judge protocol exist and are demonstrated once, for real.
-- **Next:** the loop runs the harness at the accept/integrate boundary for an accepted convention (baseline → land on shadow → re-run → delta); a **fitness drop is a signal the change hurt** and the curator/gate reconsiders. This turns rubric "Impact (20)" from asserted into measured.
+**Integration (cost-aware — measured, not aspirational):**
+A single fitness run costs ~375k tokens (an agent-under-test run + a judge); a **conclusive** pass (k≥3 per version, before/after, one task) is **~6 runs ≈ 2M+ tokens** (measured on this ADR's own demo). So the harness **cannot run on every weekly cycle** — that would dwarf the loop's own cost. The pragmatic wiring:
+- **On-demand, at the keep/revert decision** — not per cycle. When a convention lands, it becomes **fitness-eligible**: run the `eval/tasks/` task that exercises the dimension it targets, k≥3 before/after (`scripts/owl-fitness.py` aggregates). A **within-noise or negative Δ ⇒ the convention is cosmetic/harmful ⇒ revert or stop rolling it further.**
+- **Impact (20) becomes measured, not asserted** — the curator cites the measured Δ from `eval/results/` when one exists for the change; absent a result, Impact stays a (weaker) assertion and the change is a candidate for a fitness pass before it's trusted.
+- **This closes FP1 functionally:** the loop now *has* an outcome signal it can invoke, with a clear keep/revert rule — even if running it is a deliberate, budgeted act rather than a reflex.
 
 ## Alternativas consideradas
 - **Alternativa A (escolhida): a small (5-task) LLM-judged before/after harness, in-repo, run via subagents.** Prós: gives the missing ground truth cheaply (~10 LLM calls/pass); grounded in real agent work; the independent+blind judge is the deferred `evaluator-optimizer` pattern. Contras: 5 tasks is a narrow sample; a single LLM judge has variance and can share blind spots (mitigations below).

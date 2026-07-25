@@ -61,6 +61,9 @@ Este comando roda como **UMA sessão** (`claude -p "/owl:evolve"`). Os agentes d
 - Se houver `halt_on_consecutive_gate_failures` FAILs seguidos no L4 → **abortar o ciclo** e alertar o humano (não empilhar).
 - Ao final, gravar `.owl/state/last-run.json` (data, ids processados, aceitos, landados, falhas). **Custo (ADR-012):** incluir `cost` (codex $/tokens do ciclo, da sessão) + `human_review_minutes` quando disponíveis — NÃO fabricar; o wall-clock já é capturado pelo `owl-daily.sh` em `last-cycle-metrics.json`.
 
+## Fitness — impacto MEDIDO, não afirmado (ADR-014)
+Uma convenção que landa é **fitness-eligible**. Antes de confiar no critério **Impacto (20)** dela (keep/revert), rodar o harness (`eval/`, protocolo k≥3): a tarefa que exercita a dimensão que ela mira, com o prompt **antes vs depois**, juiz cego, agregado por `scripts/owl-fitness.py`. **Δ dentro do ruído ou negativo ⇒ a convenção é cosmética/nociva ⇒ reconsiderar/reverter.** Custo real (~2M tokens por pass k≥3) ⇒ é instrumento **on-demand de keep/revert**, não reflexo por-ciclo. O 1º uso (2026-07-25) já pegou uma convenção aceita a 87/100 com **Δ=0** medido — exatamente o que o fitness existe para pegar.
+
 ## Verificação (antes de declarar "pronto")
 - Todo ADR novo segue `docs/decisions/000-template.md`.
 - Todo commit é atômico e revertível (1 ADR).

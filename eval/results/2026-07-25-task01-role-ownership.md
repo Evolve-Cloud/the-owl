@@ -1,35 +1,34 @@
 # Fitness result — task 01 (architect ADR) — role-ownership before/after
 
 **Date:** 2026-07-25 · **Task:** `eval/tasks/01-architect-adr.md` · **Judge:** independent, blind (`eval/judge.md`)
-**Change under test:** the role-ownership rollout (ADR-009) — the ONLY delta between the two architect prompts.
+**Change under test:** the role-ownership rollout (ADR-009) — the ONLY delta between the two architect prompts (a 14-line `🧭 Papel & Não-Papel` section; verified by `diff`).
 
 ## Setup
-- **Artifact A** ← @architect at `eb0e284` (has handoff-contract, **no** role-ownership).
-- **Artifact B** ← @architect current (handoff-contract **+** role-ownership).
-- Isolation confirmed: `diff` old→new = the 14-line `🧭 Papel & Não-Papel` section, nothing else.
-- Each artifact produced by an isolated subagent adopting the full agent `.md`, blind to the rubric. Judge scored A/B blind to which was which.
+- **OLD** ← @architect at `eb0e284` (has handoff-contract, **no** role-ownership). **NEW** ← current (both).
+- **k = 3** runs per version (6 artifacts). One independent judge scored all 6 **blind**, shuffled to neutral names so it could not group by version. Aggregated by `scripts/owl-fitness.py`.
 
-## Scores (0–100)
+## Result (k=3)
 
-| Dimension (max) | A = OLD | B = NEW | Δ |
-|---|---|---|---|
-| Decision quality & fit (25) | 24 | 24 | 0 |
-| Alternatives & consequences (20) | 18 | 19 | +1 |
-| **Handoff clarity (25)** | 22 | 24 | +2 |
-| **Lane discipline / ownership (20)** | 17 | 18 | +1 |
-| Structure & clarity (10) | 10 | 10 | 0 |
-| **Total** | **91** | **95** | **+4** |
+```
+old   mean 91.3 / 100   (n=3, range 91–92, ±0.5, σ=0.5)
+new   mean 91.3 / 100   (n=3, range 88–96, ±4.0, σ=3.4)
+Δ (new − old) = +0.0
+   lane +0.7 · decision −0.3 · alternatives −0.3   (all within noise)
+VERDICT: WITHIN run-to-run noise (|Δ| 0.0 ≤ band 4.0) — NO MEASURABLE EFFECT.
+```
 
-## What is causally attributable vs. what is likely noise
+## The finding (straight)
+- **The single-run "+4" (OLD 91 → NEW 95) was noise.** At k=3 the means are **identical (91.3 = 91.3)**. role-ownership showed **no measurable effect** on the architect's output on this task.
+- Even **lane discipline** — the exact dimension the convention targets — moved only **+0.7**, inside the noise band. And NEW is *higher-variance* (σ 3.4 vs 0.5): one NEW run nailed lane (20/20), another leaked as much as OLD (16/20). No reliable effect.
+- **This is the fitness function earning its keep on first use.** The loop accepted role-ownership at **87/100 with "Impact" asserted high**. The first real outcome measurement says the asserted impact **did not materialize** on this task. That is precisely the FP1 divergence (proxy ↑, outcome flat) the harness was built to catch — caught on the loop's own recent work.
 
-- **Lane discipline (+1) — clean signal, attributable to role-ownership.** The NEW output carries **8** lines of explicit ownership/cession language ("o schema final é do @builder", possuo/não-possuo); the OLD output has **0**. The blind judge rewarded exactly this ("explicitly cedes schema finalization to @builder"). The 14-line role-ownership section demonstrably changed the artifact on the dimension it targets. **This is the real result.**
-- **Handoff clarity (+2) & Alternatives (+1) — likely run-to-run variance, NOT the convention.** handoff-contract is present in **both** prompts (A and B), so a handoff-quality gap is not caused by the role-ownership delta; B simply produced a more structured handoff this run. n=1 cannot separate this from variance.
+## Fair caveats (do NOT over-swing to "role-ownership is useless")
+- **One task.** This ADR decision doesn't strongly *tempt* cross-agent scope creep, so it under-exercises exactly what role-ownership prevents. A task with a half-baked spec (tempting the architect to fix requirements = @strategist's job) would give it a fairer test — see next.
+- **Δ=0 is "no effect", not "harmful"** — no reason to revert on this alone.
+- Value may be **systemic** (consistent ownership language across all 7 agents; failure *prevention* in rare overlap cases) rather than per-artifact quality on a clean task. This harness measures the latter.
+- Single LLM judge; its own rubric variance is real.
 
-## Honest verdict
-- **The harness works** — it produced the loop's **first outcome measurement**: blind, dimension-level, grounded in real artifact text.
-- **role-ownership was NOT cosmetic** — it moved the needle on its target dimension (lane discipline), with a clean causal trace (0→8 ownership statements). This is the good case, not the FP1 worst case.
-- **But the effect is small and not yet conclusive.** Total +4 on **n=1 per version, single judge**. The pure attributable delta is **+1** (lane discipline). To make this a measurement rather than an anecdote: **run k≥3 per version and compare means** (averages out run variance + judge variance). The harness itself surfaces this methodology requirement.
-
-## Next
-- Add k-run averaging (k≥3) to the protocol before trusting a delta as "the convention helped".
-- Wire the harness into the loop at the accept/integrate boundary (ADR-014, phase 2): baseline → land on shadow → re-run → Δ; a drop = the curator/gate reconsiders.
+## What this changes
+- **Don't roll more "documentation-section" conventions on asserted impact alone.** Before trusting the next one's "Impact (20)", run a fitness pass; a within-noise Δ = treat as cosmetic (keep if cheap, but don't credit it with improving anything).
+- **Task design:** add a role-ownership–stressing task (half-baked spec / overlapping-mandate scenario) so the convention gets a fair test on the failure mode it targets.
+- **Cost:** this k=3 pass cost ~6 agent runs ≈ 2M+ tokens. Fitness is an on-demand keep/revert instrument, not a per-cycle reflex (ADR-014).
