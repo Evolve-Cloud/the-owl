@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Monthly refresh of the claude-architecture skill (macOS launchd, user agent).
+  The skill lives in the the-owl repo (versioned); this job refreshes it in place.
+
+  INSTALL (human-only — a launch agent is a persistent background job + recurring
+  Claude usage, so it is NOT auto-loaded; run these once yourself):
+
+    chmod +x "/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.claude/skills/claude-architecture/refresh.sh"
+    cp "/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.claude/skills/claude-architecture/com.evolvelabs.claude-architecture.refresh.plist" ~/Library/LaunchAgents/
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.evolvelabs.claude-architecture.refresh.plist
+
+  Fires MONTHLY on the 1st at 09:17 (Day=1; off the :00/:30 marks). Architecture moves in
+  months, not days — monthly is deliberate. The run edits the working tree and logs a git diff;
+  it does NOT commit — review with `git diff .claude/skills/claude-architecture/` and land it.
+  Run once now to test:  launchctl kickstart gui/$(id -u)/com.evolvelabs.claude-architecture.refresh
+  Uninstall: launchctl bootout gui/$(id -u)/com.evolvelabs.claude-architecture.refresh
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.evolvelabs.claude-architecture.refresh</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.claude/skills/claude-architecture/refresh.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Day</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>17</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.claude/skills/claude-architecture/logs/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.claude/skills/claude-architecture/logs/launchd.err.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
