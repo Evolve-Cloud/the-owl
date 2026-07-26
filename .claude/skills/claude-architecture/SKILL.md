@@ -1,7 +1,7 @@
 ---
 name: claude-architecture
 description: Use when designing, building, reviewing, or debugging an application or agent built on Claude — deciding agent-vs-workflow, engineering context, writing prompts, designing tools/ACI, building evals, structuring multi-agent systems, or choosing a model. Covers the architecture-and-craft layer (patterns, principles, current best practices) that sits above the raw API. For API mechanics — model IDs, pricing, params, streaming, tool-use schemas, MCP wiring, prompt caching, token counting, SDK migration — use the `claude-api` skill instead; this skill points to it rather than duplicating it. Not for non-Claude LLM providers.
-version: 1.0.0
+version: 1.0.1
 user-invocable: true
 license: Apache 2.0
 ---
@@ -56,8 +56,8 @@ Distilled operating knowledge for building well on Claude. Principles are durabl
 
 ## 7. Current models  ⟲ VOLATILE — refreshed on schedule (verify via `claude-api` / docs)
 _As of 2026-07-26 (confirm before relying):_
-- Frontier family: **Claude 5** (Fable 5, Sonnet 5) and **Opus 4.8**; **Haiku 4.5** for fast/cheap.
-- Rough selection heuristic: **Opus/Fable** for the hardest reasoning/analysis and agent orchestration; **Sonnet** for the everyday build/coding workhorse; **Haiku** for high-volume, latency-sensitive, or subagent fan-out.
+- Frontier family: **Claude 5** — **Fable 5** (most capable widely released; built for long-running agents), **Opus 5** (complex agentic coding + enterprise work; launched Jul 2026), **Sonnet 5** (best speed/intelligence balance); **Haiku 4.5** for fast/cheap with near-frontier quality. (**Mythos 5** = invitation-only defensive-security preview.) **Opus 4.8 and earlier are now legacy.**
+- Rough selection heuristic (per docs): start with **Opus 5** for complex agentic coding, orchestration, and enterprise work; reach for **Fable 5** when you need the highest available capability or long-horizon agents; **Sonnet 5** as the everyday speed+intelligence workhorse; **Haiku 4.5** for high-volume, latency-sensitive, or subagent fan-out.
 - **Do not hard-code model IDs from memory** — get them from the `claude-api` skill or [Models overview](https://platform.claude.com/docs/en/about-claude/models/overview). This block is a pointer, not a source of truth.
 
 ## 8. Building on Claude Code / Agent SDK
