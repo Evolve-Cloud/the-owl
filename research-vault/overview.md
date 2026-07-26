@@ -2,7 +2,7 @@
 title: Overview — How to Build the Best Agent Team
 type: overview
 tags: []
-sources: 48
+sources: 50
 updated: 2026-07-26
 ---
 
@@ -36,11 +36,11 @@ Scoring against the real code revealed ownership is *already* encoded but **unev
 - Least-privilege tool scopes per agent (near-threshold 78; deserves a careful, security-adjacent cycle).
 - Evidence-log / provenance convention (ReAct-style) · durable-artifact classes · extend the ADR template for prompt-surface changes.
 - Concrete 2026 frontmatter fields (`maxTurns`, `Memory`, `isolation`) — applicability to slash-command agents needs care.
-- **Accepted 2026-07-26 → ADR-016:** [[convention-staleness-review]] — the curator now re-examines the oldest accepted conventions each cycle and flags any that a stronger model made redundant for owner-reviewed re-fitness (the inverse of ADR-012's rollout-coverage view; never auto-reverts). Impact provisional until it flags its first stale convention.
+- **Accepted 2026-07-26 → ADR-017:** [[convention-staleness-review]] — the curator now re-examines the oldest accepted conventions each cycle and flags any that a stronger model made redundant for owner-reviewed re-fitness (the inverse of ADR-012's rollout-coverage view; never auto-reverts). Impact provisional until it flags its first stale convention.
 - **Still deferred (2026-07-26):** `just-in-time-context-loading` (core dedups to `handoff-contract`; revisit if a concrete gap appears); `eval-saturation-graduation` — graduate saturated capability evals into the regression suite (`eval/`, ADR-014).
 
 ## Sources
-This synthesis is grounded in **48** source notes (`sources/`) — 24 read-in-full (imported 2026-07-26; see [[index]] for the themed list) + the 25 brief-materialized notes below. By type:
+This synthesis is grounded in **50** source notes (`sources/`) — 24 read-in-full (imported 2026-07-26; see [[index]] for the themed list) + 2 from the scheduled cycle 4 ([[anthropic-trustworthy-agents]], [[swe-debate-paper]]) + the 25 brief-materialized notes below. By type:
 - **Primary guidance:** [[anthropic-building-effective-agents]]
 - **Claude / Agent SDK:** [[claude-code-subagents]] · [[claude-code-agent-teams]] · [[claude-code-worktrees]] · [[claude-agent-sdk-subagents]] · [[claude-agent-sdk-typescript]] · [[claude-platform-cli-sdks]]
 - **OpenAI / LangGraph docs:** [[openai-agents-sdk-orchestration]] · [[openai-agents-sdk-handoffs]] · [[openai-agents-sdk-guardrails]] · [[langgraph-multi-agent-handoffs]] · [[langgraph-persistence]]

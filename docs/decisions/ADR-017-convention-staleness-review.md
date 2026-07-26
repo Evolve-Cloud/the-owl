@@ -1,4 +1,4 @@
-# ADR-016 — Convention staleness review: the curator re-examines old conventions as models improve
+# ADR-017 — Convention staleness review: the curator re-examines old conventions as models improve
 
 **Status:** Accepted
 **Date:** 2026-07-26
@@ -33,5 +33,5 @@ Add one **additive step** to the curator's per-cycle flow: each cycle, re-read t
 - Edit: `.claude/commands/agents/curator.md`, "🔄 Meu fluxo" — new step **4.5** (after scoring/claim-verification, before persistence), additive; the `.devflow/agents/curator.meta.yaml` prose source-of-truth stays consistent (no ownership change).
 - The step reuses existing machinery + `log.md`. **Precision (gate finding, challenger 2026-07-26):** `scripts/owl-fitness.py` **only compares two run-record sets (before/after) — it does not run the eval.** So "re-fitness an old convention" = re-run the eval fleet **with/without** the convention on the *current* model to produce fresh run-records, *then* `owl-fitness.py` reports the Δ. That is real owner-decided work; the step therefore **recommends** re-fitness to the owner rather than claiming to trigger it. No new runtime, no new file.
 - **Anti-ceremony (gate finding):** the step must **record in `log.md` every cycle which convention it examined and the verdict** (including "still earns its keep"), so it leaves an audit trail and cannot be silently skipped. Impact credit stays provisional until it produces its first *revert/simplify* flag confirmed by a re-fitness.
-- **Provenance:** curator idea `research-vault/ideas/convention-staleness-review.md` (score 82, claim-verified) → this ADR → the `curator.md` edit. Ledger row updated to `accepted / ADR-016`.
+- **Provenance:** curator idea `research-vault/ideas/convention-staleness-review.md` (score 82, claim-verified) → this ADR → the `curator.md` edit. Ledger row updated to `accepted / ADR-017`.
 - **Landing:** working-tree edit for owner review; **not** committed to `main` by the loop (shadow default, `.owl/loop-config.yml` `landing: pr`). Gate: challenger (independent) + sentinel/guardian (inline) before any commit.

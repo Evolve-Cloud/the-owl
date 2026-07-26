@@ -4,6 +4,14 @@ All notable changes to the-owl are recorded here. Format loosely follows Keep a 
 
 ## [Unreleased]
 
+### Cycle 2026-07-26 — autonomous /owl:evolve (shadow PR)
+- **Fresh dual research:** codex brief `research-vault/inbox/research-brief-2026-07-26.md` (15 sources, 12 ideas — model `gpt-5.6-luna` again, same documented fallback; the brief's own `generator:` frontmatter inaccurately self-reports a different model, corrected in the vault) + scout live corroboration (`scout-notes-2026-07-26.md`, x1–x3, all independently verified real — none fabricated, including a specific arXiv id).
+- **L1.5 grounding did real work again:** confirmed `.owl/state/` has no mid-cycle checkpoint (the accepted gap), confirmed `least-privilege-tool-scopes` has no enforcement path in the-owl's inline execution model (ADR-010) so its score moved **down** despite stronger evidence, and confirmed `evaluator-optimizer-loop` is now substantially covered by the fitness harness shipped 2026-07-25 (ADR-014/015).
+- **1 accepted (provisional), 2 rejected, 2 aliases of already-decided ideas, 5 deferred.** Accepted: **`externalized-checkpoint-memory` (83 raw → 75 after the ADR-015 self-haircut)** — see ADR-016. Rejected: `trajectory-evals` (58 — its own best-cited source, read in full, argues the opposite of what it proposes) and `parallel-independent-work` (52 — no execution path in the current sequential loop, same shape as the earlier `isolated-workspaces` reject). Aliases (not re-litigated): `narrow-role-boundaries`→`role-ownership`, `structured-handoff-contracts`→`handoff-contract`.
+- **Change (ADR-016):** a mid-cycle checkpoint for `/owl:evolve` (`.owl/state/cycle-in-progress.json`, written after each phase's existing verification, read at Setup with an explicit resume-or-fresh choice) — closes the ambiguity ADR-010 first flagged (a crashed cycle looks identical to "nothing ran yet"). **1 file touched** (`.claude/commands/owl/evolve.md`, additive only).
+- **Gate (guardian/sentinel/challenger): PASS × 3** — 0 carve-out contact, no injection/secrets, additive-only. Challenger added a concrete revisit trigger: if the checkpoint is never found non-stale across ~5 cycles, that's grounds to remove it.
+- **Landing:** shadow PR (`landing: pr`, default) — branch `owl/evolve-2026-07-26-externalized-checkpoint-memory`, not merged to `main`.
+
 ### 🦉 Milestone — Self-Improvement Loop LIVE (2026-07-24)
 the-owl now improves its own agents autonomously, on a daily schedule, with a human merge gate.
 - **Live & armed:** `/owl:evolve` runs headless **weekly, Mondays 07:13** (was daily until 2026-07-24 — the binding constraint is integration, not research; ADR-012) via launchd (`scripts/owl-daily.sh` + `com.evolvelabs.owl.daily.plist`), shadow-only by default (opens a PR; never auto-touches `main`).

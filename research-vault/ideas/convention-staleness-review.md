@@ -5,7 +5,7 @@ tags: [self-improvement, governance, curator, fitness, reversibility]
 sources: 2
 status: accepted
 score: 82
-adr: ADR-016
+adr: ADR-017
 updated: 2026-07-26
 ---
 **Category:** self-improvement / loop governance · **Confidence:** med · **Applicability:** 4/5
