@@ -14,12 +14,14 @@ Orquestra UM ciclo completo de auto-melhoria (L0→L5). Este comando **é o orqu
 1. Ler `.owl/loop-config.yml` → `landing` (pr|main), `circuit_breaker`, `rubric`, `research`.
 2. Ler `research-vault/SCHEMA.md` e `research-vault/ledger.md`.
 3. Ler `.owl/state/last-run.json` se existir (para não repetir um ciclo já feito hoje).
+4. **Checar checkpoint de meio-de-ciclo (ADR-016).** Ler `.owl/state/cycle-in-progress.json` se existir. Se existir e for de **hoje** → reportar ao log/humano (`last_phase_completed` + `ideas_in_flight`) e **perguntar**: retomar de `last_phase_completed` ou começar um ciclo novo. Nunca sobrescrever nem ignorar silenciosamente. Se for de um dia anterior → tratar como obsoleto (logar, não apagar sozinho).
 
 ## Modelo de execução (ADR-010 — como cada fase roda)
 Este comando roda como **UMA sessão** (`claude -p "/owl:evolve"`). Os agentes da-owl são **slash-commands** em `.claude/commands/agents/*.md`, **não** subagents do Agent tool (não existe `.claude/agents/`). Portanto:
 - **Padrão = INLINE.** Para cada fase, o orquestrador **lê o arquivo do agente** (`.claude/commands/agents/<nome>.md`) e **segue as instruções dele inline**. É o caminho mais confiável num run headless — sem round-trip de subagent que pode retornar vazio.
 - **Delegar a um subagent é OPCIONAL** e, se usado, o subagent DEVE receber o **conteúdo integral** do arquivo do agente como prompt (não só "@nome"). Um `general-purpose` sem instruções concretas **no-op'a** (0 tool-uses) — foi o bug do ciclo 2026-07-24.
 - **VERIFICAÇÃO DE SAÍDA (obrigatória, harness).** Toda fase declara um artefato esperado. Depois da fase, **confirmar que o artefato existe**; se não existir (no-op silencioso), a fase **FALHOU → refazer inline uma vez**; se ainda faltar, **abortar o ciclo e alertar**. Nunca prosseguir sobre uma fase que não produziu nada.
+- **CHECKPOINT DE MEIO-DE-CICLO (ADR-016).** Assim que a verificação de uma fase PASSAR, gravar/atualizar `.owl/state/cycle-in-progress.json` com `{cycle_date, last_phase_completed: "L0"|"L1"|"L1.5"|"L2"|"L2.5"|"L3"|"L4"|"L5", ideas_in_flight, accepted_so_far}`. É o que permite a um próximo `/owl:evolve` distinguir "nada rodou hoje" de "um ciclo morreu no meio" — sem isso, um crash entre L3 e L4 fica invisível (ver ADR-010, quase-incidente de 2026-07-24).
 
 ## O ciclo (L0→L5)
 
@@ -54,11 +56,12 @@ Este comando roda como **UMA sessão** (`claude -p "/owl:evolve"`). Os agentes d
    - `landing: pr` (shadow, DEFAULT) → criar branch `owl/evolve-YYYY-MM-DD-<id>`, commitar (1 commit/ADR), abrir PR. **Não tocar `main`.**
    - `landing: main` → commit atômico direto em `main` (1 commit/ADR) e push.
    - **@chronicler (inline `chronicler.md`)** → CHANGELOG + snapshot + wiki/graph. Gravar o `adr` de volta no `ideas/<id>.md` e no `ledger.md`.
+   - **Limpar o checkpoint (ADR-016):** ao final normal do L5, apagar `.owl/state/cycle-in-progress.json` (o conteúdo já foi dobrado no `last-run.json`).
    - **Abrir o PR (shadow):** se `gh` existir, `gh pr create`; senão tentar a GitHub API com o token do keychain/`GH_TOKEN`. Se nenhum token estiver disponível no ambiente (ex.: run via launchd), **deixar a branch pushada e registrar a URL de "compare"** em `last-run.json` + no log para o humano abrir. Nunca falhar o ciclo por causa disso.
 
 ## Circuit breaker (HARD STOP)
 - Parar de aceitar ao atingir `max_accepted_changes_per_cycle`.
-- Se houver `halt_on_consecutive_gate_failures` FAILs seguidos no L4 → **abortar o ciclo** e alertar o humano (não empilhar).
+- Se houver `halt_on_consecutive_gate_failures` FAILs seguidos no L4 → **abortar o ciclo** e alertar o humano (não empilhar). **Não apagar** `.owl/state/cycle-in-progress.json` nesse caso — de propósito (ADR-016): é o registro de onde o ciclo parou, para o humano inspecionar antes do próximo run.
 - Ao final, gravar `.owl/state/last-run.json` (data, ids processados, aceitos, landados, falhas). **Custo (ADR-012):** incluir `cost` (codex $/tokens do ciclo, da sessão) + `human_review_minutes` quando disponíveis — NÃO fabricar; o wall-clock já é capturado pelo `owl-daily.sh` em `last-cycle-metrics.json`.
 
 ## Fitness — impacto MEDIDO, não afirmado (ADR-014 + ADR-015)
