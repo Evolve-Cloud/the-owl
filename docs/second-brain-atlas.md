@@ -19,6 +19,17 @@ verdade, versionada no git, legível por humano); o grafo é a **lente** que ach
 conexões entre docs espalhados. Você escreve a doc **uma vez**; o loop de
 auto-update a transforma em nó do cérebro. Não escolha um — o arquivo é os dois.
 
+### UM VAULT SÓ — research-vault é a casa (decisão 2026-07-28)
+
+O vault humano é o **`research-vault`** (curado, com `SCHEMA.md`/index/ledger). **Não criamos um
+segundo vault** e **não despejamos stubs auto-gerados** nele. Papéis, sem redundância:
+- **research-vault** = a casa (você/agente **escrevem**, curado). Intocado pelo graphify.
+- **graphify** = **motor de query** (o agente consulta via `graphify-mcp`/`graphify query`; mapa
+  visual via `graph.html`). Query do agente **não precisa de stubs no vault** — o vault é só HUMANO.
+- Write-back = **síntese autorada** no research-vault (respeitando o SCHEMA), não cópia da fonte.
+- Export de vault do graphify: **só** se quiser o mapa no Obsidian, e aí numa **subpasta dedicada**
+  (`--obsidian-dir <research-vault>/maps/<proj>`), nunca o root. Por padrão: **query-mode, sem vault.**
+
 ## 1. Instalação — one-time, global (já feito nesta máquina)
 
 ```bash

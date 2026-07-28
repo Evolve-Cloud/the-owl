@@ -29,8 +29,13 @@ Se ambíguo, pergunte 1 vez qual modo. **Turn-economy: aja, não narre** — sem
 ## init [pasta] — onboard com nossos defaults
 
 Detalhe e guardrails de segurança/custo: leia `references/setup.md` **só quando for rodar o init**.
-Resumo: `graphify claude install` + `graphify hook install` + gitignore `graphify-out/` →
-`/graphify <pasta> --obsidian` → `graphify global add graphify-out/graph.json --as <projeto>`.
+Resumo (query-mode, o default): `graphify claude install` + `graphify hook install` + gitignore
+`graphify-out/` → `/graphify <pasta>` (grafo + `graph.html`, **SEM vault**) → `graphify global add
+graphify-out/graph.json --as <projeto>`.
+**REGRA — UM VAULT SÓ:** o vault humano é o **research-vault existente** (curado, com SCHEMA). **NUNCA
+crie um segundo vault** nem despeje stubs auto-gerados nele. graphify = **motor de query** (MCP/CLI/
+`graph.html`). Se algum dia quiser o mapa visível no Obsidian, exporte SÓ pra subpasta dedicada do vault
+existente (`graphify export obsidian --dir <vault>/maps/<proj>`), nunca o root.
 **Antes de mapear:** rode o guardrail de custo/segredo do `setup.md` (folder grande / com `.env` = confirmar).
 
 ## query <pergunta> — o driver diário
@@ -75,3 +80,4 @@ viram nós próprios, wikilinkadas ao stub via frontmatter `of: "[[Architect Age
 - **Custo:** código = AST grátis; **docs = tokens**. Antes de um map grande, estime (nº de docs) e
   avise; defaulte ao caminho barato (slice / `--update`) quando o usuário bateu em limite.
 - **Não duplicar o motor:** toda extração/build/export é do `/graphify`. Esta skill só orquestra + decide.
+- **Um vault só:** o **research-vault** é a casa humana curada; graphify é query-engine, não cria vault. Write-back (síntese autorada) vai pro research-vault respeitando o `SCHEMA.md` dele, nunca stubs auto-gerados.

@@ -29,7 +29,9 @@ grep -qxF 'graphify-out/' .gitignore || echo 'graphify-out/' >> .gitignore
 ```
 
 Depois, o **1º build** (dentro do Claude Code, para a extração semântica usar o host agent):
-- invoque o `/graphify <pasta> --obsidian` (gera grafo + vault + `graph.canvas`).
+- invoque o `/graphify <pasta>` (query-mode: gera grafo + `graph.html`, **SEM vault** — não criamos um
+  segundo vault; o humano é o research-vault). Use `--obsidian --obsidian-dir <research-vault>/maps/<proj>`
+  **só** se quiser o mapa visível no Obsidian, e ainda assim numa subpasta dedicada, nunca no root do vault.
 - ao terminar, **agregue ao cérebro cross-projeto**:
   ```bash
   graphify global add graphify-out/graph.json --as <nome-do-projeto>
