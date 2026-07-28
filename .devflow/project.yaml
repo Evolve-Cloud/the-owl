@@ -319,10 +319,10 @@ features:
     name: "Self-Improvement Loop (the-owl)"
     status: "implemented"
     version: "1.6.0"
-    description: "Daily autonomous loop that improves the-owl's own agents. scout researches the field (codex brief + live web), curator scores each idea against a ratcheting rubric AND against our own code (L1.5 gap-analysis, ADR-005), accepted ideas become an ADR + edit, gated by guardian/sentinel/challenger, landed as a shadow PR. Armed via launchd (daily 07:13). Safety invariant NFR-SEC-1 (ADR-001): the loop cannot autonomously edit its own guardrails. 3 cycles merged (ADR-004/006/007/008/009). See docs/decisions/ADR-001..010 and docs/architecture/diagrams/."
+    description: "Daily autonomous loop that improves the-owl's own agents. scout researches the field (codex brief + live web), curator scores each idea against a ratcheting rubric AND against our own code (L1.5 gap-analysis, ADR-005), accepted ideas become an ADR + edit, gated by guardian/sentinel/challenger, landed as a shadow PR. Armed via launchd (daily 07:13). Safety invariant NFR-SEC-1 (ADR-001): the loop cannot autonomously edit its own guardrails. 3 cycles merged (ADR-004/006/007/008/009). See docs/decisions/ADR-001..019 and docs/architecture/diagrams/."
 
 # ── the-owl ADRs (self-improvement loop) ──
-# Authoritative decision records live as files in docs/decisions/ADR-001..010.
+# Authoritative decision records live as files in docs/decisions/ADR-001..019.
 # NOTE: these REUSE the numbers ADR-001/002/003 for NEW the-owl decisions; the
 # summary `decisions:` block below is LEGACY DevFlow context (different decisions,
 # 2025-11-15), kept for history. For the-owl, trust the files in docs/decisions/.
@@ -351,7 +351,7 @@ decisions:
 metrics:
   total_agents: 10
   total_features: 20
-  total_decisions: 10   # 10 the-owl ADRs on disk: docs/decisions/ADR-001..010 (the legacy `decisions:` block is separate DevFlow history)
+  total_decisions: 19   # 19 the-owl ADRs on disk: docs/decisions/ADR-001..019 (the legacy `decisions:` block is separate DevFlow history)
   owl_cycles_run: 3      # autonomous /owl:evolve cycles proposed + merged (2026-07-23 x2, 2026-07-24)
   owl_cycles_merged: 3
   owl_carve_out_violations: 0
