@@ -25,3 +25,4 @@ node_modules/
 
 # Obsidian local vault state (churns on every open; not part of the-owl)
 research-vault/.obsidian/
+graphify-out/
