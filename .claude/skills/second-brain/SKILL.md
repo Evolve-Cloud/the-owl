@@ -52,10 +52,19 @@ Reporte: `graphify --version`; skill/plugin presentes; existe `graphify-out/grap
 
 ## sync — write-back (fecha o loop)
 
-1. `/graphify . --update` (pega mudanças).
-2. Com as `obsidian-skills`, atualize/escreva no vault: a nota **Start Here** (linka os god nodes),
-   e opcionalmente uma **Base** das notas `AMBIGUOUS` para revisão. Wikilinks corretos.
-3. O próximo map pass indexa as novas notas — o mapa cresce sozinho.
+**REGRA VERIFICADA (2026-07-28):** `graphify export obsidian` **regenera e sobrescreve** os stubs a
+cada rebuild → corpo escrito direto num stub é APAGADO. Escreva sempre **notas-companion autoradas**
+com nome DISTINTO do stub (ex.: `Architect Agent — Brief.md`, ou num subfolder); essas **sobrevivem** e
+viram nós próprios, wikilinkadas ao stub via frontmatter `of: "[[Architect Agent]]"`. NUNCA edite o stub.
+
+1. `/graphify . --update` (pega mudanças de código/docs).
+2. Com as `obsidian-skills`, autore no vault (conteúdo NOVO, não duplicar a fonte): a **Start Here**
+   (MOC dos god nodes), **briefs** dos nós centrais (corpo real + `[[stub]]`), uma **Base** das notas
+   `AMBIGUOUS` para revisão. Wikilinks corretos.
+3. O próximo map pass indexa as notas autoradas — o mapa cresce sozinho.
+
+> Mental model: **vault = mapa (stubs do graphify, regenerados) + conteúdo (notas autoradas, duráveis)**.
+> O corpo "de verdade" de um conceito vive na FONTE (`source_file`); a nota autorada é **síntese**, não cópia.
 
 ## 🛡️ Guardrails (SEMPRE)
 
