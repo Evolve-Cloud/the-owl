@@ -86,6 +86,7 @@ Fresh-research sources from the scheduled `/owl:evolve` cycle: [[anthropic-trust
 - [[role-ownership]] — **accepted (87)** → ADR-009 (promotes previously-deferred `explicit-role-boundaries`).
 - [[convention-staleness-review]] — **accepted (82)** → ADR-017 (curator re-examines old conventions as models improve; impact provisional). Same-day promotion from deferred.
 - [[externalized-checkpoint-memory]] — **accepted, provisional (75)** → ADR-016 (mid-cycle checkpoint for `/owl:evolve`; scored 83 raw, self-haircut per ADR-015).
+- [[handoff-contract-uncertainty-fields]] — **accepted, provisional (78)** → ADR-020 (adds assumptions / open-questions / evidence-confidence fields to the handoff contract; extends ADR-004, doesn't re-litigate it).
 - [[isolated-workspaces-for-parallel-coding]] — **rejected (41)** — runtime-shaped, low fit.
 - [[trajectory-evals]] — **rejected (58)** — its own best-cited source, read in full, argues the opposite framing; the-owl's fitness harness already does the better-supported version.
 - Others deferred; see [[ledger]].
