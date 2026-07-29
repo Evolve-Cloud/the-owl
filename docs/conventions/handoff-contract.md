@@ -15,6 +15,7 @@ Todo handoff de um agente para o próximo declara:
 | **Saída** | O formato concreto entregue (doc, diff, relatório, decisão) + o path do artefato. |
 | **Escopo** | O que está dentro / fora deste passo. |
 | **Critério de pronto** | Condição verificável de conclusão. |
+| **Premissas & Questões em aberto** | A incerteza que o agente produtor carrega, em nível-bullet: (a) **premissas** que assumiu; (b) **questões em aberto** / o que não conseguiu determinar; (c) **confiança da evidência** (verificada vs inferida), com paths. Contexto-mínimo — nunca transcrição. (ADR-020 — **em rollout incremental**: obrigatório à medida que cada agente incorpora o campo, um agente por ADR, como ADR-004→011. Se nenhum agente o incorporar em ~3 ciclos, reconsiderar — pode ser cerimônia.) |
 | **Próximo agente** | Quem recebe — e o agente **encaminha** (não chama diretamente; hub-and-spoke). |
 
 ## Regras
