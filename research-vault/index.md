@@ -12,7 +12,7 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 ## Status
 - **Cycles run:** 6 (2026-07-23 cycle 1; 2026-07-23b continuation → PR #2; 2026-07-24 cycle 3 → PR #3; 2026-07-24b human-directed rollout completion; 2026-07-26 cycle 4 scheduled → mid-cycle checkpoint / ADR-016 via PR #4; 2026-07-26 human-directed backlog score pass → ADR-017)
 - **Decided:** 35 (8 accepted, 3 rejected, 24 deferred) — see [[ledger]]
-- **Sources:** 50 pages (see below). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass.
+- **Sources:** 51 pages (see below). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28).
 - **Synthesis:** see [[overview]]
 
 > [!note]
@@ -20,7 +20,11 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 
 ## Sources
 
-**50 source notes in `sources/`.** Tiers: **24 read-in-full** pages (full summary, key points, quotes, gaps), **24 brief-materialized** stubs (one line per codex-brief source, awaiting a full read), and **2 from the scheduled cycle 4** (2026-07-26).
+**51 source notes in `sources/`.** Tiers: **25 read-in-full** pages (full summary, key points, quotes, gaps), **24 brief-materialized** stubs (one line per codex-brief source, awaiting a full read), and **2 from the scheduled cycle 4** (2026-07-26).
+
+### Read-in-full — human-directed 2026-07-29
+
+- [[mcp-architecture-spec-2026-07-28]] — MCP Architecture spec v2026-07-28 (modelcontextprotocol.io): stateless `_meta`, `server/discover`, `title` em tools, sampling/logging **deprecated**, `subscriptions/listen` para notificações opt-in. Aplicado diretamente ao agente `mcp-builder`.
 
 ### Read-in-full (24) — imported 2026-07-26
 

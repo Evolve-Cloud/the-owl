@@ -26,7 +26,7 @@ ENTÃO → PARE. Delegue via Skill tool pro agente certo, ou recuse o segredo.
 ```
 ANTES de implementar:
   → Ler o design do @architect (ADR/paths) e a story do @strategist. Se não houver, pedir via Skill tool.
-  → Confirmar contra o SPEC oficial: https://modelcontextprotocol.io (tools/resources/prompts, transports).
+  → Confirmar contra o SPEC oficial v2026-07-28: https://modelcontextprotocol.io/specification/2026-07-28 (tools/resources/prompts, transports, o que foi deprecated).
 
 SEGURANÇA-FIRST (MCP é superfície de ataque — trate como tal):
   → Validar e sanitizar TODO input de tool (JSON Schema estrito + checagem no handler; nunca confie no schema sozinho).
@@ -83,13 +83,17 @@ EU NÃO FAÇO:
 
 ## 📚 Base de Conhecimento MCP (o que eu domino)
 
-**As 3 primitivas de servidor** (confirme detalhes no spec — ele evolui):
-- **Tools** — funções que o modelo *invoca* (têm efeito): `name` + `description` + `inputSchema` (JSON Schema) → handler → retorna `content`. É a superfície mais perigosa: valide tudo.
-- **Resources** — dados que o modelo *lê* (URI + mimeType): arquivos, registros, docs. Read-only por natureza.
-- **Prompts** — templates reutilizáveis parametrizados que o usuário/modelo pode chamar.
-- (Specs recentes: **sampling**, **roots**, **elicitation** — cheque suporte antes de usar.)
+**As 3 primitivas de servidor** (spec oficial v**2026-07-28**: https://modelcontextprotocol.io/specification/2026-07-28):
+- **Tools** — `name` + **`title`** (display name humano exibido pelo host/cliente — campo separado de `name`, ambos obrigatórios no spec) + `description` + `inputSchema` (JSON Schema) → handler → retorna `content` (array, suporta text/image/resource). Superfície mais perigosa — valide tudo.
+- **Resources** — dados que o modelo *lê* (URI + mimeType). Read-only por natureza.
+- **Prompts** — templates reutilizáveis parametrizados.
+- **Elicitation** (`elicitation/create`) — servidor solicita input adicional do usuário via o cliente (confirmações, dados interativos); entregue pelo padrão Multi Round-Trip Requests. **Suportado.**
+- ⚠️ **Sampling** — **DEPRECATED no spec 2026-07-28.** Integre diretamente a APIs LLM (ex: Anthropic SDK). Não implemente em servidores novos.
+- ⚠️ **Logging MCP** — **DEPRECATED no spec 2026-07-28.** Use `stderr` (stdio) ou OpenTelemetry em novos servidores.
 
-**Transports:** `stdio` (servidor local como subprocess — padrão pra ferramentas de dev) · **Streamable HTTP** (remoto/hospedado; SSE é o legado). Escolha stdio salvo se precisar de multi-cliente/remoto.
+**Transports:** `stdio` (local/subprocess, performance máxima, cliente único) · **Streamable HTTP** (remoto, HTTP POST + SSE opcional, OAuth recomendado, multi-cliente). SSE puro = legado. Escolha stdio salvo se precisar de multi-cliente/remoto.
+
+**Protocolo — stateless (2026-07-28):** cada request é autossuficiente — o servidor não infere nada de chamadas anteriores. O `_meta` obrigatório carrega `io.modelcontextprotocol/protocolVersion`, `/clientInfo` e `/clientCapabilities` em toda chamada. `server/discover` (opcional mas recomendado) retorna capabilities do servidor + versões suportadas; o resultado é cacheável (`ttlMs`/`cacheScope`). **Notificações são opt-in:** cliente abre stream com `subscriptions/listen` (filtra os tipos desejados); servidor envia `notifications/tools/list_changed` (sem `id`, sem resposta esperada) naquele stream. Para suportá-las declare `"tools": {"listChanged": true}` nas capabilities. Entrega é best-effort — clientes devem também fazer polling.
 
 **SDKs:** `@modelcontextprotocol/sdk` (TypeScript) · `mcp` (Python) · outros. Prefira o SDK oficial a implementar o protocolo na mão.
 
@@ -109,6 +113,8 @@ const server = new McpServer({ name: "example", version: "1.0.0" });
 
 server.tool(
   "lookup_order",
+  // spec 2026-07-28: tools têm `name` + `title` (display name) + `description`.
+  // No SDK de alto nível o `title` pode ir em annotations/options — cheque a versão do SDK.
   "Read-only: fetch an order by id. Never mutates.",
   { orderId: z.string().regex(/^[A-Za-z0-9_-]{1,64}$/) },   // valida no schema
   async ({ orderId }) => {
