@@ -24,8 +24,24 @@ PIPELINE_AGENTS=(
 )
 # Conventions (each carries paths: frontmatter → path-scoped auto-load).
 CONVENTIONS=( handoff-contract role-ownership consult-claude-architecture )
-# Portable skills (claude-architecture is a hard dep of the consult convention).
-SKILLS=( claude-architecture )
+# Portable skills. claude-architecture is a hard dep of the consult convention.
+# second-brain is included but depends on the /graphify engine being installed
+# in the host (noted in the README). project-registry is Evolve-hub-specific
+# (reads the workspace projects.yaml) and is intentionally EXCLUDED.
+SKILLS=( claude-architecture second-brain )
+# Reference ADRs — the "why" behind the shipped conventions + agent design.
+# Convention ADRs (004/006/007/008/009), the turn-economy design law (018),
+# and second-brain (019, since we ship that skill). Owl-loop governance ADRs
+# (001/002/003/005/010-017/020) are NOT shipped.
+REFERENCE_ADRS=(
+  ADR-004-handoff-contract-convention
+  ADR-006-architect-handoff-contract-section
+  ADR-007-builder-handoff-contract-section
+  ADR-008-chronicler-handoff-contract-section
+  ADR-009-role-ownership-convention
+  ADR-018-agent-cost-is-context-floor-times-turns
+  ADR-019-second-brain-graphify-obsidian-one-vault
+)
 
 echo "▸ Rebuilding $OUT/ from canonical sources…"
 rm -rf "$OUT"
@@ -66,6 +82,13 @@ done
 for s in "${SKILLS[@]}"; do
   cp -R ".claude/skills/$s" "$OUT/.claude/skills/$s"
 done
+
+# --- reference ADRs (the "why" behind the conventions/agent design) ----------
+mkdir -p "$OUT/docs/decisions"
+for adr in "${REFERENCE_ADRS[@]}"; do
+  [ -f "docs/decisions/$adr.md" ] && cp "docs/decisions/$adr.md" "$OUT/docs/decisions/$adr.md"
+done
+[ -f "docs/decisions/000-template.md" ] && cp "docs/decisions/000-template.md" "$OUT/docs/decisions/000-template.md"
 
 # --- clean .devflow/project.yaml TEMPLATE (NOT the-owl's own state) ----------
 cat > "$OUT/.devflow/project.yaml" <<'YAML'
@@ -116,6 +139,7 @@ done
 cp -R "$HERE/.claude/agent-reference"       "$TARGET/.claude/"
 cp -R "$HERE/.claude/skills/."              "$TARGET/.claude/skills/"
 cp -R "$HERE/docs/conventions"              "$TARGET/docs/"
+[ -d "$HERE/docs/decisions" ] && cp -R "$HERE/docs/decisions" "$TARGET/docs/"
 # .devflow: don't clobber an existing project.yaml
 cp -R "$HERE/.devflow/agents"               "$TARGET/.devflow/"
 [ -f "$TARGET/.devflow/project.yaml" ] || cp "$HERE/.devflow/project.yaml" "$TARGET/.devflow/project.yaml"
@@ -154,8 +178,14 @@ harness, or any auto-update. Pure markdown + YAML; no runtime.
 - \`.claude/commands/quick/\` — /quick:* dev commands + devflow-help/status.
 - \`.claude/rules/\` — 3 symlinks → docs/conventions (path-scoped auto-load).
 - \`.claude/agent-reference/\` — detailed refs (loaded on demand).
-- \`.claude/skills/claude-architecture/\` — dep of the consult convention.
+- \`.claude/skills/\` — \`claude-architecture\` (dep of the consult convention) +
+  \`second-brain\` (⚠️ requires the \`/graphify\` engine installed in the host to work;
+  omit that folder if the host lacks it). \`project-registry\` is NOT shipped
+  (Evolve-hub-specific).
 - \`docs/conventions/\` — handoff-contract, role-ownership, consult-claude-architecture.
+- \`docs/decisions/\` — reference ADRs (the "why"): handoff-contract (004) + its
+  rollout (006/007/008), role-ownership (009), agent turn-economy (018),
+  second-brain (019), + the ADR template. Owl-loop governance ADRs are excluded.
 - \`.devflow/agents/*.meta.yaml\` + \`project.yaml\` template.
 
 ## Install
@@ -176,4 +206,5 @@ echo "  quick cmds:  $(ls "$OUT/.claude/commands/quick" 2>/dev/null | wc -l | tr
 echo "  conventions: $(ls "$OUT/docs/conventions" | wc -l | tr -d ' ')"
 echo "  rules links: $(find "$OUT/.claude/rules" -type l | wc -l | tr -d ' ')"
 echo "  skills:      $(ls "$OUT/.claude/skills" | wc -l | tr -d ' ')"
+echo "  ref ADRs:    $(ls "$OUT/docs/decisions"/ADR-*.md 2>/dev/null | wc -l | tr -d ' ')"
 echo "  meta.yaml:   $(ls "$OUT/.devflow/agents" | wc -l | tr -d ' ')"

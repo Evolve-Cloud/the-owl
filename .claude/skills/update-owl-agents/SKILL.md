@@ -16,9 +16,10 @@ description: Use to (re)build the portable owl-agents/ production pack — the f
    This reads the manifest inside the script (11 pipeline agents; scout/curator + owl loop excluded), wipes `owl-agents/`, and rewrites it: agents, `.devflow/agents/*.meta.yaml`, `docs/conventions/`, the 3 `.claude/rules/` symlinks, `quick/` commands, `agent-reference/`, the `claude-architecture` skill, a clean `project.yaml` template, plus `install.sh` and `README.md`.
 
 2. **Verify the output** (the script prints counts). Confirm:
-   - agents = 11 · conventions = 3 · rules links = 3 · meta.yaml = 11
+   - agents = 11 · conventions = 3 · rules links = 3 · skills = 2 · ref ADRs = 7 · meta.yaml = 11
    - `owl-agents/.claude/rules/*.md` resolve and carry `paths:` frontmatter
    - scout/curator are **absent** from `owl-agents/.claude/commands/agents/`
+   - `project-registry` is **absent** from `owl-agents/.claude/skills/` (hub-specific)
    If a count is wrong, the manifest in `scripts/pack-owl-agents.sh` and the source files disagree — reconcile, don't patch the output.
 
 3. **(Optional) smoke-test the installer** into a throwaway dir:

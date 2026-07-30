@@ -15,8 +15,14 @@ harness, or any auto-update. Pure markdown + YAML; no runtime.
 - `.claude/commands/quick/` — /quick:* dev commands + devflow-help/status.
 - `.claude/rules/` — 3 symlinks → docs/conventions (path-scoped auto-load).
 - `.claude/agent-reference/` — detailed refs (loaded on demand).
-- `.claude/skills/claude-architecture/` — dep of the consult convention.
+- `.claude/skills/` — `claude-architecture` (dep of the consult convention) +
+  `second-brain` (⚠️ requires the `/graphify` engine installed in the host to work;
+  omit that folder if the host lacks it). `project-registry` is NOT shipped
+  (Evolve-hub-specific).
 - `docs/conventions/` — handoff-contract, role-ownership, consult-claude-architecture.
+- `docs/decisions/` — reference ADRs (the "why"): handoff-contract (004) + its
+  rollout (006/007/008), role-ownership (009), agent turn-economy (018),
+  second-brain (019), + the ADR template. Owl-loop governance ADRs are excluded.
 - `.devflow/agents/*.meta.yaml` + `project.yaml` template.
 
 ## Install
