@@ -360,7 +360,7 @@ metrics:
   documentation_coverage: "excellent"
   metadata_coverage: "excellent"
   orchestration_coverage: "complete"
-  last_snapshot: "2026-07-24"
+  last_snapshot: "2026-07-30"
 
 # Configurações
 config:
