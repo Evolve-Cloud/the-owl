@@ -13,7 +13,8 @@ harness, or any auto-update. Pure markdown + YAML; no runtime.
   builder · guardian · sentinel · challenger · chronicler · database-specialist ·
   mcp-builder · team. (scout/curator = owl-loop only, excluded.)
 - `.claude/commands/quick/` — /quick:* dev commands + devflow-help/status.
-- `.claude/rules/` — 3 symlinks → docs/conventions (path-scoped auto-load).
+- `.claude/rules/` — 3 path-scoped rule files (**real copies** of the conventions,
+  no symlinks — the pack is portable across machines).
 - `.claude/agent-reference/` — detailed refs (loaded on demand).
 - `.claude/skills/` — `claude-architecture` (dep of the consult convention) +
   `second-brain` (⚠️ requires the `/graphify` engine installed in the host to work;
