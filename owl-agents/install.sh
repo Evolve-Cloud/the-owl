@@ -19,6 +19,7 @@ done
 cp -R "$HERE/.claude/agent-reference"       "$TARGET/.claude/"
 cp -R "$HERE/.claude/skills/."              "$TARGET/.claude/skills/"
 cp -R "$HERE/docs/conventions"              "$TARGET/docs/"
+[ -d "$HERE/docs/decisions" ] && cp -R "$HERE/docs/decisions" "$TARGET/docs/"
 # .devflow: don't clobber an existing project.yaml
 cp -R "$HERE/.devflow/agents"               "$TARGET/.devflow/"
 [ -f "$TARGET/.devflow/project.yaml" ] || cp "$HERE/.devflow/project.yaml" "$TARGET/.devflow/project.yaml"
