@@ -1,3 +1,12 @@
+---
+description: the-owl convention — consult the claude-architecture skill before Claude-native builds; loaded when editing an agent, ADR, or convention
+paths:
+  - ".claude/commands/agents/*.md"
+  - ".claude/commands/owl/*.md"
+  - "docs/decisions/*.md"
+  - "docs/conventions/*.md"
+---
+
 # Convention: Consult `claude-architecture` before building on Claude
 
 **Status:** Adopted 2026-07-26 (owner-directed) · **Scope:** any agent-author (human or agent) in this repo and the shared fleet
