@@ -12,7 +12,7 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 ## Status
 - **Cycles run:** 6 (2026-07-23 cycle 1; 2026-07-23b continuation → PR #2; 2026-07-24 cycle 3 → PR #3; 2026-07-24b human-directed rollout completion; 2026-07-26 cycle 4 scheduled → mid-cycle checkpoint / ADR-016 via PR #4; 2026-07-26 human-directed backlog score pass → ADR-017)
 - **Decided:** 35 (8 accepted, 3 rejected, 24 deferred) — see [[ledger]]
-- **Sources:** 51 pages (see below). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28).
+- **Sources:** 105 pages (see below). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28). **+54 human-directed 2026-07-30: full ingest of the MCP spec site v2026-07-28** (docs + specification + extensions — 55 `mcp-*` notes incl. the pre-existing architecture note) into `sources/`.
 - **Synthesis:** see [[overview]]
 
 > [!note]
