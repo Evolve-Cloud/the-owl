@@ -67,15 +67,18 @@ done
 # --- agent-reference (detailed refs, loaded on demand) -----------------------
 cp -R ".claude/agent-reference/." "$OUT/.claude/agent-reference/" 2>/dev/null || true
 
-# --- conventions (source of truth for the rules symlinks) --------------------
+# --- conventions (also the content for the rules) ----------------------------
 for c in "${CONVENTIONS[@]}"; do
   cp "docs/conventions/$c.md" "$OUT/docs/conventions/$c.md"
 done
 
-# --- .claude/rules symlinks (recreated relative → resolve inside the pack AND
-#     at a target project root: ../../docs/conventions/*) ---------------------
+# --- .claude/rules — REAL COPIES, NOT symlinks. The pack is copied to OTHER
+#     machines (zip/scp/git-archive), where symlinks break or don't transfer.
+#     The conventions already carry paths: frontmatter, so a plain copy is a
+#     valid path-scoped rule. (In the-owl itself, .claude/rules/ uses symlinks;
+#     the pack deliberately does not.) -----------------------------------------
 for c in "${CONVENTIONS[@]}"; do
-  ( cd "$OUT/.claude/rules" && ln -sf "../../docs/conventions/$c.md" "$c.md" )
+  cp "docs/conventions/$c.md" "$OUT/.claude/rules/$c.md"
 done
 
 # --- skills ------------------------------------------------------------------
@@ -130,25 +133,21 @@ TARGET="${1:-}"
 echo "▸ Installing DevFlow agents into $TARGET"
 mkdir -p "$TARGET/.claude/commands" "$TARGET/.claude/skills" "$TARGET/docs" "$TARGET/.devflow"
 
-# copy trees (cp -R preserves the rules/ symlinks as symlinks)
+# copy trees — all REAL files (the pack has no symlinks, so this is
+# portable across machines / OSes / zip transfers)
 cp -R "$HERE/.claude/commands/agents"       "$TARGET/.claude/commands/"
 cp -R "$HERE/.claude/commands/quick"        "$TARGET/.claude/commands/"
 for f in devflow-help devflow-status; do
   [ -f "$HERE/.claude/commands/$f.md" ] && cp "$HERE/.claude/commands/$f.md" "$TARGET/.claude/commands/"
 done
 cp -R "$HERE/.claude/agent-reference"       "$TARGET/.claude/"
+cp -R "$HERE/.claude/rules"                 "$TARGET/.claude/"
 cp -R "$HERE/.claude/skills/."              "$TARGET/.claude/skills/"
 cp -R "$HERE/docs/conventions"              "$TARGET/docs/"
 [ -d "$HERE/docs/decisions" ] && cp -R "$HERE/docs/decisions" "$TARGET/docs/"
 # .devflow: don't clobber an existing project.yaml
 cp -R "$HERE/.devflow/agents"               "$TARGET/.devflow/"
 [ -f "$TARGET/.devflow/project.yaml" ] || cp "$HERE/.devflow/project.yaml" "$TARGET/.devflow/project.yaml"
-
-# recreate rules symlinks explicitly (robust across cp behaviors)
-mkdir -p "$TARGET/.claude/rules"
-for c in handoff-contract role-ownership consult-claude-architecture; do
-  ( cd "$TARGET/.claude/rules" && ln -sf "../../docs/conventions/$c.md" "$c.md" )
-done
 
 echo "✓ Installed. Post-install:"
 echo "  • The 'team' agent needs this in $TARGET/.claude/settings.json:"
@@ -176,7 +175,8 @@ harness, or any auto-update. Pure markdown + YAML; no runtime.
   builder · guardian · sentinel · challenger · chronicler · database-specialist ·
   mcp-builder · team. (scout/curator = owl-loop only, excluded.)
 - \`.claude/commands/quick/\` — /quick:* dev commands + devflow-help/status.
-- \`.claude/rules/\` — 3 symlinks → docs/conventions (path-scoped auto-load).
+- \`.claude/rules/\` — 3 path-scoped rule files (**real copies** of the conventions,
+  no symlinks — the pack is portable across machines).
 - \`.claude/agent-reference/\` — detailed refs (loaded on demand).
 - \`.claude/skills/\` — \`claude-architecture\` (dep of the consult convention) +
   \`second-brain\` (⚠️ requires the \`/graphify\` engine installed in the host to work;
@@ -204,7 +204,7 @@ echo "✓ $OUT/ rebuilt:"
 echo "  agents:      $(ls "$OUT/.claude/commands/agents" | wc -l | tr -d ' ')"
 echo "  quick cmds:  $(ls "$OUT/.claude/commands/quick" 2>/dev/null | wc -l | tr -d ' ')"
 echo "  conventions: $(ls "$OUT/docs/conventions" | wc -l | tr -d ' ')"
-echo "  rules links: $(find "$OUT/.claude/rules" -type l | wc -l | tr -d ' ')"
+echo "  rules files: $(ls "$OUT/.claude/rules" | wc -l | tr -d ' ') (real copies, 0 symlinks: $(find "$OUT" -type l | wc -l | tr -d ' '))"
 echo "  skills:      $(ls "$OUT/.claude/skills" | wc -l | tr -d ' ')"
 echo "  ref ADRs:    $(ls "$OUT/docs/decisions"/ADR-*.md 2>/dev/null | wc -l | tr -d ' ')"
 echo "  meta.yaml:   $(ls "$OUT/.devflow/agents" | wc -l | tr -d ' ')"
