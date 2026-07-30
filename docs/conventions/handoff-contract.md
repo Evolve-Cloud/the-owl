@@ -1,3 +1,12 @@
+---
+description: the-owl handoff-contract convention (ADR-004/ADR-020) — loaded when editing an agent, ADR, or convention
+paths:
+  - ".claude/commands/agents/*.md"
+  - ".claude/commands/owl/*.md"
+  - "docs/decisions/*.md"
+  - "docs/conventions/*.md"
+---
+
 # Convenção — Contrato de Handoff entre agentes
 
 **Status:** Adotado (ADR-004) · **Origem:** primeiro ciclo autônomo do `/owl:evolve` (2026-07-23)

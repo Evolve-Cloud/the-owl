@@ -1,3 +1,12 @@
+---
+description: the-owl role-ownership convention (ADR-009) — loaded when editing an agent, ADR, or convention
+paths:
+  - ".claude/commands/agents/*.md"
+  - ".claude/commands/owl/*.md"
+  - "docs/decisions/*.md"
+  - "docs/conventions/*.md"
+---
+
 # Convenção — Papel & Não-Papel (ownership de cada agente)
 
 **Status:** Adotado (ADR-009) · **Origem:** ciclo autônomo do `/owl:evolve` (2026-07-24) · **Par de:** [`handoff-contract.md`](./handoff-contract.md)
