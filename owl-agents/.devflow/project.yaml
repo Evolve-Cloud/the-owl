@@ -1,0 +1,22 @@
+# DevFlow Project Metadata — TEMPLATE
+# Ported from the-owl (functional pipeline, no self-improvement loop).
+# Fill name/description for the host project; @chronicler maintains the rest.
+project:
+  name: "CHANGE-ME"
+  version: "0.1.0"
+  description: "Multi-agent DevFlow pipeline (ported from the-owl, no auto-update loop)"
+  status: "active"
+
+# 11 pipeline agents (scout/curator + owl loop intentionally excluded)
+agents:
+  - { id: strategist,          role: planning,           focus: "Planejamento & Produto" }
+  - { id: architect,           role: design,             focus: "Design & Arquitetura" }
+  - { id: system-designer,     role: system-design,      focus: "System Design & Escala" }
+  - { id: builder,             role: implementation,     focus: "Implementação" }
+  - { id: guardian,            role: quality,            focus: "Qualidade & Testes" }
+  - { id: sentinel,            role: security,           focus: "Segurança & Vulnerabilidades" }
+  - { id: challenger,          role: adversarial-review, focus: "Revisão Adversarial" }
+  - { id: chronicler,          role: documentation,      focus: "Documentação & Memória" }
+  - { id: database-specialist, role: data,               focus: "Modelagem & Banco de Dados" }
+  - { id: mcp-builder,         role: implementation,     focus: "MCP servers/clients" }
+  - { id: team,                role: orchestration,      focus: "Orquestração Paralela" }
