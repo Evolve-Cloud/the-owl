@@ -8,6 +8,10 @@ Thumbs.db
 # Node (if any tooling is added later)
 node_modules/
 
+# Python bytecode (scripts/ and skills/ ship .py; never track compiled output)
+__pycache__/
+*.pyc
+
 # Secrets — never commit
 .env
 .env.*
