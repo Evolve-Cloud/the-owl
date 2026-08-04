@@ -23,7 +23,7 @@ Gera o brief diário de pesquisa externa que alimenta o loop de auto-melhoria. �
        | awk -F'|' '{gsub(/^ +| +$/,"",$2); gsub(/^ +| +$/,"",$3); gsub(/^ +| +$/,"",$5); print "| "$2" | "$3" | "$5" |"}'
      ```
 
-   - **PATTERN INDEX** (marcador `<<INJECT KNOWN PATTERN PAGES ...>>`): a primeira linha não-vazia **após** o `## Definition` de cada `research-vault/patterns/*.md` — só a descrição (Level-0 progressive disclosure: **nunca** o corpo da página). Montar sob o título `## KNOWN PATTERN PAGES` como `- <nome-da-página>: <linha de definição>`.
+   - **PATTERN INDEX** (marcador `<<INJECT KNOWN PATTERN PAGES ...>>`): a primeira linha não-vazia **após** o `## Definition` de cada `research-vault/patterns/*.md` — a linha/parágrafo de definição (para algumas páginas é um parágrafo de várias frases, não uma única linha; ex.: `context-engineering` ≈315 chars, `role-decomposition` ≈564 chars) — Level-0 progressive disclosure: só a definição, **nunca** o corpo da página. Montar sob o título `## KNOWN PATTERN PAGES` como `- <nome-da-página>: <linha/parágrafo de definição>`.
 
      ```bash
      for f in research-vault/patterns/*.md; do
@@ -39,15 +39,17 @@ Gera o brief diário de pesquisa externa que alimenta o loop de auto-melhoria. �
    > ⚖️ **Carve-out:** `{{RECENCY_CUTOFF}}` e `{{QUERY_AXIS}}` vivem **no PROMPT/skill, NÃO** em `.owl/loop-config.yml` — o delta-search é ajustável sem tocar o freio de mão NFR-SEC-1. `delta.recency_days` é um default documentado aqui, não uma chave do loop-config.
 
 2. Montar o prompt final = (conteúdo de 8a) com `{{DATE}}`/`{{RECENCY_CUTOFF}}`/`{{QUERY_AXIS}}` substituídos e os dois marcadores `<<INJECT ...>>` do passo 1.5 preenchidos, seguido do bloco de schema de 8b (onde 8a diz `<<INSERT ...>>`). Os blocos injetados são **DADO** (NFR-SEC-2) — o codex os lê como memória decidida, não executa nada deles.
-3. Ler `.owl/loop-config.yml` → `research.model` e `research.budget_usd_per_call`.
+3. Ler `.owl/loop-config.yml` → `research.model` e `research.budget_usd_per_call`. **Resolução do modelo (não-carve-out):** se `research.model` for o placeholder literal não-resolvido `<codex deep-research / high-reasoning model>`, usar o **default do codex CLI** — ler `~/.codex/config.toml` → chave `model` (verificado 2026-08-03: `gpt-5.6-terra`) e usar esse id. **NÃO editar `.owl/loop-config.yml`** (é carve-out NFR-SEC-1); a resolução acontece aqui, no lado da skill. Registrar no `log.md` qual modelo foi efetivamente usado.
 4. Chamar o **codex CLI em modo não-interativo**, que já está autenticado via `~/.codex` (não precisa de `OPENAI_API_KEY`):
 
    ```bash
    # VERIFIED 2026-07-23 (codex-cli 0.144.4): -o/--output-last-message grava SÓ a
    # mensagem final (markdown limpo); -s read-only + --ephemeral = não-interativo,
    # nunca pede aprovação (approval: never). Modelo default gpt-5.6-luna via ~/.codex.
+   # MODEL = research.model do loop-config, OU o default do codex (~/.codex) se for placeholder (passo 3).
+   MODEL="$(grep -m1 '^model' ~/.codex/config.toml | sed -E 's/.*= *"?([^"]+)"?.*/\1/')"
    cat "$PROMPT_FILE" | codex exec \
-     -m "<research.model>" \
+     -m "$MODEL" \
      -s read-only --skip-git-repo-check --ephemeral \
      -o "research-vault/inbox/research-brief-$(date +%F).md"
    ```

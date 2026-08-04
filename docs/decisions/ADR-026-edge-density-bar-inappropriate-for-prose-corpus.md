@@ -1,6 +1,6 @@
 # ADR-026 — Edge-density > 2.0 é o critério errado para o corpus de prosa do research-vault
 
-**Status:** Accepted — **pendente de ratificação humana** (recommend-to-human; ver Carve-out)
+**Status:** Proposed — **awaiting human ratification** (recommend-to-human; ver Carve-out). Este ADR foi autorado por @curator DENTRO do próprio ciclo de verificação do `/owl:evolve` (auto-avaliação). Um avaliador independente trata a decisão como **documentada-mas-em-aberto**, não passada: só a ratificação humana fecha o gap. Não é `Accepted` até então.
 **Date:** 2026-08-03
 **Author:** @curator (proposto no ciclo de verificação do `/owl:evolve`)
 **Tags:** [graphify, knowledge-graph, semantic-bar, research-vault, verification, recommend-to-human]
@@ -35,7 +35,7 @@ Registramos, portanto: **para o corpus de prosa do `research-vault`, o critério
 - **Sem runtime, sem carve-out tocado:** este ADR é markdown; não altera `.owl/loop-config.yml`, o schedule, nem os agentes do carve-out.
 
 ## Carve-out / recommend-to-human
-Esta é uma decisão sobre **o que conta como "semântico o suficiente"** — um julgamento de qualidade, não uma mudança de mecanismo. Marcada **recommend-to-human**: o status é `Accepted` como proposta do loop, mas a ratificação de que "o piso de 2,0 não se aplica a prosa" é **do humano**. Se o humano preferir empurrar a densidade, executar a Alternativa B num ciclo dedicado, com o gate de não-regressão acima.
+Esta é uma decisão sobre **o que conta como "semântico o suficiente"** — um julgamento de qualidade, não uma mudança de mecanismo. Marcada **recommend-to-human**: o status é `Proposed` (proposta do loop, auto-avaliação), **não** `Accepted` — a ratificação de que "o piso de 2,0 não se aplica a prosa" é **do humano** e está pendente. Enquanto pendente, o sub-critério de densidade permanece formalmente em aberto e o functional_score não fecha em 100 — resultado correto, não um bug a mascarar. Se o humano preferir empurrar a densidade, executar a Alternativa B num ciclo dedicado, com o gate de não-regressão acima.
 
 ## Notas de verificação
 - `nodes=185 · links=291 · hyperedges=12 · ratio=1,573 · ratio_incl_hyperedges=1,638` (medido de `graph.json`, 2026-08-03).
