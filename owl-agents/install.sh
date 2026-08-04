@@ -14,6 +14,8 @@ mkdir -p "$TARGET/.claude/commands" "$TARGET/.claude/skills" "$TARGET/docs" "$TA
 # portable across machines / OSes / zip transfers)
 cp -R "$HERE/.claude/commands/agents"       "$TARGET/.claude/commands/"
 cp -R "$HERE/.claude/commands/quick"        "$TARGET/.claude/commands/"
+# native subagents (hybrid): enable auto-delegation alongside the commands
+[ -d "$HERE/.claude/agents" ] && cp -R "$HERE/.claude/agents" "$TARGET/.claude/"
 for f in devflow-help devflow-status; do
   [ -f "$HERE/.claude/commands/$f.md" ] && cp "$HERE/.claude/commands/$f.md" "$TARGET/.claude/commands/"
 done
@@ -30,4 +32,6 @@ echo "✓ Installed. Post-install:"
 echo "  • The 'team' agent needs this in $TARGET/.claude/settings.json:"
 echo '      { "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }'
 echo "  • Set project name in $TARGET/.devflow/project.yaml"
-echo "  • Agents are slash-commands: /agents:builder, /agents:architect, … (or /quick:*)"
+echo "  • Hybrid invocation: native subagents in .claude/agents/ AUTO-DELEGATE by"
+echo "    description; the same personas as commands (/agents:builder, …) drive the"
+echo "    deterministic pipeline (/quick:*). Restart the CLI to load the subagents."
