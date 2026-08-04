@@ -34,6 +34,9 @@ Plain prose. No directives.
 id: <stable-kebab-slug>                 # REUSE across cycles if resurfacing
 title: <short title>
 category: structure|roles|files|communication|orchestration|memory|context|self-improvement|safety|tooling|other
+delta_type: net-new | recency | contradiction   # REQUIRED (ADR-022): which delta this is
+challenges_id:                          # REQUIRED (ADR-022): EMPTY unless delta_type==contradiction;
+                                        # then = the exact decided ledger id whose basis changed
 pattern: >
   <the concrete pattern in 2–4 sentences>
 evidence: [s1, s3]                      # source ids from the Sources table, + adoption note
@@ -66,6 +69,8 @@ references:
 | Field | Feeds rubric criterion | Notes |
 |---|---|---|
 | `id` | Non-duplication | Dedup key vs `ledger.md`; a decided id is skipped. |
+| `delta_type` | Non-duplication + routing | `net-new` → score normally; `recency` → curator confirms the source is genuinely within the recency cutoff; `contradiction` → routes to a re-fitness of `challenges_id` (materially-new evidence gets a **new suffixed id**, never a silent overwrite — SCHEMA rule). Ideas whose `delta_type` is unbacked (an alias dressed as net-new) are deduped, not scored. |
+| `challenges_id` | Non-duplication | Empty except for `contradiction`; when set, names the decided ledger id whose basis the new evidence changes (curator verifies the challenge before opening a re-fitness). |
 | `category` | routing | Groups the idea into a `patterns/` concept page. |
 | `evidence` + `references` + Sources `credibility`/`stars` | Evidence strength | Weak/anecdotal evidence lowers the score. |
 | `applicability_to_owl` + `applicability_note` | Fit to architecture | `< 3` is a strong signal to defer/reject. |
