@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "the-owl — loop de auto-melhoria (/owl:evolve)",
+    "subtitle": "hub-and-spoke · markdown/no-runtime · retrieve-delta · gate bloqueante · carve-out",
+    "quality_profile": "showcase",
+    "visual_preset": "signal-flow"
+  },
+  "lanes": [
+    {
+      "id": "setup",
+      "label": "Setup (config · guards · checkpoint)",
+      "variant": "normal"
+    },
+    {
+      "id": "research",
+      "label": "L0 · Research (codex)",
+      "variant": "normal"
+    },
+    {
+      "id": "scout",
+      "label": "L1 · Scout (web corrobora)",
+      "variant": "normal"
+    },
+    {
+      "id": "curate",
+      "label": "L1.5–L2.5 · Curator",
+      "variant": "normal"
+    },
+    {
+      "id": "build",
+      "label": "L3 · Integrate",
+      "variant": "normal"
+    },
+    {
+      "id": "gate",
+      "label": "L4 · Gate (bloqueante)",
+      "variant": "normal"
+    },
+    {
+      "id": "land",
+      "label": "L5 · Land (shadow) → Memoria",
+      "variant": "normal"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "evolve",
+      "lane": "setup",
+      "col": 1,
+      "type": "backend",
+      "label": "owl:evolve",
+      "sublabel": "orquestrador",
+      "width": 100
+    },
+    {
+      "id": "l0",
+      "lane": "research",
+      "col": 1,
+      "type": "external",
+      "label": "L0 Research",
+      "sublabel": "retrieve-delta",
+      "width": 130
+    },
+    {
+      "id": "l1",
+      "lane": "scout",
+      "col": 2,
+      "type": "external",
+      "label": "L1 Scout",
+      "sublabel": "corrobora web",
+      "width": 130
+    },
+    {
+      "id": "l2",
+      "lane": "curate",
+      "col": 3,
+      "type": "backend",
+      "label": "L2 Curator",
+      "sublabel": "audita+pontua",
+      "width": 130
+    },
+    {
+      "id": "l3",
+      "lane": "build",
+      "col": 4,
+      "type": "backend",
+      "label": "L3 Integrate",
+      "sublabel": "ADR + 1 edicao",
+      "width": 130
+    },
+    {
+      "id": "l4",
+      "lane": "gate",
+      "col": 4,
+      "type": "security",
+      "label": "L4 Gate",
+      "sublabel": "3 revisores",
+      "width": 110
+    },
+    {
+      "id": "l5",
+      "lane": "land",
+      "col": 4,
+      "type": "cloud",
+      "label": "L5 Land",
+      "sublabel": "shadow PR",
+      "width": 110
+    },
+    {
+      "id": "mem",
+      "lane": "land",
+      "col": 1,
+      "type": "database",
+      "label": "research-vault",
+      "sublabel": "patterns + ledger",
+      "width": 150
+    }
+  ],
+  "mainPath": [
+    "evolve",
+    "l0",
+    "l1",
+    "l2",
+    "l3",
+    "l4"
+  ],
+  "edges": [
+    {
+      "from": "evolve",
+      "to": "l0",
+      "role": "main",
+      "route": "straight"
+    },
+    {
+      "from": "l0",
+      "to": "l1",
+      "role": "main"
+    },
+    {
+      "from": "l1",
+      "to": "l2",
+      "role": "main"
+    },
+    {
+      "from": "l2",
+      "to": "l3",
+      "role": "main"
+    },
+    {
+      "from": "l3",
+      "to": "l4",
+      "role": "main"
+    },
+    {
+      "from": "l4",
+      "to": "l5",
+      "role": "return",
+      "variant": "emphasis",
+      "label": "3x PASS"
+    },
+    {
+      "from": "l5",
+      "to": "mem",
+      "role": "return",
+      "variant": "dashed",
+      "label": "grava ledger"
+    },
+    {
+      "from": "mem",
+      "to": "l0",
+      "role": "async",
+      "variant": "emphasis",
+      "label": "aprende"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Rubrica (0-100) · aceita >= 75",
+      "items": [
+        "Fit 25 · Evidencia 20 · Impacto 20",
+        "Simplicidade 15 · Seguranca 10 · Nao-dup 10",
+        "Safety < 7 = auto-reject (nao-negociavel)"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Retrieve-delta (o delta)",
+      "items": [
+        "net-new · recency 30d · contradiction",
+        "0 ideias genuinas = SUCESSO",
+        "retrieval skill-side (grep), sem re-survey",
+        "1 de 8 eixos por ciclo"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Invariantes",
+      "items": [
+        "hub-and-spoke: agentes nao se chamam",
+        "1 ideia -> 1 ADR -> 1 edicao",
+        "shadow por padrao: main intocada",
+        "gate L4: qualquer FAIL = sem commit"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Carve-out — o loop NUNCA edita",
+      "items": [
+        "sentinel · guardian · challenger",
+        "loop-config · settings · schedule",
+        "~/.ssh · segredos",
+        "breaker: 3 gate-fails seguidos = aborta"
+      ]
+    }
+  ]
+}
