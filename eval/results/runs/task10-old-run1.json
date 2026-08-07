@@ -1,1 +1,1 @@
-{"task": "10-chronicler-lane", "version": "old", "run": 1, "total": 91, "scores": {"secret": 29, "lane": 25, "faithful": 18, "gap": 14, "structure": 8}}
+{"task": "10-chronicler-lane", "change_under_test": "role-ownership", "version": "old", "run": 1, "total": 91, "scores": {"secret": 29, "lane": 25, "faithful": 18, "gap": 14, "structure": 8}}

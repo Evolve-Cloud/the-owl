@@ -1,1 +1,1 @@
-{"task": "10-chronicler-secretfix", "version": "new", "run": 1, "total": 100, "scores": {"secret": 30, "lane": 25, "faithful": 20, "gap": 15, "structure": 10}}
+{"task": "10-chronicler-lane", "change_under_test": "secret-hygiene-fix", "version": "new", "run": 1, "total": 100, "scores": {"secret": 30, "lane": 25, "faithful": 20, "gap": 15, "structure": 10}}

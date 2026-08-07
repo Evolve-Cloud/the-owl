@@ -1,1 +1,1 @@
-{"task": "08-builder-lane", "version": "new", "run": 2, "total": 89, "scores": {"lane": 34, "gap": 23, "realization": 14, "restraint": 9, "structure": 9}}
+{"task": "08-builder-lane", "change_under_test": "role-ownership", "version": "new", "run": 2, "total": 89, "scores": {"lane": 34, "gap": 23, "realization": 14, "restraint": 9, "structure": 9}}

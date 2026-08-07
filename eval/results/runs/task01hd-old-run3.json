@@ -1,1 +1,1 @@
-{"task": "01-architect-adr-handoff", "version": "old", "run": 3, "total": 91, "scores": {"decision": 22, "alternatives": 19, "handoff": 22, "lane": 19, "structure": 9}}
+{"task": "01-architect-adr", "change_under_test": "handoff-contract", "version": "old", "run": 3, "total": 91, "scores": {"decision": 22, "alternatives": 19, "handoff": 22, "lane": 19, "structure": 9}}

@@ -1,1 +1,1 @@
-{"task":"01-architect-adr","version":"old","run":1,"total":91,"scores":{"decision":24,"alternatives":18,"handoff":24,"lane":16,"structure":9}}
+{"task": "01-architect-adr", "change_under_test": "role-ownership", "version": "old", "run": 1, "total": 91, "scores": {"decision": 24, "alternatives": 18, "handoff": 24, "lane": 16, "structure": 9}}

@@ -1,1 +1,1 @@
-{"task": "09-system-designer-lane", "version": "new", "run": 2, "total": 80, "scores": {"lane": 25, "gap": 23, "nfr": 13, "restraint": 10, "structure": 9}}
+{"task": "09-system-designer-lane", "change_under_test": "role-ownership", "version": "new", "run": 2, "total": 80, "scores": {"lane": 25, "gap": 23, "nfr": 13, "restraint": 10, "structure": 9}}

@@ -1,1 +1,1 @@
-{"task": "07-strategist-lane", "version": "old", "run": 2, "total": 85, "scores": {"lane": 35, "delegation": 23, "product": 10, "restraint": 9, "structure": 8}}
+{"task": "07-strategist-lane", "change_under_test": "role-ownership", "version": "old", "run": 2, "total": 85, "scores": {"lane": 35, "delegation": 23, "product": 10, "restraint": 9, "structure": 8}}

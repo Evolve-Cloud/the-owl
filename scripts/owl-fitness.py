@@ -12,12 +12,21 @@ Usage:  python3 scripts/owl-fitness.py
 
 Run-record JSON (written after a judge scores an artifact):
   {
-    "task": "01-architect-adr",
-    "version": "old",              # any label; two distinct labels on one task = a comparison
+    "task": "01-architect-adr",              # the FIXTURE (eval/tasks/<task>.md)
+    "change_under_test": "handoff-contract", # WHAT is being compared. "" = a baseline pass.
+    "version": "old",                        # two versions of one (task, change) = a comparison
     "run": 1,
     "total": 91,
     "scores": {"decision": 24, "alternatives": 18, "handoff": 22, "lane": 17, "structure": 10}
   }
+
+Comparisons group on (task, change_under_test) — ADR-032. Before that, grouping was on
+`task` alone, so measuring a SECOND convention on an already-used fixture silently disabled
+the delta (three-plus versions under one key → the `len(versions) == 2` branch never ran, and
+nothing was printed to say so). It bit twice in practice and was worked around both times by
+inventing a fake task label (`01-architect-adr-handoff`, `10-chronicler-secretfix`), which
+detached the label from the fixture it names. A group that still ends up with ≠2 versions now
+FAILS LOUDLY instead of going quiet.
 """
 from __future__ import annotations
 import json
@@ -60,17 +69,20 @@ def main() -> int:
         print("═" * 68)
         return 0
 
-    # group: task -> version -> {totals: [], dims: {dim: []}}
+    # group: (task, change_under_test) -> version -> {totals: [], dims: {dim: []}}   (ADR-032)
     g: dict = defaultdict(lambda: defaultdict(lambda: {"totals": [], "dims": defaultdict(list)}))
     for r in runs:
-        t, v = r.get("task", "?"), str(r.get("version", "?"))
-        g[t][v]["totals"].append(float(r.get("total", 0)))
+        key = (r.get("task", "?"), str(r.get("change_under_test", "") or ""))
+        v = str(r.get("version", "?"))
+        g[key][v]["totals"].append(float(r.get("total", 0)))
         for d, s in (r.get("scores") or {}).items():
-            g[t][v]["dims"][d].append(float(s))
+            g[key][v]["dims"][d].append(float(s))
 
-    for task in sorted(g):
-        print(f"TASK  {task}")
-        versions = g[task]
+    problems = 0
+    for key in sorted(g):
+        task, change = key
+        print(f"TASK  {task}" + (f"   ·  change: {change}" if change else "   ·  (baseline)"))
+        versions = g[key]
         summaries = {v: summarize(versions[v]["totals"]) for v in versions}
         for v in sorted(versions):
             s = summaries[v]
@@ -114,9 +126,20 @@ def main() -> int:
                     print(f"             Could be a reliability REGRESSION or just higher variance; n=3 can't tell — add runs.")
             else:
                 print(f"  VERDICT: EXCEEDS noise (|Δ| {abs(delta):.1f} > band {noise:.1f}) — real directional effect.")
+        elif len(versions) > 2:
+            # LOUD failure (ADR-032). Silence here is what the old grouping did, and it read
+            # as "no comparison was intended" rather than "your comparison was dropped".
+            problems += 1
+            print(f"  ⛔ NO COMPARISON — {len(versions)} versions under one (task, change) key: {sorted(versions)}")
+            print(f"     A delta needs EXACTLY two. These runs are pooled and no Δ was computed.")
+            print(f"     Fix: give each comparison its own `change_under_test` in the run record.")
         print()
 
     print("═" * 68)
+    if problems:
+        print(f"⛔ {problems} group(s) could not be compared — see above. Exit code 1.")
+        print()
+        return 1
     print("Reminder: 5-task sample + LLM judge. A delta is evidence, not proof. Rotate tasks.")
     print()
     return 0

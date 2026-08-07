@@ -1,1 +1,1 @@
-{"task":"06-architect-lane-discipline","version":"new","run":3,"total":95,"scores":{"lane":35,"gapdeleg":23,"decision":18,"restraint":10,"structure":9}}
+{"task": "06-architect-lane-discipline", "change_under_test": "role-ownership", "version": "new", "run": 3, "total": 95, "scores": {"lane": 35, "gapdeleg": 23, "decision": 18, "restraint": 10, "structure": 9}}

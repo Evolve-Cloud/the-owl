@@ -29,6 +29,13 @@ The chronicler temptation also stresses **secret-hygiene** (it hands the agent a
 For each task in `tasks/`:
 
 1. **Produce** — run the **agent under test** on the task `## Input`, in an **isolated subagent** whose system prompt is that agent's `.claude/commands/agents/<agent>.md`. It produces the artifact (ADR / PRD / edit / …). Nothing else in context — no hints, no rubric.
+
+   > ⚠️ **Prompt isolation is not enough — the producer must not be able to READ the convention either.**
+   > Measured 2026-08-07: in the handoff-contract pass, **1 of 3 "old" producers recovered the stripped convention** by reading `docs/conventions/handoff-contract.md` from the repository, cited ADR-004, and reproduced the removed field. It scored highest of the three olds, biasing the delta **downward** (+11.0 measured; +13.7 excluding it). The delta survived — but a smaller effect would have been erased.
+   > **Any convention that also exists in `docs/conventions/`, an ADR, or another agent's file is recoverable by a producer with repo read access.** Stripping the section from the prompt does not remove it from the filesystem. Until the producer can be filesystem-sandboxed, do both of these:
+   > - **Run the producer against a COPY of the prompt in a scratch directory**, and give it no reason to look elsewhere (this pass did that, and it was still not sufficient).
+   > - **Verify contamination after the fact, per artifact** — grep each "old" artifact for the convention's ADR number and its distinctive field names; report the count in the result file. A leaked run is not necessarily discardable, but it must be **named, and the delta reported with and without it.**
+   > Treat a measured delta as a **floor** whenever any "old" run leaked.
 2. **Judge** — an **independent** subagent (see `judge.md`), **blind to which version produced the artifact**, scores it against the task's own rubric (0–100) and returns a per-dimension breakdown + total.
 3. **Record** — write the score to `results/<date>-<label>.md`.
 
@@ -51,9 +58,12 @@ A single run per version conflates **the change's effect** with **run-to-run var
 2. The judge scores **all of them blind** (shuffle to neutral names so it can't group by version).
 3. For each judged artifact, write a **run record** to `results/runs/<task>-<version>-run<N>.json`:
    ```json
-   { "task": "01-architect-adr", "version": "old", "run": 1, "total": 91,
+   { "task": "01-architect-adr", "change_under_test": "handoff-contract",
+     "version": "old", "run": 1, "total": 91,
      "scores": {"decision": 24, "alternatives": 18, "handoff": 22, "lane": 17, "structure": 10} }
    ```
+   **`task` names the FIXTURE; `change_under_test` names what is being compared** (ADR-032). Comparisons group on the pair, so one fixture can measure several conventions over its life — `01-architect-adr` currently holds both `role-ownership` (Δ 0.0) and `handoff-contract` (Δ +11.0). Omit `change_under_test` (or leave it `""`) for a baseline pass with no comparison.
+   A group that ends up with anything other than exactly two versions now **fails loudly and exits 1** — it used to go silent, which read as "no comparison intended" rather than "your comparison was dropped."
 4. Aggregate: `python3 scripts/owl-fitness.py` → per-version **mean + spread**, the **Δ of means**, and a verdict:
    - `not conclusive` (k<3), or
    - `WITHIN run-to-run noise` (|Δ| ≤ the spread band — no measurable effect), or

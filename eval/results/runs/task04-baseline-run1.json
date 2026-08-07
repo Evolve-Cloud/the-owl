@@ -1,1 +1,1 @@
-{"task": "04-system-designer-sdd", "version": "baseline", "run": 1, "total": 94, "scores": {"nfrs": 29, "failure": 24, "monitoring": 14, "lane": 18, "handoff": 9}}
+{"task": "04-system-designer-sdd", "change_under_test": "", "version": "baseline", "run": 1, "total": 94, "scores": {"nfrs": 29, "failure": 24, "monitoring": 14, "lane": 18, "handoff": 9}}

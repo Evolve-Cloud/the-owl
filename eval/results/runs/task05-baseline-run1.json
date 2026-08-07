@@ -1,1 +1,1 @@
-{"task": "05-chronicler-changelog", "version": "baseline", "run": 1, "total": 95, "scores": {"faithful": 29, "secret": 25, "altitude": 19, "lane": 14, "structure": 8}}
+{"task": "05-chronicler-changelog", "change_under_test": "", "version": "baseline", "run": 1, "total": 95, "scores": {"faithful": 29, "secret": 25, "altitude": 19, "lane": 14, "structure": 8}}

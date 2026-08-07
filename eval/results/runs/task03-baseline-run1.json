@@ -1,1 +1,1 @@
-{"task": "03-builder-edit", "version": "baseline", "run": 1, "total": 88, "scores": {"faithfulness": 24, "concreteness": 23, "correctness": 19, "lane": 15, "handoff": 8}}
+{"task": "03-builder-edit", "change_under_test": "", "version": "baseline", "run": 1, "total": 88, "scores": {"faithfulness": 24, "concreteness": 23, "correctness": 19, "lane": 15, "handoff": 8}}

@@ -1,1 +1,1 @@
-{"task": "02-strategist-prd", "version": "baseline", "run": 3, "total": 88, "scores": {"framing": 24, "requirements": 19, "stories": 19, "lane": 17, "handoff": 9}}
+{"task": "02-strategist-prd", "change_under_test": "", "version": "baseline", "run": 3, "total": 88, "scores": {"framing": 24, "requirements": 19, "stories": 19, "lane": 17, "handoff": 9}}
