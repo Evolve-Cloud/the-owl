@@ -33,7 +33,7 @@ The block states the **structural disqualifiers** — the properties of the-owl 
 - **Runtime-shaped.** the-owl is markdown + YAML prompts with **no orchestration engine, spawner, daemon, scheduler or live verifier.** An idea requiring one is out by construction, however good. (`isolated-workspaces` 41, `parallel-independent-work` 52, `evaluator-gated-termination` 45.)
 - **Governance-of-the-gate.** Anything altering when/how guardian, sentinel or challenger fire, or the rubric's `safety_floor`, is **NFR-SEC-1 carve-out** — auto-rejected, never scored. (`adversarial-review-gate`, rejected 3×.)
 - **Free mesh / peer-to-peer.** Topology is hub-and-spoke; specialists return control and never call each other.
-- **Unenforceable prose.** A convention the harness cannot enforce, presented as if it were enforced, carries false-confidence risk. (`least-privilege-tool-scopes` 66.)
+- **Unenforceable prose.** A convention the harness cannot enforce, presented as if it were enforced, carries false-confidence risk. (`least-privilege-tool-scopes` 66. — ⚠️ **exemplo removido do bloco vivo em 2026-08-07; ver [Correção](#correção--2026-08-07-human-directed-adr-033) no fim deste ADR. Não re-adicionar.**)
 
 **This is a targeting change, not a new gate.** It moves work the curator already does — reject by class — upstream to where it is cheap, so the axis budget buys candidates that could actually land. The curator's rubric, veto and carve-out check are unchanged; nothing is auto-accepted because it clears the class filter.
 
@@ -60,3 +60,17 @@ The block states the **structural disqualifiers** — the properties of the-owl 
 - **NÃO fazer:** do not let the block grow per-cycle; do not auto-derive it from rejections; do not treat clearing the class filter as any kind of pre-approval.
 - **Verification:** the assembled prompt contains the header `## REJECTED CLASSES (do NOT propose)` and 0 unsubstituted `<<INJECT` markers.
 - **The honest test:** if cycles 9–11 still produce 0 accepts *with* the class filter live, that is real evidence the delta is empty for this architecture — and the right response is a product decision about the research lane's cost, not another prompt tweak.
+
+---
+
+## Correção — 2026-08-07 (human-directed, ADR-033)
+
+**A decisão continua Accepted. O que muda é um exemplo e um ponteiro de mitigação — ambos errados no dia em que este ADR foi aceito.**
+
+1. **O exemplo de "Unenforceable prose" expirou antes do bloco entrar em operação.** A classe citava `least-privilege-tool-scopes` 66, cujo bloqueio registrado era *"unenforceable prose no modelo inline-exec da-owl (ADR-010)"*. Esse bloqueio **já tinha caído**: os subagents nativos impõem `tools:` por frontmatter — 5 dos 13 agentes hoje. O ciclo 7 registrou a transição em `ledger.md` e escreveu a condição de reabertura (*"apenas se sobrar uma fatia atômica carve-out-safe para um agente NÃO-carve-out após o merge"*), que o merge de PR #17 satisfez: **8 agentes não-carve-out seguem sem `tools:`**. O exemplo foi **removido** do bloco injetado; a classe segue válida como *propriedade estrutural*, mas não tinha instância viva.
+
+2. **A mitigação declarada não podia disparar.** Este ADR escreveu, corretamente, que a classe precisa ser relida quando a estrutura muda — e apontou o ADR-017 como o alvo de staleness. **O ADR-017 relê apenas convenções `accepted`** (`.claude/commands/agents/curator.md:85`: *"uma passada REGRESSIVA sobre as convenções JÁ aceitas"*). Um id `deferred` está fora do alcance dele por construção. O mecanismo que fecharia a lacuna está proposto no **ADR-033** (`Proposed`, não ratificado); até a ratificação, a releitura é responsabilidade humana e está registrada como tal na skill.
+
+3. **Impacto no teste honesto deste ADR.** A previsão registrada aqui — *"se os ciclos 9–11 ainda derem 0 accepts com o filtro de classe vivo, isso é evidência real de que o delta está vazio"* — teria rodado com uma classe suprimindo uma família cujo bloqueio já tinha expirado. Com esta correção aplicada **antes do ciclo 9**, o experimento roda sem esse confound. O prazo era a razão de corrigir agora e não no ciclo.
+
+**Escopo da correção:** `.claude/commands/owl/research.md` (bloco literal + nota). `docs/planning/artifacts/chatgpt-research-brief-prompt.md` não muda — carrega só o marcador. `.owl/loop-config.yml`, agenda e agentes-gate intocados.

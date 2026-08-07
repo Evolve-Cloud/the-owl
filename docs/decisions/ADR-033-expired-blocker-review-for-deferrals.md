@@ -98,9 +98,11 @@ Second, narrower change: any id cited as a **live example** inside ADR-030's cla
 
 ### Owner decisions this surfaces (none taken here)
 
-1. **Re-open `least-privilege-tool-scopes`** for the 8 non-carve-out agents — its recorded re-open condition is met. Scoring is the curator's, not this review's.
-2. **ADR-030's class block:** the `least-privilege-tool-scopes` example is stale. Fix by citing the *property* rather than the id, or by re-checking the id.
-3. **Correct the streak count** in `.owl/state/last-run.json` (and cycle-8's commit message, which repeats it) from 5 to 3, or annotate what it counts.
+1. **Re-open `least-privilege-tool-scopes`** for the 8 non-carve-out agents — its recorded re-open condition is met. Scoring is the curator's, not this review's. **Open.**
+2. ~~**ADR-030's class block:** the `least-privilege-tool-scopes` example is stale.~~ — **DONE 2026-08-07, owner-authorized.** The expired example was removed from the live block in `.claude/commands/owl/research.md`; the class kept as a structural property with an explicit "depends on today's harness" clause. ADR-030 gained a dated `## Correção` section (its Decisão text is preserved with a do-not-re-add marker) and the ledger a `human-directed` row (`hd-unstale-rejected-class-example`, ADR-027). Done **before cycle 9** so the ADR-030 experiment starts unconfounded — that deadline was the reason to act ahead of ratification.
+3. **Correct the streak count** in `.owl/state/last-run.json` (and cycle-8's commit message, which repeats it) from 5 to 3, or annotate what it counts. **Open.**
+
+**Note for cycle 9's ADR-027 step 0.5:** this is the fourth `human-directed` row with origin `reflection` dated 2026-08-07. If "correction to the loop's own machinery, found by human review" counts as a class, it is now well past the ≥2× threshold that step 0.5 uses to raise a normal candidate. That call is the curator's, not this review's.
 
 ---
 
