@@ -110,4 +110,41 @@ Second, narrower change: any id cited as a **live example** inside ADR-030's cla
 
 - **Nothing was edited to produce this ADR.** No agent file, no convention, no ledger row, no state file. It is a finding written for ratification; the loop does not self-approve changes to its own machinery.
 - **Verification performed for this document:** `tools:` frontmatter enumerated per file across `.claude/agents/*.md` (5 of 13, listed above); merge confirmed at `dcb5e6b`/`2cb5aef`; the cycle-7 re-open condition and the 2026-07-30 *"has NOT scored"* line quoted verbatim from `research-vault/ledger.md` and `research-vault/log.md`; ledger status/origin counts computed from the table, not estimated.
+- **⚠️ Ver a [Correção 2026-08-07](#correção--2026-08-07-varredura-de-propriedades-a-alternativa-b-foi-rejeitada-com-um-fato-falso) no fim deste documento antes de ratificar: a Decisão acima (forma A) foi medida e a alternativa B foi rejeitada com uma premissa falsa.**
 - **Premissas & questões em aberto:** the streak-count correction assumes the "5" was assembled by counting human-directed passes — consistent with cycle 7 self-reporting "4th consecutive," but the counting rule is nowhere written down, so this is inference from the sequence, not a read of the rule. Whether a re-opened `least-privilege-tool-scopes` would actually *clear* the bar is **not** claimed here — the ADR-015 haircut applies and it previously scored 66. Evidence confidence: the tree facts (frontmatter, merge, counts) are verified directly. The causal claim ("no step reads re-open conditions") is **also verified directly**, not inferred: `.claude/commands/agents/curator.md:85` scopes step 4.5 to *"uma passada REGRESSIVA sobre as convenções JÁ aceitas"* — accepted conventions only — and no other step in "🔄 Meu fluxo" reads `deferred`/`rejected` rows.
+
+---
+
+## Correção — 2026-08-07 (varredura de propriedades): a alternativa B foi rejeitada com um fato falso
+
+**O achado deste ADR continua válido e verificado. O que muda é a forma recomendada — e por que a razão de descartar B não se sustenta.** Escrito depois de uma varredura única das 34 linhas `deferred`/`rejected`, encomendada pelo dono exatamente para não ratificar um custo permanente por ciclo com base em n=1. Registro em `research-vault/log.md` (`[2026-08-07] sweep`).
+
+### 1. A alternativa B foi descartada por uma premissa falsa
+
+Este ADR rejeita B assim: *"needs an event hook nobody owns, and the-owl has no such trigger surface."*
+
+**Há duas superfícies de trigger ativas neste repo agora:** `.git/hooks/post-commit` e `.git/hooks/post-checkout` (instalados pelo graphify), disparando a cada commit — verificável na saída de qualquer commit desta sessão. O `post-commit` já computa `git diff --name-only HEAD~1 HEAD`, que é precisamente a lista de arquivos mudados que o gatilho precisaria. Mais `SessionStart` em `.claude/settings.local.json` e o scheduler launchd em `scripts/`.
+
+Isto é ironia estrutural que vale nomear: **este ADR cometeu, na sua própria seção de alternativas, o defeito que ele existe para descrever** — uma decisão sustentada por uma propriedade estrutural que já tinha mudado e não foi relida.
+
+### 2. A varredura não bateu a barra declarada — e isso está registrado como falha, não reinterpretado
+
+A barra combinada antes de rodar era **2+ reaberturas vivas ⇒ ratificar**. Resultado nas 34 linhas: **1 clara** (`least-privilege-tool-scopes`, já reaberta) + **1 parcial** (`agent-frontmatter-fields` — o bloqueio caiu para 1 dos 3 campos do título; `Memory` e `isolation` não têm verificação nenhuma no vault, e os 13 subagents usam só `name`/`description`/`tools`). **Barra não batida.**
+
+### 3. Mas o número que decide é outro: um evento, raio largo
+
+O PR #17 — **um** evento — invalidou **3 linhas do ledger** (`least-privilege-tool-scopes`, `agent-frontmatter-fields`, e a premissa de `parallel-independent-work`/`isolated-workspaces`) **e 3 afirmações vivas** (o bloco de classes do ADR-030, `evolve.md:20`, e a rejeição de B aqui). Eventos estruturais são **raros**; o raio por evento é **largo**. Esse perfil favorece gatilho por evento sobre relógio: a forma A, a 1–2 linhas/ciclo, precisaria de ~17–34 ciclos para varrer o ledger uma vez e não acharia nada na maioria delas.
+
+### 4. E a forma A não alcança onde estava o valor
+
+**Os três defeitos mais caros não são linhas do ledger** — são um prompt injetado todo ciclo (`research.md:39`) e duas afirmações em documento. Um passo que relê **linhas** não os alcança por construção. O que os achou foi verificar **as propriedades** contra a árvore. **Propriedade é a unidade certa; linha é consequência.**
+
+### 5. O que isto pede antes da ratificação
+
+A seção **Decisão** acima descreve a forma A e deve ser **reescrita como forma B** antes de ser ratificada: uma regra presa ao momento em que uma mudança estrutural é **registrada** — *"ao registrar uma mudança estrutural, re-verifique a lista de propriedades declaradas e varra as linhas que citam a que mudou."* O ciclo 7 já fez a metade que este ADR dizia faltar (a detecção, escrita no ledger); a regra é a metade que faltou. Markdown, custo zero em ciclo sem mudança, carve-out-safe.
+
+**Não reescrita aqui de propósito:** trocar a Decisão de A para B é a decisão de ratificação, e é do dono — o mesmo limite que este ADR desenha para si na abertura (*"a proposal about the loop's own machinery does not self-approve"*).
+
+⛔ **Não proposto e não feito: editar git hooks.** Hook executa código — é superfície de segurança e decisão do dono, nunca do loop. A regra em markdown não precisa de um.
+
+**Escopo já corrigido fora deste documento (autorizado, 2026-08-07):** `.claude/commands/owl/research.md` (a classe *Runtime-shaped* dizia "ZERO engine de orquestração"; reescrita para capacidade **+** fronteira) e `.claude/commands/owl/evolve.md:20` (afirmava que `.claude/agents/` não existe; existem 13). `.owl/loop-config.yml`, agenda e agentes-gate intocados.
