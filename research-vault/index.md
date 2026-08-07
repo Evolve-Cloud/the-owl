@@ -12,7 +12,7 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 ## Status
 - **Cycles run:** 6 (2026-07-23 cycle 1; 2026-07-23b continuation → PR #2; 2026-07-24 cycle 3 → PR #3; 2026-07-24b human-directed rollout completion; 2026-07-26 cycle 4 scheduled → mid-cycle checkpoint / ADR-016 via PR #4; 2026-07-26 human-directed backlog score pass → ADR-017)
 - **Decided:** 35 (8 accepted, 3 rejected, 24 deferred) — see [[ledger]]
-- **Sources:** **108 pages** (real count via `ls sources/*.md`, 2026-08-07). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28). **+54 human-directed 2026-07-30: full ingest of the MCP spec site v2026-07-28** (docs + specification + extensions — 55 `mcp-*` notes incl. the pre-existing architecture note) into `sources/`. **+2 human-directed 2026-08-07: `claude.com/blog` loops & verification** (see below).
+- **Sources:** **108 pages** (real count via `ls sources/*.md`, 2026-08-07). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28). **+54 human-directed 2026-07-30: full ingest of the MCP spec site v2026-07-28** (docs + specification + extensions — 55 `mcp-*` notes incl. the pre-existing architecture note) into `sources/`. **+2 human-directed 2026-08-07: `claude.com/blog` loops & verification** (see below). **+1 cycle 8, 2026-08-07: [[contract-coding-paper]]** (ACL Findings 2026) → **109 pages**.
   > [!todo]
   > **Count drift predating 2026-08-07 — flagged, not silently rewritten.** This line read `105` while `sources/` held **106** before today's ingest, and the `## Sources` heading below still says "51 source notes" from an even older revision. Both are @curator's to reconcile in a LINT pass; the 2026-08-07 ingest only corrected the top-line count to the verified number.
 - **Synthesis:** see [[overview]]
@@ -23,6 +23,9 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 ## Sources
 
 **51 source notes in `sources/`.** Tiers: **25 read-in-full** pages (full summary, key points, quotes, gaps), **24 brief-materialized** stubs (one line per codex-brief source, awaiting a full read), and **2 from the scheduled cycle 4** (2026-07-26).
+
+### Cycle 8 — 2026-08-07 (axis: inter-agent communication & handoff contracts)
+- [[contract-coding-paper]] — *Contract-Coding: Towards Repo-Level Generation via Structured Symbolic Paradigm* (Yi Lin, Lujin Zhao, Yijie Shi — Findings of the ACL 2026, `2026.findings-acl.400`). **Verified to the body:** the PDF was downloaded and text-extracted (10,153 words) because the abstract does not mention the mechanism the brief cited — only §5 does. Contributes the *Contract Amendment (Update Action)* path enforced by a deterministic Contract Auditor. Note the brief mis-cited the subtitle as "Structured Language Contracts"; corrected here.
 
 ### Human-directed 2026-08-07 — `claude.com/blog` (loops & verification)
 Two first-party Claude Code team posts from a domain the research lane was **not** searching (it drew first-party material almost only from `anthropic.com/engineering`). Materialized from a fetch-summarizer pass, **not read in full** → no `## Notable quotes` on either page; a direct read is required before any quote is cited as verbatim (ADR-013).
@@ -106,7 +109,12 @@ Fresh-research sources from the scheduled `/owl:evolve` cycle: [[anthropic-trust
 - [[evaluator-gated-termination]] — **rejected (45)** — **safety hard-veto** (Safety 6 < floor 7): `/goal` is a harness primitive whose only landing sites (`loop-config.yml` / schedule) are NFR-SEC-1 carve-out; function already covered by the fitness harness + L4 gate + circuit breaker.
 - [[chained-verification-skills]] — **rejected (50)** — duplication, not wrongness: `/owl:evolve` L4 is already this chain in a stronger blocking form; the net-new on-every-PR slice is gate governance (3rd appearance, cf. [[adversarial-review-gate]]).
 - [[trajectory-evals]] — **rejected (58)** — its own best-cited source, read in full, argues the opposite framing; the-owl's fitness harness already does the better-supported version.
+- [[contract-amendment-before-downstream-handoff]] — **rejected (58)** — cycle 8. Source verified to the paper *body* (the abstract omits the mechanism), so the evidence is real; rejected because the-owl already amends contracts via ADR supersession + the ledger's suffixed-id rule, and did so **twice the same day** (ADR-027, ADR-028). Decisive argument: ADR-020's field has **0/13 adoption after 3 cycles** — adding a bigger field group to an unused convention is over-production.
+- **`human-directed` rows (ADR-027, first execution):** `hd-scout-source-surface-first-party` · `hd-ingest-claude-blog-loops` · `hd-arquivo-alvo-persona-pair` — records, not decisions (score `—`). 0 classes at ≥2× ⇒ 0 candidates raised.
 - Others deferred; see [[ledger]].
+
+> [!todo]
+> **⚑ Staleness flag open for the owner — ADR-020.** `docs/conventions/handoff-contract.md` states its own reconsider clause: *"Se nenhum agente o incorporar em ~3 ciclos, reconsiderar — pode ser cerimônia."* Grounded 2026-08-07: **0 of 13 agents** carry the uncertainty field after **3 cycles**. The clause has fired — this is the convention's own written condition, not curator judgment. Per ADR-017 the curator **recommends and does not revert**: complete the rollout or reconsider the field. Detail in [[ledger]] (cycle 8) and [[log]].
 
 ## Sections
 - [[overview]] — evolving synthesis: how to build the best agent team
