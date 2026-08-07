@@ -37,16 +37,24 @@ Quase toda rejeição "runtime-shaped" da-owl está de fato correta — mas pela
 
 **Não é por ciclo.** Propriedade estrutural muda de forma **rara e discreta** (uma vez na história deste repo até agora); reler no relógio gasta atenção em ciclo parado e ainda assim chega tarde. A re-verificação dispara por **evento**:
 
-1. **Qualquer caminho da coluna `Prova` foi tocado ou observado no ciclo.** Verificável mecanicamente:
+**(a)** **Qualquer caminho da coluna `Prova` foi tocado ou observado no ciclo.** Verificável mecanicamente:
    ```bash
    # o que mudou nos caminhos-prova desde a última verificação completa
    git log --since=2026-08-07 --name-only --pretty=format: -- \
      .claude/agents/ scripts/ .claude/settings.json .claude/commands/owl/evolve.md | sort -u
    ls .git/hooks/ | grep -v '\.sample$'   # hooks não são rastreados pelo git
    ```
-2. **O @scout ou o @curator registrou um achado de capacidade** em `ledger.md` / `log.md` — "campo X é imposto pela harness", "a plataforma agora faz Y". Foi exatamente esta a forma do achado do ciclo 7.
+**(b)** **O @scout ou o @curator registrou um achado de capacidade** em `ledger.md` / `log.md` — "campo X é imposto pela harness", "a plataforma agora faz Y". Foi exatamente esta a forma do achado do ciclo 7.
 
 Qualquer um dos dois ⇒ rodar o passo 4.6 do `curator.md`. Nenhum dos dois ⇒ **custo zero**, nada a fazer, nada a logar.
+
+> ⚠️ **(a) é o gatilho que sustenta; (b) é backstop — e essa assimetria é declarada de propósito.** (a) é mecânico: um comando roda e responde sim/não. (b) depende de alguém *registrar* o achado **e** de o registro ser lido — que é exatamente a forma que **falhou no ciclo 7**, onde um humano registrou a queda do bloqueio por escrito e nada disparou. Não trate os dois como equivalentes. O caso do PR #17 teria sido pego por (a) sozinho: o merge tocou `.claude/agents/`.
+
+## Primeiro alvo vivo do passo 4.6 (identificado, aguardando o dono)
+
+**`agent-frontmatter-fields`** (`deferred`, sem score, 2026-07-23 — título: *"maxTurns/**Memory**/**isolation** frontmatter"*). O ciclo 7 o nomeou **na mesma frase** que `least-privilege-tool-scopes`, com o mesmo bloqueio; o bloqueio caiu para **1 dos 3 campos** (P5): `maxTurns` é verificado, `Memory` e `isolation` **não** — e os 13 subagents usam só `name`/`description`/`tools`. É exatamente a linha que o 4.6 existe para varrer.
+
+**Não reaberto aqui.** Reabrir é decisão do dono, a mesma fronteira aplicada ao `least-privilege-tool-scopes`. Registrado para que a ausência de ação seja **escolha visível**, não esquecimento — que é o modo de falha inteiro que este registro combate.
 
 ## O que depende deste registro (manter em sincronia — os dois sentidos)
 
