@@ -54,7 +54,7 @@ Qualquer um dos dois ⇒ rodar o passo 4.6 do `curator.md`. Nenhum dos dois ⇒ 
 
 **`agent-frontmatter-fields`** (`deferred`, sem score, 2026-07-23 — título: *"maxTurns/**Memory**/**isolation** frontmatter"*). O ciclo 7 o nomeou **na mesma frase** que `least-privilege-tool-scopes`, com o mesmo bloqueio; o bloqueio caiu para **1 dos 3 campos** (P5): `maxTurns` é verificado, `Memory` e `isolation` **não** — e os 13 subagents usam só `name`/`description`/`tools`. É exatamente a linha que o 4.6 existe para varrer.
 
-**Não reaberto aqui.** Reabrir é decisão do dono, a mesma fronteira aplicada ao `least-privilege-tool-scopes`. Registrado para que a ausência de ação seja **escolha visível**, não esquecimento — que é o modo de falha inteiro que este registro combate.
+**REABERTO 2026-08-07 por direção do dono** — a **primeira execução real do passo 4.6**. Candidato em `research-vault/ideas/agent-frontmatter-fields-v2.md`, não pontuado, sem linha no ledger. Além de P5, a varredura achou que o bloqueio substantivo registrado era **P4** (*"applicability to slash-command agents needs care"* — eram campos de *subagent*, e a-owl só tinha slash-commands), falso desde o PR #17.
 
 ## O que depende deste registro (manter em sincronia — os dois sentidos)
 
