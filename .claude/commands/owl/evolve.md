@@ -42,9 +42,9 @@ Este comando roda como **UMA sessão** (`claude -p "/owl:evolve"`). Os agentes d
 **L3 — Integrate (por ideia aceita, até o cap).** Para cada aceita:
    - **Pré-checagem de carve-out (defesa em profundidade):** se o `proposed_change` toca qualquer caminho do carve-out → PULAR + alertar. (O curator já deveria ter rejeitado; confirme aqui.)
    - **@architect (inline `architect.md`)** → escreve `ADR-{NNN}` (próximo sequencial em `docs/decisions/`).
-   - **@builder (inline `builder.md`)** → aplica exatamente UMA edição no **`arquivo_alvo`** apontado pela auto-auditoria (o gap concreto), não num alvo genérico.
-   - Manter 1 ideia → 1 ADR → 1 edição (atômico).
-   - ✅ **Verificar:** o ADR existe e segue `000-template.md`; o diff toca exatamente o `arquivo_alvo`.
+   - **@builder (inline `builder.md`)** → aplica UMA edição **lógica** no **`arquivo_alvo`** apontado pela auto-auditoria (o gap concreto), não num alvo genérico. **Se o alvo é uma persona, `arquivo_alvo` é o PAR e a MESMA edição vai nas duas cópias (ADR-028):** `.claude/agents/<x>.md` + `.claude/commands/agents/<x>.md`. Duas cópias mudando em sincronia são **uma** edição expressa duas vezes — não duas mudanças.
+   - Manter 1 ideia → 1 ADR → 1 edição **lógica** (atômico).
+   - ✅ **Verificar:** o ADR existe e segue `000-template.md`; o diff toca **todos** os arquivos nomeados em `arquivo_alvo` — para uma persona, as **duas** cópias. Tocar só uma é **fase FALHOU**, não sucesso parcial (ADR-028).
 
 **L4 — Gate (BLOQUEANTE).** Sobre o diff proposto, executar as três revisões **inline** (`guardian.md`, `sentinel.md`, `challenger.md`) — independentes:
    - **@guardian** — fronteira de papel + regressão nos agentes editados (usar o knowledge-graph/Diff-Impact).
