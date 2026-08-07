@@ -1,0 +1,1 @@
+{"task": "01-architect-adr", "change_under_test": "adr029-uncertainty-row", "version": "with-row", "run": 3, "total": 94, "scores": {"decision": 25, "alternatives": 20, "handoff": 25, "lane": 16, "structure": 8}}
