@@ -101,7 +101,10 @@ Fresh-research sources from the scheduled `/owl:evolve` cycle: [[anthropic-trust
 - [[convention-staleness-review]] — **accepted (82)** → ADR-017 (curator re-examines old conventions as models improve; impact provisional). Same-day promotion from deferred.
 - [[externalized-checkpoint-memory]] — **accepted, provisional (75)** → ADR-016 (mid-cycle checkpoint for `/owl:evolve`; scored 83 raw, self-haircut per ADR-015).
 - [[handoff-contract-uncertainty-fields]] — **accepted, provisional (78)** → ADR-020 (adds assumptions / open-questions / evidence-confidence fields to the handoff contract; extends ADR-004, doesn't re-litigate it).
+- [[encode-the-repeated-correction]] — **accepted, provisional (75)** — ADR pending. Human-directed changes get a ledger row; a class recurring ≥2× becomes a normal candidate. Closes the *intake* hole (candidates could only come from external research). Sits exactly on the threshold ⇒ revert if two cycles produce no ≥2× signal.
 - [[isolated-workspaces-for-parallel-coding]] — **rejected (41)** — runtime-shaped, low fit.
+- [[evaluator-gated-termination]] — **rejected (45)** — **safety hard-veto** (Safety 6 < floor 7): `/goal` is a harness primitive whose only landing sites (`loop-config.yml` / schedule) are NFR-SEC-1 carve-out; function already covered by the fitness harness + L4 gate + circuit breaker.
+- [[chained-verification-skills]] — **rejected (50)** — duplication, not wrongness: `/owl:evolve` L4 is already this chain in a stronger blocking form; the net-new on-every-PR slice is gate governance (3rd appearance, cf. [[adversarial-review-gate]]).
 - [[trajectory-evals]] — **rejected (58)** — its own best-cited source, read in full, argues the opposite framing; the-owl's fitness harness already does the better-supported version.
 - Others deferred; see [[ledger]].
 

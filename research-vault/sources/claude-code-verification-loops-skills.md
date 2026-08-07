@@ -35,10 +35,14 @@ Argues that the agentic coding cycle (gather context → act → verify → loop
 - [[handoff-and-orchestration]] — the chained pattern is a fixed, deterministic sequence of skills, i.e. a pipeline expressed purely in markdown.
 
 ## Notable quotes
-_Omitted deliberately._ This page was materialized from a fetch-summarizer pass, not a full read of the rendered page, so the quoted fragments available to me are **summarizer-relayed and not verified verbatim**. Per SCHEMA.md, no quote is recorded until the source is read in full. See Gaps.
+_Scope: **only** the fragments retrieved on the targeted ADR-013 confirmation fetch of 2026-08-07 are recorded as verbatim. The rest of this page remains summarizer-derived paraphrase — do not promote any other sentence to a quote without its own re-fetch._
+
+> "Pick the manual follow-up you did most often this week."
+
+Retrieved verbatim (curator, 2026-08-07) as the opening item of the article's process list. The companion drafting rule — write the procedure in plain English, the way you would hand it to a new teammate on day one — was confirmed in the same fetch. Together these are the verified basis of [[encode-the-repeated-correction]] (accepted 75).
 
 ## Gaps / open questions
-- Full-read pending: the page needs a direct read before any quote from it is cited as verbatim evidence (required by ADR-013 claim verification if an idea derived from it is ever proposed for acceptance).
+- Full-read **still pending** for the rest of the page. The 2026-08-07 fetch was targeted at one claim (ADR-013), not a full read; every other sentence here remains paraphrase-grade.
 - The article asserts chains "can increase token spend" but gives no measured figure — unknown what a 4-skill chain costs versus the same checks run standalone.
 - `allowed-tools` is shown in a SKILL.md frontmatter; unclear whether it is *enforced* by the harness for skills the way `tools`/`disallowedTools` are for subagents (see [[claude-code-subagents]] — that distinction is exactly what pinned `least-privilege-tool-scopes` at 66 in the ledger). Not resolved by this source.
 - No guidance on what happens when two chained skills disagree (e.g. `/simplify` undoes what a verification skill required).

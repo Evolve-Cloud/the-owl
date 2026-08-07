@@ -87,7 +87,7 @@ Reference an immutable brief/clipping from a wiki page by name as a wikilink (`[
 | handoff-contract | Explicit handoff contract per agent | 91 | accepted | ADR-004 | 2026-07-23 | 2026-07-23 |
 ```
 
-`status`: `accepted` · `rejected` · `deferred` (revisit with more evidence) · `quarantined` (malformed brief entry; needs a human/next-cycle look).
+`status`: `accepted` · `rejected` · `deferred` (revisit with more evidence) · `quarantined` (malformed brief entry; needs a human/next-cycle look) · `human-directed` (**ADR-027** — a change the owner directed, recorded with score `—`; a **record, not a decision**. The same class appearing **≥2×** is raised as a normal candidate and scored like any other — repetition never promotes on its own).
 
 ---
 
