@@ -11,56 +11,58 @@ Before scoring any candidate, `curator` checks this table. A decided `id` is **s
 
 `status`: `accepted` · `rejected` · `deferred` · `quarantined` · `human-directed` (ADR-027 — owner-directed change, score `—`; record, not decision. ≥2× of the same class ⇒ raised as a normal candidate)
 
-| id | title | score | status | adr | first_seen | decided |
-|----|-------|-------|--------|-----|------------|---------|
-| handoff-contract | Explicit handoff contract per agent | 91 | accepted | ADR-004 | 2026-07-23 | 2026-07-23 |
-| handoff-contract-rollout | Roll the handoff contract into individual agents (architect/builder/chronicler) | 94 | accepted | ADR-006, ADR-007, ADR-008 | 2026-07-23 | 2026-07-23 |
-| role-ownership | Role ownership & non-ownership convention | 87 | accepted | ADR-009 | 2026-07-23 | 2026-07-24 |
-| explicit-role-boundaries | Standardized role/non-goals section | 84 | accepted | ADR-009 | 2026-07-23 | 2026-07-24 |
-| isolated-workspaces-for-parallel-coding | File ownership / worktree isolation | 41 | rejected | | 2026-07-24 | 2026-07-24 |
-| least-privilege-tool-scopes | Tight per-agent tool lists | 66 | deferred | | 2026-07-23 | 2026-07-26 |
-| evaluator-optimizer-loop | Grader/rubric return-gate | 68 | deferred | | 2026-07-23 | 2026-07-26 |
-| provenance-first-evaluation | Cite a real source per claim | — | deferred | | 2026-07-23 | 2026-07-23 |
-| artifact-oriented-context | Durable artifacts over chat history | — | deferred | | 2026-07-23 | 2026-07-23 |
-| markdown-source-of-truth | Single markdown source of truth | — | deferred | | 2026-07-23 | 2026-07-23 |
-| workflow-first-orchestration | Deterministic workflow + agent at decision points | — | deferred | | 2026-07-23 | 2026-07-23 |
-| centralized-governance-hub | Central governance/hub doc | — | deferred | | 2026-07-23 | 2026-07-23 |
-| agent-frontmatter-fields | maxTurns/Memory/isolation frontmatter | — | deferred | | 2026-07-23 | 2026-07-23 |
-| manager-retains-control | Central manager, bounded specialists | — | deferred | | 2026-07-24 | 2026-07-24 |
-| sop-as-executable-contract | SOP as staged workflow contract | — | deferred | | 2026-07-24 | 2026-07-24 |
-| scope-based-agent-library | Scope-aware folder organization | — | deferred | | 2026-07-24 | 2026-07-24 |
-| context-isolation-and-summary | Fresh context + summary per specialist | — | deferred | | 2026-07-24 | 2026-07-24 |
-| durable-state-separated-from-transcript | Durable artifact classes vs transcript | — | deferred | | 2026-07-24 | 2026-07-24 |
-| evidence-action-observation-loop | Evidence log / ReAct-style grounding | — | deferred | | 2026-07-24 | 2026-07-24 |
-| human-approval-at-side-effect-boundaries | Approval gate at side-effects | — | deferred | | 2026-07-24 | 2026-07-24 |
-| directed-handoff-graph | Directed edges, no free mesh | — | deferred | | 2026-07-24 | 2026-07-24 |
-| adr-backed-prompt-evolution | Extend ADR template for prompt changes | — | deferred | | 2026-07-24 | 2026-07-24 |
-| handoff-role-rollout-completion | Finish handoff-contract + role-ownership across all pipeline agents | — | accepted | ADR-011 | 2026-07-24 | 2026-07-24 |
-| efficiency-scorecard | Rollout-coverage scorecard + weekly cadence | — | accepted | ADR-012 | 2026-07-24 | 2026-07-24 |
-| just-in-time-context-loading | Load context/tools on demand via lightweight pointers; progressive disclosure (metadata→body→files) | — | deferred | | 2026-07-26 | 2026-07-26 |
-| convention-staleness-review | Curator re-examines old conventions; flags stale ones for owner-reviewed re-fitness | 82 | accepted | ADR-017 | 2026-07-26 | 2026-07-26 |
-| eval-saturation-graduation | Graduate saturated capability evals into the regression suite; keep regression ~100% | — | deferred | | 2026-07-26 | 2026-07-26 |
-| externalized-checkpoint-memory | Explicit state and resumable checkpoints (mid-cycle) | 75 | accepted | ADR-016 | 2026-07-26 | 2026-07-26 |
-| context-budgeting | Structured Context Budget section per agent | 74 | deferred | | 2026-07-26 | 2026-07-26 |
-| single-agent-first | "Why multiple agents?" field on team-design ADRs | 69 | deferred | | 2026-07-26 | 2026-07-26 |
-| supervisor-specialists | Formalize orchestrator-as-sole-delegator in every agent | 67 | deferred | | 2026-07-26 | 2026-07-26 |
-| sequential-artifact-pipeline | Canonical enumerated stage-artifact list | 68 | deferred | | 2026-07-26 | 2026-07-26 |
-| human-approval-gates | Per-agent Approval Gate block | 67 | deferred | | 2026-07-26 | 2026-07-26 |
-| trajectory-evals | Mandatory per-agent trajectory-check eval contract | 58 | rejected | | 2026-07-26 | 2026-07-26 |
-| parallel-independent-work | Parallelization-eligibility field on ADRs | 52 | rejected | | 2026-07-26 | 2026-07-26 |
-| handoff-contract-uncertainty-fields | Add assumptions / open-questions / evidence-confidence fields to the handoff contract | 78 | accepted | ADR-020 | 2026-07-29 | 2026-07-29 |
-| explicit-termination-and-escalation | Per-agent Stop/Escalate/Approval contract | 68 | deferred | | 2026-07-29 | 2026-07-29 |
-| untrusted-content-boundary | Evidence Trust section; handoffs carry no new authority | 65 | deferred | | 2026-07-29 | 2026-07-29 |
-| durable-decisions-separate-from-working-memory | Memory Promotion section (durable vs working memory) | 64 | deferred | | 2026-07-29 | 2026-07-29 |
-| adversarial-review-gate | Closure gate with materiality thresholds | — | rejected | | 2026-07-29 | 2026-07-29 |
-| encode-the-repeated-correction | Human-directed corrections get a ledger row; ≥2× recurrence raises a candidate | 75 | accepted | ADR-027 | 2026-08-07 | 2026-08-07 |
-| evaluator-gated-termination | Evaluator re-checks the stop condition (/goal) | 45 | rejected | | 2026-08-07 | 2026-08-07 |
-| chained-verification-skills | Skill chain as a fixed verification pipeline | 50 | rejected | | 2026-08-07 | 2026-08-07 |
-| contract-amendment-before-downstream-handoff | Contract Amendments list on the handoff contract | 58 | rejected | | 2026-08-07 | 2026-08-07 |
-| hd-scout-source-surface-first-party | Owner: research lane must cover ALL first-party surfaces, not just anthropic.com/engineering | — | human-directed | | 2026-08-07 | 2026-08-07 |
-| hd-ingest-claude-blog-loops | Owner: ingest the claude.com/blog loops & verification posts into the vault | — | human-directed | | 2026-08-07 | 2026-08-07 |
-| hd-arquivo-alvo-persona-pair | Owner-directed: arquivo_alvo must name the persona pair (landed as ADR-028) | — | human-directed | ADR-028 | 2026-08-07 | 2026-08-07 |
-| hd-complete-adr020-rollout | Owner-directed: complete the ADR-020 rollout (answers the cycle-8 staleness flag) — 9/9 agents | — | human-directed | ADR-029 | 2026-08-07 | 2026-08-07 |
+| id | title | score | status | adr | first_seen | decided | origin |
+|----|-------|-------|--------|-----|------------|---------|--------|
+| handoff-contract | Explicit handoff contract per agent | 91 | accepted | ADR-004 | 2026-07-23 | 2026-07-23 | research |
+| handoff-contract-rollout | Roll the handoff contract into individual agents (architect/builder/chronicler) | 94 | accepted | ADR-006, ADR-007, ADR-008 | 2026-07-23 | 2026-07-23 | backlog |
+| role-ownership | Role ownership & non-ownership convention | 87 | accepted | ADR-009 | 2026-07-23 | 2026-07-24 | research |
+| explicit-role-boundaries | Standardized role/non-goals section | 84 | accepted | ADR-009 | 2026-07-23 | 2026-07-24 | backlog |
+| isolated-workspaces-for-parallel-coding | File ownership / worktree isolation | 41 | rejected | | 2026-07-24 | 2026-07-24 | — |
+| least-privilege-tool-scopes | Tight per-agent tool lists | 66 | deferred | | 2026-07-23 | 2026-07-26 | — |
+| evaluator-optimizer-loop | Grader/rubric return-gate | 68 | deferred | | 2026-07-23 | 2026-07-26 | — |
+| provenance-first-evaluation | Cite a real source per claim | — | deferred | | 2026-07-23 | 2026-07-23 | — |
+| artifact-oriented-context | Durable artifacts over chat history | — | deferred | | 2026-07-23 | 2026-07-23 | — |
+| markdown-source-of-truth | Single markdown source of truth | — | deferred | | 2026-07-23 | 2026-07-23 | — |
+| workflow-first-orchestration | Deterministic workflow + agent at decision points | — | deferred | | 2026-07-23 | 2026-07-23 | — |
+| centralized-governance-hub | Central governance/hub doc | — | deferred | | 2026-07-23 | 2026-07-23 | — |
+| agent-frontmatter-fields | maxTurns/Memory/isolation frontmatter | — | deferred | | 2026-07-23 | 2026-07-23 | — |
+| manager-retains-control | Central manager, bounded specialists | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| sop-as-executable-contract | SOP as staged workflow contract | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| scope-based-agent-library | Scope-aware folder organization | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| context-isolation-and-summary | Fresh context + summary per specialist | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| durable-state-separated-from-transcript | Durable artifact classes vs transcript | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| evidence-action-observation-loop | Evidence log / ReAct-style grounding | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| human-approval-at-side-effect-boundaries | Approval gate at side-effects | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| directed-handoff-graph | Directed edges, no free mesh | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| adr-backed-prompt-evolution | Extend ADR template for prompt changes | — | deferred | | 2026-07-24 | 2026-07-24 | — |
+| handoff-role-rollout-completion | Finish handoff-contract + role-ownership across all pipeline agents | — | accepted | ADR-011 | 2026-07-24 | 2026-07-24 | owner |
+| efficiency-scorecard | Rollout-coverage scorecard + weekly cadence | — | accepted | ADR-012 | 2026-07-24 | 2026-07-24 | owner |
+| just-in-time-context-loading | Load context/tools on demand via lightweight pointers; progressive disclosure (metadata→body→files) | — | deferred | | 2026-07-26 | 2026-07-26 | — |
+| convention-staleness-review | Curator re-examines old conventions; flags stale ones for owner-reviewed re-fitness | 82 | accepted | ADR-017 | 2026-07-26 | 2026-07-26 | backlog |
+| eval-saturation-graduation | Graduate saturated capability evals into the regression suite; keep regression ~100% | — | deferred | | 2026-07-26 | 2026-07-26 | — |
+| externalized-checkpoint-memory | Explicit state and resumable checkpoints (mid-cycle) | 75 | accepted | ADR-016 | 2026-07-26 | 2026-07-26 | research |
+| context-budgeting | Structured Context Budget section per agent | 74 | deferred | | 2026-07-26 | 2026-07-26 | — |
+| single-agent-first | "Why multiple agents?" field on team-design ADRs | 69 | deferred | | 2026-07-26 | 2026-07-26 | — |
+| supervisor-specialists | Formalize orchestrator-as-sole-delegator in every agent | 67 | deferred | | 2026-07-26 | 2026-07-26 | — |
+| sequential-artifact-pipeline | Canonical enumerated stage-artifact list | 68 | deferred | | 2026-07-26 | 2026-07-26 | — |
+| human-approval-gates | Per-agent Approval Gate block | 67 | deferred | | 2026-07-26 | 2026-07-26 | — |
+| trajectory-evals | Mandatory per-agent trajectory-check eval contract | 58 | rejected | | 2026-07-26 | 2026-07-26 | — |
+| parallel-independent-work | Parallelization-eligibility field on ADRs | 52 | rejected | | 2026-07-26 | 2026-07-26 | — |
+| handoff-contract-uncertainty-fields | Add assumptions / open-questions / evidence-confidence fields to the handoff contract | 78 | accepted | ADR-020 | 2026-07-29 | 2026-07-29 | research |
+| explicit-termination-and-escalation | Per-agent Stop/Escalate/Approval contract | 68 | deferred | | 2026-07-29 | 2026-07-29 | — |
+| untrusted-content-boundary | Evidence Trust section; handoffs carry no new authority | 65 | deferred | | 2026-07-29 | 2026-07-29 | — |
+| durable-decisions-separate-from-working-memory | Memory Promotion section (durable vs working memory) | 64 | deferred | | 2026-07-29 | 2026-07-29 | — |
+| adversarial-review-gate | Closure gate with materiality thresholds | — | rejected | | 2026-07-29 | 2026-07-29 | — |
+| encode-the-repeated-correction | Human-directed corrections get a ledger row; ≥2× recurrence raises a candidate | 75 | accepted | ADR-027 | 2026-08-07 | 2026-08-07 | owner |
+| evaluator-gated-termination | Evaluator re-checks the stop condition (/goal) | 45 | rejected | | 2026-08-07 | 2026-08-07 | — |
+| chained-verification-skills | Skill chain as a fixed verification pipeline | 50 | rejected | | 2026-08-07 | 2026-08-07 | — |
+| contract-amendment-before-downstream-handoff | Contract Amendments list on the handoff contract | 58 | rejected | | 2026-08-07 | 2026-08-07 | — |
+| hd-scout-source-surface-first-party | Owner: research lane must cover ALL first-party surfaces, not just anthropic.com/engineering | — | human-directed | | 2026-08-07 | 2026-08-07 | owner |
+| hd-ingest-claude-blog-loops | Owner: ingest the claude.com/blog loops & verification posts into the vault | — | human-directed | | 2026-08-07 | 2026-08-07 | owner |
+| hd-arquivo-alvo-persona-pair | Owner-directed: arquivo_alvo must name the persona pair (landed as ADR-028) | — | human-directed | ADR-028 | 2026-08-07 | 2026-08-07 | owner |
+| hd-complete-adr020-rollout | Owner-directed: complete the ADR-020 rollout (answers the cycle-8 staleness flag) — 9/9 agents | — | human-directed | ADR-029 | 2026-08-07 | 2026-08-07 | reflection |
+| hd-reject-classes-in-research-prompt | Owner-directed: inject rejected CLASSES (not just ids) into the codex prompt | — | human-directed | ADR-030 | 2026-08-07 | 2026-08-07 | reflection |
+| hd-ledger-origin-column | Owner-directed: ledger records where each decision came from | — | human-directed | ADR-031 | 2026-08-07 | 2026-08-07 | reflection |
 
 > Cycle 2026-07-23: circuit breaker cap = 3 accepted/cycle; cycle 1 kept conservative → **1 accepted**, rest **deferred** (revisit next cycles, evidence already captured; not re-litigated).
 >
@@ -106,3 +108,9 @@ Before scoring any candidate, `curator` checks this table. A decided `id` is **s
 > - **Circuit breaker:** 0 accepted ≤ cap 3; 0 gate failures; **0 carve-out contacts**. L2.5/L3/L4/L5-integrate not reached (nothing accepted). Vault memory persisted.
 
 > **Staleness flag RESOLVED — ADR-020 (2026-08-07, same day it was raised).** The cycle-8 review flagged the uncertainty field at **0/13 after 3 cycles**, on the convention's own reconsider clause. The owner chose **completion over removal**: [[ADR-029]] landed the field in **9/9** handoff-carrying agents (**18 files** — 9 personas × 2 copies, the first rollout to run under the ADR-028 pair rule; before it, this change would have hit 9 files and silently drifted in the other 9). Excluded by design and verified untouched: challenger/guardian/sentinel (carve-out, carry no handoff section) and `team` (N/A, ADR-011). Content is **per-agent, not boilerplate** — pasting one sentence nine times is the ceremony the clause existed to catch. The convention's self-destruct clause was **replaced with the completion record**, so the next ADR-017 pass reads the true state. **Impact stays provisional-pending-fitness (ADR-015): if three cycles pass with every agent writing an empty uncertainty row, the field IS ceremony and the clause's other branch becomes correct.** The clause fired once, was honoured, and is now retired — that is the staleness mechanism working end to end.
+
+> **CORREÇÃO DE REGISTRO (2026-08-07) — a contagem de "0-accept consecutivos" estava errada e eu propaguei.**
+> Sequência real, reconstruída linha a linha deste ledger: ciclo 1 (1) · 2 (1) · 3 (1) · 4 (1) · **passagem de backlog 07-26 (0)** · **ciclo 5, 07-29 (1 — ADR-020)** · ciclo 6 (0) · ciclo 7 (0) · ciclo 8 (0).
+> **A corrida consecutiva é de 3 (ciclos 6, 7, 8), não 4 nem 5.** A passagem de backlog de 07-26 teve 0 aceites, mas o ciclo 5 aceitou depois dela — a série quebrou ali. Total histórico de passagens com 0 aceites: **4**.
+> **Proveniência do erro:** o bloco do ciclo 7 escreveu "4th consecutive 0-accept" (já incorreto — na data eram 2) e a passagem do ciclo 8 leu esse número, incrementou para "5th" e o repetiu em mensagens de commit. **Ninguém verificou contra a tabela.** É exatamente o modo de falha que o @scout registrou hoje sobre metadado de brief ("claim a verificar, nunca fato a copiar") — só que desta vez a fonte não-verificada foi **o próprio ledger**, e o gate não pegou porque nenhum gate lê contagens narrativas em prosa.
+> **Regra que fica:** número citado em bloco de ciclo é derivado da tabela, não do bloco anterior. Se um número aparece em prosa e não é recomputável da tabela, ele é claim, não fato.

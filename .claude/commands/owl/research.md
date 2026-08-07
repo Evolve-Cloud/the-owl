@@ -32,6 +32,18 @@ Gera o brief diário de pesquisa externa que alimenta o loop de auto-melhoria. �
      done
      ```
 
+   - **REJECTED CLASSES** (marcador `<<INJECT REJECTED CLASSES ...>>`, **ADR-030**): bloco **estático** — sem grep, sem varredura do ledger. A lista de ids decididos ensina o que já **decidimos**; ela não ensina o que nós **somos**, e o padrão dominante de rejeição é por *classe*, não por id (8 menções de "runtime-shaped" no ledger, em 5 ids distintos). Injetar verbatim, sob o título `## REJECTED CLASSES (do NOT propose)`:
+
+     ```markdown
+     ## REJECTED CLASSES (do NOT propose)
+     - **Runtime-shaped.** the-owl é markdown + YAML, com ZERO engine de orquestração: sem spawner, daemon, scheduler ou verificador vivo. Ideia que exige um está fora por construção, por melhor que seja. (rejeitados: `isolated-workspaces` 41, `parallel-independent-work` 52, `evaluator-gated-termination` 45.)
+     - **Governance-of-the-gate.** Qualquer coisa que altere quando/como guardian, sentinel ou challenger disparam — ou o `safety_floor` da rubrica — é carve-out NFR-SEC-1: auto-rejeitada, nunca pontuada. (`adversarial-review-gate`, rejeitado 3×.)
+     - **Free mesh / peer-to-peer.** A topologia é hub-and-spoke: especialistas devolvem o controle e nunca chamam uns aos outros.
+     - **Unenforceable prose.** Convenção que a harness não consegue impor, apresentada como se impusesse, carrega risco de falsa confiança. (`least-privilege-tool-scopes` 66.)
+     ```
+
+     > ⚖️ É **mira, não gate** — move para o L0 (barato) uma rejeição que o @curator já faz no L2 (caro). Passar pelo filtro de classe **não** é pré-aprovação: a rubrica, o veto e o check de carve-out seguem inteiros. Manter o bloco **curto e estático**; deixá-lo crescer a cada ciclo recria o inchaço de contexto que o ADR-022 removeu. Quando uma propriedade estrutural da-owl mudar (ex.: subagents nativos mudaram o que é "enforceable"), a classe **tem que ser relida** — é alvo de staleness do ADR-017, não verdade permanente.
+
    - **RECENCY + AXIS SCOPE** (duas variáveis do lado da skill, substituídas no prompt):
      - `{{RECENCY_CUTOFF}}` = hoje menos `delta.recency_days` (default **30**): `date -v-30d +%F` (macOS) / `date -d '30 days ago' +%F` (Linux).
      - `{{QUERY_AXIS}}` = o eixo que a fase de reflexão recomendou este ciclo (ADR-024); **default = round-robin** pelos 8 eixos (escolha por `dia-do-ano mod 8`, ou o próximo eixo após o último registrado em `.owl/state/last-run.json` se existir).

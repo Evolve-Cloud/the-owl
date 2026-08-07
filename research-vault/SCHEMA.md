@@ -82,10 +82,14 @@ Reference an immutable brief/clipping from a wiki page by name as a wikilink (`[
 `ledger.md` is a single append-mostly table. **Before scoring any candidate, `curator` checks it — a decided `id` is skipped.** Knowledge compounds; we never re-argue a settled decision unless materially new evidence arrives, which is a **new row with a suffix** (e.g. `handoff-contract-v2`), never a silent overwrite.
 
 ```
-| id | title | score | status | adr | first_seen | decided |
+| id | title | score | status | adr | first_seen | decided | origin |
 |----|-------|-------|--------|-----|------------|---------|
 | handoff-contract | Explicit handoff contract per agent | 91 | accepted | ADR-004 | 2026-07-23 | 2026-07-23 |
 ```
+
+`origin` (**ADR-031**) — **onde o candidato nasceu**, preenchido no momento em que a linha é escrita:
+`research` (braço de pesquisa: brief L0 do codex ou passagem web L1 do @scout) · `backlog` (re-pontuação de material já no vault, sem gasto novo de pesquisa) · `owner` (instrução/correção human-directed) · `reflection` (o loop se examinando: staleness ADR-017, grounding L1.5, defeito achado operando) · `—` (não afirmado por nenhum bloco de ciclo — **deixar assim; nunca adivinhar**).
+Existe para responder **uma** pergunta que a memória não conseguia: *o braço de pesquisa se paga?* É descritiva — nenhuma lógica ramifica nela.
 
 `status`: `accepted` · `rejected` · `deferred` (revisit with more evidence) · `quarantined` (malformed brief entry; needs a human/next-cycle look) · `human-directed` (**ADR-027** — a change the owner directed, recorded with score `—`; a **record, not a decision**. The same class appearing **≥2×** is raised as a normal candidate and scored like any other — repetition never promotes on its own).
 
