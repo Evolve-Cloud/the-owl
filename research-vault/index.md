@@ -12,7 +12,9 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 ## Status
 - **Cycles run:** 6 (2026-07-23 cycle 1; 2026-07-23b continuation → PR #2; 2026-07-24 cycle 3 → PR #3; 2026-07-24b human-directed rollout completion; 2026-07-26 cycle 4 scheduled → mid-cycle checkpoint / ADR-016 via PR #4; 2026-07-26 human-directed backlog score pass → ADR-017)
 - **Decided:** 35 (8 accepted, 3 rejected, 24 deferred) — see [[ledger]]
-- **Sources:** 105 pages (see below). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28). **+54 human-directed 2026-07-30: full ingest of the MCP spec site v2026-07-28** (docs + specification + extensions — 55 `mcp-*` notes incl. the pre-existing architecture note) into `sources/`.
+- **Sources:** **108 pages** (real count via `ls sources/*.md`, 2026-08-07). Two 2026-07-26 tracks — the scheduled cycle 4 (fresh brief; +2 source notes) and the human-directed read-in-full backlog score pass. +1 human-directed 2026-07-29 (spec MCP v2026-07-28). **+54 human-directed 2026-07-30: full ingest of the MCP spec site v2026-07-28** (docs + specification + extensions — 55 `mcp-*` notes incl. the pre-existing architecture note) into `sources/`. **+2 human-directed 2026-08-07: `claude.com/blog` loops & verification** (see below).
+  > [!todo]
+  > **Count drift predating 2026-08-07 — flagged, not silently rewritten.** This line read `105` while `sources/` held **106** before today's ingest, and the `## Sources` heading below still says "51 source notes" from an even older revision. Both are @curator's to reconcile in a LINT pass; the 2026-08-07 ingest only corrected the top-line count to the verified number.
 - **Synthesis:** see [[overview]]
 
 > [!note]
@@ -21,6 +23,11 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 ## Sources
 
 **51 source notes in `sources/`.** Tiers: **25 read-in-full** pages (full summary, key points, quotes, gaps), **24 brief-materialized** stubs (one line per codex-brief source, awaiting a full read), and **2 from the scheduled cycle 4** (2026-07-26).
+
+### Human-directed 2026-08-07 — `claude.com/blog` (loops & verification)
+Two first-party Claude Code team posts from a domain the research lane was **not** searching (it drew first-party material almost only from `anthropic.com/engineering`). Materialized from a fetch-summarizer pass, **not read in full** → no `## Notable quotes` on either page; a direct read is required before any quote is cited as verbatim (ADR-013).
+- [[claude-code-verification-loops-skills]] — the four escalating ways to invoke a verification skill (standalone → embedded → chained → on-every-PR); the authoring trigger is "the correction you repeat after every feature IS the check". Chaining = a fixed markdown-expressible pipeline; stated trade-off: flexibility for automation, and higher token spend.
+- [[claude-code-loops-getting-started]] — taxonomy of loops (turn-based / goal-based `/goal` / time-based `/loop`+`/schedule` / proactive) organized by *what you hand off*: the check → the stop condition → the trigger → the prompt. `/goal` = an evaluator model re-checks the stop condition on every attempt to stop. ⚑ bears on `evaluator-optimizer-loop` (68, deferred) — flagged for @curator, **not** re-scored.
 
 ### Read-in-full — human-directed 2026-07-29
 
@@ -78,6 +85,9 @@ Fresh-research sources from the scheduled `/owl:evolve` cycle: [[anthropic-trust
 - [[scout-notes-2026-07-24]] — scout live research (cycle 2): x1–x5.
 - [[research-brief-2026-07-26]] — codex brief (cycle 4): 15 sources, 12 ideas.
 - [[scout-notes-2026-07-26]] — scout live research (cycle 4): x1–x3, all independently verified real.
+- [[scout-notes-2026-08-07]] — human-directed ingest (no codex brief): 2 `claude.com/blog` sources + 4 candidates `(pending)`.
+> [!todo]
+> This list stops at 2026-07-26 but `inbox/` also holds the 07-29, 07-30, 08-03 briefs/notes and `hermes-agent-reference`. Backfill is @curator's LINT job; the 2026-08-07 entry above was added by its own ingest, not a backfill.
 
 ## Patterns
 - [[role-decomposition]] — roles / ownership boundaries (cycle 2).

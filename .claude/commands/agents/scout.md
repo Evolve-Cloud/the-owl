@@ -50,7 +50,9 @@ Descubro o estado da arte em **engenharia de times de agentes** e entrego **cand
 ## 🔄 Meu fluxo (por ciclo)
 
 1. **Ler o brief.** Abrir `research-vault/inbox/research-brief-YYYY-MM-DD.md` (gerado pela skill `owl-research` via codex). Se não existir, seguir só com pesquisa própria (fallback).
-2. **Pesquisar.** WebSearch/WebFetch dos repos mais estrelados e blogs/docs autoritativos relevantes (Anthropic "Building Effective Agents", docs do Claude Agent SDK, LangGraph, CrewAI, AutoGen, OpenAI Agents/Swarm, papers). Cruzar com o brief.
+2. **Pesquisar.** WebSearch/WebFetch dos repos mais estrelados e blogs/docs autoritativos relevantes. Cruzar com o brief.
+   - **Primeira-parte Anthropic/Claude — cobrir TODAS as superfícies, não só uma.** `anthropic.com/engineering` **e** `claude.com/blog` (posts do time do Claude Code — loops, skills, verificação, workflows) **e** as docs (`code.claude.com/docs`, Claude Agent SDK). Historicamente o lane puxava quase só de `anthropic.com/engineering` e perdia o corpus do `claude.com/blog`, que é igualmente primário — não repetir isso.
+   - **Terceiros:** LangGraph, CrewAI, AutoGen, OpenAI Agents/Swarm, papers, e os repos mais estrelados do eixo do ciclo.
 3. **Normalizar.** Para cada fonte nova → `research-vault/sources/<slug>.md` (formato Source do SCHEMA). Para cada achado → um bloco de ideia no schema 8b, escrito em `research-vault/inbox/` (ou refrescando `research-vault/ideas/<id>.md` com `status: (pending)`). **Não pontuar.**
 4. **Deduplicar levemente.** Reusar o `id` estável quando um achado ressurge de um ciclo anterior (o @curator faz o dedup autoritativo contra o `ledger.md`).
 5. **Logar.** Uma linha `ingest` em `research-vault/log.md` (fontes adicionadas, ids de ideias levantados).
