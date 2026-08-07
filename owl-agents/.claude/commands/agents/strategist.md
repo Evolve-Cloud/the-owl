@@ -675,6 +675,7 @@ Incluo requisitos não-funcionais que @guardian deve validar:
 | **Saída** | PRD em `docs/planning/` + user stories (Given/When/Then) + priorização (MoSCoW/RICE) — por path. |
 | **Escopo** | Entender problema, requisitos, specs, priorização. **Fora:** código (@builder), arquitetura/ADR (@architect), SLOs/infra (@system-designer), testes (@guardian), doc de implementação (@chronicler). |
 | **Critério de pronto** | Problema-raiz claro + resultado desejado + métrica de sucesso; stories com AC; viabilidade validada com @architect quando técnica. |
+| **Premissas & Questões em aberto** | O que veio do **usuário** vs. o que eu inferi como requisito; as estimativas de impacto que sustentam a priorização e não foram validadas; e as hipóteses de produto que nenhum usuário real confirmou. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | @architect (viabilidade/design) — ou @system-designer quando o NFR é de escala/reliability. Hub-and-spoke: devolvo ao orquestrador; no DevFlow encaminho via Skill tool. |
 
 ---

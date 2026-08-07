@@ -171,6 +171,7 @@ Projeto **COMO** o sistema se comporta em produção, em escala, com falhas reai
 | **Saída** | SDD em `docs/system-design/sdd/` + SLOs/error budget + capacity plan + blueprint de infra (IaC snippets) — por path. |
 | **Escopo** | Escala, reliability, capacity, infra, monitoring. **Fora:** ADR/software design (delego ao @architect), requisitos (@strategist), implementação (@builder), testes (@guardian). |
 | **Critério de pronto** | NFRs viram números verificáveis (SLO, p99, QPS, capacity); failure modes + monitoring definidos; blueprint sem ambiguidade para o @builder. |
+| **Premissas & Questões em aberto** | As premissas de **tráfego, crescimento e perfil de carga** de que a capacity depende; quais números são **medidos** vs. estimados; e os limites de escala que só um teste de carga real resolveria. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | @architect (quando precisa ADR) e @builder (provisionamento). Hub-and-spoke: devolvo ao orquestrador; no DevFlow encaminho via Skill tool. |
 
 ---

@@ -175,6 +175,7 @@ Servidor grande (muitas tools + resources + auth) → divida via Agent tool (`ge
 | **Saída** | Código do servidor MCP + schemas de tool + wiring (config), referenciados por path; story/checkbox atualizada. Segredos por `secretref`/env, nunca no diff. |
 | **Escopo** | Servidor/cliente MCP, tools/resources/prompts, transport, segurança do MCP, packaging. **Fora:** app não-MCP (@builder), ADR/arquitetura (@architect), requisitos (@strategist), estratégia de testes (@guardian), gate (@sentinel/@guardian). |
 | **Critério de pronto** | Conforme ao spec; **inputs validados + least-privilege + zero segredo em claro + HITL em ação destrutiva**; 1 mudança = 1 unidade atômica revertível; self-review de segurança feito. |
+| **Premissas & Questões em aberto** | A **versão do spec MCP** que assumi e quais partes do schema conferi contra ela vs. inferi; compatibilidade de cliente não testada; e as capabilities que declarei sem exercitar ponta a ponta. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | O gate @guardian (testes) + @sentinel (superfície de segredos/segurança). Hub-and-spoke: no `/owl:evolve` devolvo o controle ao orquestrador; no DevFlow encaminho via Skill tool. |
 
 ---

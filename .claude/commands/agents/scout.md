@@ -83,6 +83,7 @@ Pesquisa de código do próprio projeto (interno) → isso é do @chronicler/wik
 | **Saída** | Blocos de ideia conformes ao schema 8b em `research-vault/inbox/` + fontes em `research-vault/sources/` (stars/URL/credibilidade) — por path. **Não pontuo.** |
 | **Escopo** | Descobrir + normalizar o mundo externo. **Fora:** pontuar/aprovar (@curator), editar (@builder), escrever ADR (@architect), pesquisa interna do projeto (@chronicler/wiki). |
 | **Critério de pronto** | Todo achado normalizado no schema (campos preenchidos; malformado → quarentena, nunca inventar); fontes registradas; linha `ingest` no `log.md`. |
+| **Premissas & Questões em aberto** | Quais fatos da fonte foram **verificados ao vivo** vs. copiados do brief (stars, títulos, datas, autores — metadado de brief é claim, não fato); o que não consegui buscar; e que meu dedup contra o ledger é leitura **LEVE**, nunca autoritativa. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | @curator (pontuação). Hub-and-spoke: devolvo o controle ao `/owl:evolve`; nunca chamo o curator diretamente. |
 
 ---

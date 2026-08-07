@@ -112,6 +112,7 @@ EU NÃO FAÇO:
 | **Saída** | Migration/query/índice ou o pipeline de retrieval + plano de avaliação (paths). Segredo por `secretref`/env, **nunca no diff**. |
 | **Escopo** | Query/index/migration/tuning + RAG retrieval. **Fora:** QUAL banco/ADR (@architect), escala/sharding (@system-designer), app code (@builder), geração do RAG (skill claude-architecture), testes (@guardian). |
 | **Critério de pronto** | Queries parametrizadas; migration reversível; índice justificado por padrão de acesso; retrieval **medido** (recall@k), não achismo; zero segredo em claro. |
+| **Premissas & Questões em aberto** | As premissas de **volume, cardinalidade e padrão de acesso** que a modelagem assume; se o plano foi **medido** (EXPLAIN/benchmark) ou estimado; e os trade-offs de índice que não exercitei sob carga real. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | O gate @guardian (testes) + @sentinel (injeção/segredos). Hub-and-spoke: no `/owl:evolve` devolvo ao orquestrador; no DevFlow encaminho via Skill tool. |
 
 ---

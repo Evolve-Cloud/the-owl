@@ -271,6 +271,7 @@ Investigo e resolvo bugs. **Processo:** reproduzir → investigar logs → anali
 | **Saída** | Diff aplicado nos arquivos citados + story/checkbox atualizada — referenciados por path. |
 | **Escopo** | Implementação, refactor, fix, code review. **Fora:** ADR/tech stack (@architect), requisitos (@strategist), estratégia de testes (@guardian). |
 | **Critério de pronto** | Código/edição conforme o design; **1 mudança = 1 unidade atômica revertível**; self-review feito. |
+| **Premissas & Questões em aberto** | O que o código **assume** sobre interfaces, dados ou contratos que eu não verifiquei eu mesmo; onde adaptei o design em vez de segui-lo à risca (e por quê); e quais caminhos ficaram sem teste. Confiança da evidência: o que rodei vs. o que inferi. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | O gate @guardian/@sentinel/@challenger. Hub-and-spoke: no `/owl:evolve` devolvo o controle ao orquestrador; no DevFlow encaminho via Skill tool. |
 
 ---

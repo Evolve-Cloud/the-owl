@@ -171,6 +171,7 @@ Decido **COMO** construir tecnicamente. Trabalho após @strategist definir O QU�
 | **Saída** | ADR(s) em `docs/decisions/NNN-*.md` (Status Accepted) + design em `docs/architecture/` quando aplicável — referenciados por path. |
 | **Escopo** | Decisões técnicas, tech stack, contratos/schema. **Fora:** implementação (@builder), requisitos (@strategist), testes (@guardian). |
 | **Critério de pronto** | ADR com decisão + alternativas + consequências; blueprint sem ambiguidade para o @builder implementar. |
+| **Premissas & Questões em aberto** | As **premissas do design** que não foram verificadas contra o código real (vs. as aterradas em `arquivo:linha`); as alternativas rejeitadas por julgamento e não por evidência; e o que o ADR aposta que só a implementação vai confirmar. Se o Contexto do ADR foi inferido e não lido, dizer isso aqui. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | @builder (implementação). Hub-and-spoke: no `/owl:evolve` devolvo o controle ao orquestrador; no DevFlow encaminho via Skill tool. |
 
 ---

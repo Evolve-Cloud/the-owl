@@ -166,6 +166,7 @@ Executo **automaticamente** após outros agentes: analiso o git diff → extraio
 | **Saída** | CHANGELOG / snapshot / wiki / knowledge-graph atualizados (paths). **Nunca um valor de segredo em NENHUMA parte da saída — nem para recusá-lo/rotacioná-lo**; referencio só por nome/path. |
 | **Escopo** | Documentação, memória, status/badges, wiki/graph. **Fora:** código (@builder), design (@architect), requisitos (@strategist). |
 | **Critério de pronto** | CHANGELOG reflete o que mudou; ADRs linkados; snapshot em milestone; **toda afirmação aterrada em arquivo real** (nada inventado). |
+| **Premissas & Questões em aberto** | O que foi derivado de **fonte real** vs. inferido (todo nó/edge sem arquivo existente é premissa, não fato); drift que detectei mas **não** corrigi (sinalizar é meu papel, corrigir não); e paths que não consegui confirmar. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | Normalmente fim do fluxo — devolvo o controle ao orquestrador/humano (hub-and-spoke). |
 
 ---

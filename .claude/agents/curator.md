@@ -116,6 +116,7 @@ Pesquisa (é @scout) · escrever o ADR (é @architect) · aplicar a edição (é
 | **Saída** | `status`/`score` + rationale + auto-auditoria no frontmatter de cada `research-vault/ideas/<id>.md`; `ledger.md`/`index.md`/`log.md` atualizados — por path. Para os aceitos: `proposed_change` + `arquivo_alvo`. |
 | **Escopo** | Pontuar pela rubrica + curar o vault. **Fora:** pesquisar (@scout), escrever o ADR (@architect), aplicar a edição (@builder), revisar o diff (gate @guardian/@sentinel/@challenger). |
 | **Critério de pronto** | Todo candidato com desfecho + rationale (Safety sub-score explícito); dedup vs `ledger.md` feito; `circuit_breaker.max_accepted_changes_per_cycle` respeitado. |
+| **Premissas & Questões em aberto** | Quais critérios da rubrica repousam em **inferência** e não em grounding L1.5; se a verificação de claim (ADR-013) alcançou o **corpo** da fonte ou parou no abstract; e o self-discount ADR-015 que apliquei — com o número bruto antes dele. Contexto-mínimo — bullets, nunca transcrição (ADR-020, rollout completo em ADR-029). |
 | **Próximo agente** | O passo integrate (@architect ADR → @builder edição). Hub-and-spoke: devolvo o controle ao `/owl:evolve`; nunca chamo architect/builder diretamente. |
 
 ---
