@@ -5,8 +5,13 @@ tags: [roles, structure]
 status: accepted
 score: 87
 adr: ADR-009
-updated: 2026-07-24
+impact_credit: documentation-only
+fitness: eval/results/2026-07-25-fleet-guardrail-beforeafter.md
+updated: 2026-08-07
 ---
+
+> [!warning] Impacto reetiquetado — **documentação-apenas, sem crédito comportamental** (ADR-015, 2026-08-07)
+> O fitness mediu **Δ ≈ 0 na dimensão-alvo** (lane) nos 5 agentes. A convenção **fica** (não regride, é barata, tem valor de legibilidade), mas os **15/20 de Impacto abaixo são crédito afirmado que a medição não sustenta**. Ver [Veredito de fitness](#veredito-de-fitness-adr-015--reetiquetagem-2026-08-07) no fim desta página. `score: 87` e `status: accepted` ficam intactos de propósito: o ADR-015 muda o **crédito**, não o histórico.
 
 **Category:** roles · **Confidence:** high · **Applicability:** 5/5
 
@@ -46,6 +51,25 @@ _(ADR-013 — verified live 2026-07-25 via WebFetch. Retroactive: this idea land
   > "Maintain simplicity in your agent's design."
   > "This workflow allows for separation of concerns, and building more specialized prompts."
 - **Note:** the specific "vague roles → duplicated work" wording is CrewAI 2026 (secondary/blog, x4); the **load-bearing** thesis (narrow specialists + simplicity + separation of concerns) is confirmed by the Anthropic **primary** source above.
+
+## Veredito de fitness (ADR-015) — reetiquetagem 2026-08-07
+
+_Medição: [`eval/results/2026-07-25-fleet-guardrail-beforeafter.md`](../../eval/results/2026-07-25-fleet-guardrail-beforeafter.md) · k=3 por versão por agente, 5 fixtures de tentação (06–10), juiz cego, variável = só o bloco de 14 linhas `🧭 Papel & Não-Papel`._
+
+**Δ na dimensão que a convenção mira (lane), por agente:** architect **+2,7** · strategist **0,0** · builder **−0,7** · system-designer **−0,3** · chronicler **0,0** → líquido ≈ **0**.
+
+Duas fixtures marcaram "EXCEEDS noise" no **total**, e as duas são armadilha que o breakdown por dimensão desfaz: strategist +6,0 vive em *product quality*, builder −6,7 vive em *realization concreteness* — dimensões que um bloco de lane não tem mecanismo para controlar, com sinais opostos. Efeitos de sinal oposto em dimensões ortogonais é assinatura de **ruído em relação à convenção**, não de efeito dela.
+
+**A recomendação é do próprio resultado, citada verbatim — esta reetiquetagem não é julgamento novo:**
+
+> "keep the block, but relabel its status from 'improves output' to 'documents boundaries, no measured behavioral effect.' Don't credit it 'Impact (20)' in the rubric on the strength of behavior it doesn't demonstrably change. Reverting 7 agents for a null (not harmful) result is churn not worth it."
+
+**Aplicado (regra do ADR-015: Δ nulo ⇒ reverter **ou** reetiquetar como documentação-apenas, sem crédito comportamental):**
+- **Reetiquetada, não revertida** — a ação conservadora das duas. O bloco `🧭 Papel & Não-Papel` **permanece nos 7 agentes**; nenhum arquivo de agente muda.
+- **Impacto 15/20 acima é crédito afirmado, não medido.** Não citar essa nota como evidência de efeito comportamental. O valor comprovado é **legibilidade** (um leitor vê a fronteira explícita) — que é real e não precisava de fitness para valer.
+- **Precedente que isto estabelece:** é o primeiro caso de uma convenção aceita cujo crédito de Impacto foi rebaixado por medição. O par oposto está na mesma fixture (`01-architect-adr`): `role-ownership` Δ=0,0 e `handoff-contract` Δ=+11,0 lado a lado.
+
+**Ressalvas herdadas do resultado (não apagadas pela reetiquetagem):** n=3, um juiz LLM, 5 fixtures — **ausência de efeito medido ≠ prova de ausência**. As fixtures 07/08/10 sub-estressaram lane (os agentes-base não morderam a isca, então não medem o guardrail em nenhuma direção). Provar/refutar de verdade exigiria fixtures mais duras e k≥5–10 contando **taxa de mordida**, não média de totais.
 
 ## Related
 - [[role-decomposition]] · [[handoff-contract]] · [[overview]]
