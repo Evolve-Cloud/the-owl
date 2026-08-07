@@ -1,6 +1,6 @@
 # ADR-033 — Deferrals and rejections need their own staleness review: ADR-017 only reads *accepted* conventions
 
-**Status:** **Proposed** — awaiting owner ratification. Authored in a human-directed loop-health review, outside `/owl:evolve`. Per the precedent of ADR-017 and ADR-026, a proposal about the loop's own machinery does not self-approve.
+**Status:** **Accepted — forma B** · **Ratificado:** 2026-08-07 (dono). Proposto na **forma A** (revisão por ciclo); ratificado na **forma B** (disparo por evento) depois que uma varredura única das 34 linhas mediu a forma A e mostrou que a rejeição da alternativa B repousava numa premissa falsa — ver a seção *Correção — 2026-08-07* no fim. Escrito numa revisão de saúde do loop dirigida pelo dono, fora do `/owl:evolve`: pelo precedente do ADR-017 e ADR-026, proposta sobre a própria maquinaria do loop **não se auto-aprova** — e esta não se aprovou, foi ratificada.
 **Date:** 2026-08-07
 **Author:** main loop (owner-directed: "atacar o streak de 0-accepts")
 **Tags:** [loop-health, staleness, ledger, targeting, research-lane]
@@ -64,43 +64,58 @@ So the class block shipped **stale on the day it was accepted**, with a mitigati
 
 ---
 
-## Decisão (proposed)
+## Decisão (ratificada — forma B)
 
-Add an **expired-blocker review** — the mirror of ADR-017 step 4.5, in the curator flow.
+Adicionar uma **revisão de bloqueio expirado** que dispara **por evento**, não por ciclo. É o espelho do passo 4.5 do ADR-017, com a cadência corrigida: o 4.5 relê convenções **aceitas**, que decaem devagar e continuamente conforme o modelo melhora — relógio é a cadência certa. Esta relê linhas **`deferred`/`rejected`** cujo bloqueio é uma **propriedade estrutural da-owl**, que muda de forma **rara e discreta** — evento é a cadência certa. Espelhar o relógio numa coisa que muda por evento era o erro da forma A.
 
-Each cycle, the curator re-reads **1–2** `deferred`/`rejected` ledger rows whose recorded reason names a **structural property of the-owl** (no runtime, inline execution, hub-spoke topology, unenforceable prose, carve-out), and asks one question: **is that property still true?**
+**Duas peças, ambas necessárias:**
 
-- If it still holds → note it and move on (same audit-trail discipline ADR-017 requires: which id examined, verdict, in `log.md`).
-- If it has changed → the id is **re-opened as a normal candidate**: new suffixed id, normal scoring, normal ADR-015 haircut, normal gate. **Never auto-accepted, never auto-reverted** — the same boundary ADR-017 draws.
+**1. Um registro das propriedades** — `docs/conventions/structural-properties.md` (novo). Lista cada propriedade estrutural que a-owl afirma sobre si, seu **estado verificado**, a **data** da verificação, e os **caminhos-prova** cujo estado a demonstra. Sem esse registro a regra não tem alvo: a varredura de 2026-08-07 teve que reconstruir a lista à mão, e é justamente essa reconstrução que não pode depender de alguém lembrar.
 
-Bounded to 1–2 per cycle, oldest-first, so it cannot become a re-litigation engine. **It costs no research budget** — these candidates are already paid for.
+**2. A regra que o consome** — passo **4.6** do `curator.md` (o par, ADR-028). Dispara **se, e só se**, um dos dois:
+- (a) o ciclo tocou ou observou um caminho da coluna `Prova` do registro (`.claude/agents/`, `scripts/`, `.claude/settings.json`, `.claude/commands/owl/evolve.md`, `.git/hooks/`) — mecanicamente verificável por `git log --name-only` sobre esses paths; **ou**
+- (b) o @scout ou o @curator registrou um **achado de capacidade** em `ledger.md`/`log.md` ("campo X é imposto pela harness", "a plataforma agora faz Y") — que foi exatamente a forma do achado do ciclo 7.
 
-Second, narrower change: any id cited as a **live example** inside ADR-030's class block inherits this review automatically, since ADR-030's stated mitigation cannot otherwise reach it.
+**Nenhum dos dois ⇒ custo zero:** não roda, não loga, não gasta julgamento.
 
----
+**Se disparou:** re-verificar as propriedades afetadas contra a árvore e atualizar estado + data no registro; varrer as linhas `deferred`/`rejected` cuja razão cita a propriedade mudada; para cada bloqueio caído, **reabrir como candidato**.
+
+**A forma de reabrir é obrigatória** — errar aqui faz a reabertura virar no-op que parece feita, e isso foi verificado na prática em 2026-08-07:
+- **id novo com sufixo** (SCHEMA: evidência materialmente nova nunca sobrescreve);
+- arquivo em `research-vault/ideas/<id-novo>.md` **nomeando o fato estrutural que mudou** e as questões que ele deixa abertas;
+- **NENHUMA linha no `ledger.md` até ser pontuado** — o passo 1 do curator pula id que já está no ledger, então uma linha prematura mata a reabertura em silêncio;
+- o **ato** de reabrir ganha linha própria `human-directed` (ADR-027), com id distinto.
+
+**Reabrir ≠ aceitar.** Volta como candidato normal: rubrica, veto de segurança, haircut do ADR-015, gate. **Nunca auto-aceito, nunca auto-revertido** — a mesma fronteira que o ADR-017 desenha.
+
+**Cláusula herdada da proposta original:** todo id citado como **exemplo vivo** dentro do bloco `## REJECTED CLASSES` do ADR-030 entra nesta revisão automaticamente. Foi a ausência dela que deixou o bloco nascer com um exemplo expirado.
+
+**Acoplamento nos dois sentidos:** o registro aponta para o bloco de classes e o bloco aponta de volta para o registro. Desacoplados, eles voltam a divergir — e o defeito "ZERO engine" reaparece em três meses.
 
 ## Alternativas consideradas
 
-- **A (proposed): bounded per-cycle expired-blocker review.** Prós: attacks a verified, instanced gap; symmetric with an already-ratified mechanism, so no new concept; costs zero research spend; carve-out-safe (edits `curator.md`, never `loop-config.yml`); makes ADR-030's cycles 9–11 test interpretable instead of confounded. Contras: another judgment step in a flow that already has one — mitigated by the 1–2/cycle bound and by restricting it to rows whose reason names a *structural* property, which is a small subset.
-- **B: fire only on structural-change events** (a merge that adds a capability triggers a re-read of every deferral citing the absent capability). Prós: strictly more precise, no per-cycle cost. Contras: needs an event hook nobody owns, and the-owl has no such trigger surface. **This is the better mechanism if it ever becomes cheap** — revisit.
-- **C: do nothing; humans catch it.** This is the current state, and its track record is the evidence against it: a human *did* catch the capability change and *did* write the re-open condition — and the condition still went unfired after the precondition was satisfied. Catching the change is not the same as acting on it.
-- **D: auto-derive from ledger rows.** Rejected for the same reason ADR-030 rejected its own option B: the ledger has no `reason`/`class` column, so this needs inference over prose and would drift silently.
-- **E: treat this as part of ADR-030 and wait for cycle 11.** Rejected — ADR-030 measures *targeting of new research*. This is about *stock already held*. Waiting also means the confound goes into the experiment unannounced.
-
----
+- **B (ESCOLHIDA, ratificada): disparo por evento estrutural.** Prós: casa a cadência com o fenômeno — propriedade estrutural muda raro e de repente, então relógio chega tarde e gasta atenção em ciclo parado; **custo zero** em ciclo sem mudança; o gatilho é mecanicamente verificável (`git log` sobre os caminhos-prova) em vez de julgamento; e a **lista de propriedades**, que a forma A não exigia, é o que permite alcançar afirmações que **não são linhas do ledger** — foi onde estavam os 3 defeitos mais caros. Contras: exige manter o registro em sincronia — mitigado pelo acoplamento bidirecional com o bloco de classes e por o registro ser curto (8 linhas) e mudar tão raro quanto o fenômeno.
+  - **Por que a razão original de rejeitar B não valia:** este ADR descartou B por *"needs an event hook nobody owns, and the-owl has no such trigger surface"*. **Falso** — há dois git hooks ativos, e o `post-commit` já computa `git diff --name-only`. Mas o gatilho ratificado **não usa hook**: usa uma checagem em markdown sobre os caminhos-prova. Editar hooks está explicitamente fora (superfície de segurança, decisão do dono).
+- **A (proposta originalmente, REJEITADA por medição): revisão por ciclo, 1–2 linhas do ledger.** A barra combinada antes da varredura era **2+ reaberturas vivas ⇒ ratificar**. Resultado nas 34 linhas: **1 clara** + **1 parcial** (`agent-frontmatter-fields`, bloqueio caído em 1 dos 3 campos do título). **Barra não batida.** E dois defeitos estruturais mais fundos: (1) a 1–2 linhas/ciclo, precisaria de ~17–34 ciclos para varrer o ledger uma vez, achando nada na maioria das passagens; (2) **não alcança onde estava o valor** — os 3 defeitos mais caros são um prompt injetado todo ciclo e duas afirmações em documento, nenhum deles uma linha do ledger. Um passo que relê **linhas** não os alcança por construção. **Propriedade é a unidade certa; linha é consequência.**
+- **C: não fazer nada; humanos pegam.** Era o estado corrente, e o histórico é a evidência contra: um humano *pegou* a mudança de capacidade e *escreveu* a condição de reabertura — e a condição seguiu sem disparar depois de satisfeita. Pegar a mudança não é o mesmo que agir sobre ela.
+- **D: auto-derivar das linhas do ledger.** Rejeitada pela mesma razão que o ADR-030 rejeitou a própria opção B: o ledger não tem coluna `reason`/`class`, então isto exigiria inferência sobre prosa e derivaria em silêncio.
+- **E: tratar como parte do ADR-030 e esperar o ciclo 11.** Rejeitada — o ADR-030 mede *targeting de pesquisa nova*; isto é sobre *estoque já pago*. Esperar também mandaria o confound para dentro do experimento sem aviso.
 
 ## Consequências
 
 - **Mais fácil:** the loop stops paying to rediscover what it already owns, and a recorded re-open condition becomes something the system can act on rather than a note.
 - **Trade-offs aceitos:** a judgment step, not a measurement — same honest limitation ADR-017 carries and the same mitigation (bounded + human-reviewed). Impact is **provisional-pending-fitness** (ADR-015); full credit only once the step re-opens an id that then clears the bar.
 - **Novos riscos:** re-opening ids could erode the dedup discipline that ADR-022 and the SCHEMA rule exist to protect. **Mitigation:** re-open only via a **new suffixed id** with the changed structural fact named, exactly the rule that already governs "materially new evidence."
-- **Não toca o carve-out:** the proposed edit is to `.claude/commands/agents/curator.md` (+ its `.claude/agents/curator.md` twin). `.owl/loop-config.yml`, the schedule and the gate agents are untouched.
+- **Não toca o carve-out:** os arquivos alterados são `.claude/commands/agents/curator.md` + o gêmeo `.claude/agents/curator.md` (o par, ADR-028) e o registro novo `docs/conventions/structural-properties.md`. `.owl/loop-config.yml`, a agenda, `.claude/settings.json`, os agentes-gate e **os git hooks** seguem intocados.
+- **Custo real, honesto:** em ciclo sem mudança estrutural, **zero** — o gatilho não dispara. Em ciclo com mudança, uma re-verificação de 8 linhas + a varredura das razões que citam a propriedade mudada. O custo de manutenção é o registro ficar sincronizado, mitigado pelo acoplamento bidirecional com o bloco de classes.
 
-### Owner decisions this surfaces (none taken here)
+### Owner decisions this surfaces — TODAS RESOLVIDAS 2026-08-07
 
-1. **Re-open `least-privilege-tool-scopes`** for the 8 non-carve-out agents — its recorded re-open condition is met. Scoring is the curator's, not this review's. **Open.**
+1. ~~**Re-open `least-privilege-tool-scopes`**~~ — **DONE 2026-08-07, owner-authorized.** Reaberto como id sufixado em `research-vault/ideas/`, **sem pontuação e sem linha no ledger** (uma linha faria o passo 1 do curator pulá-lo como decidido). O candidato carrega o conflito com o ADR-028 achado ao escrevê-lo: **0 de 13** personas-comando têm frontmatter, então metade do par estruturalmente não recebe `tools:`. @curator pontua no ciclo 9.
 2. ~~**ADR-030's class block:** the `least-privilege-tool-scopes` example is stale.~~ — **DONE 2026-08-07, owner-authorized.** The expired example was removed from the live block in `.claude/commands/owl/research.md`; the class kept as a structural property with an explicit "depends on today's harness" clause. ADR-030 gained a dated `## Correção` section (its Decisão text is preserved with a do-not-re-add marker) and the ledger a `human-directed` row (`hd-unstale-rejected-class-example`, ADR-027). Done **before cycle 9** so the ADR-030 experiment starts unconfounded — that deadline was the reason to act ahead of ratification.
-3. **Correct the streak count** in `.owl/state/last-run.json` (and cycle-8's commit message, which repeats it) from 5 to 3, or annotate what it counts. **Open.**
+3. ~~**Correct the streak count**~~ — **DONE 2026-08-07, owner-authorized.** Corrigido **e** anotado em `.owl/state/last-run.json` (as duas metades da opção), carregando a ressalva de que a regra de contagem não está escrita. A prosa datada do ciclo 7 ("4th consecutive") **não** foi reescrita — é registro do que se acreditava na data; foi nomeada como fonte da propagação. O commit do ciclo 8 também não: mesma razão.
+
+4. **Surgidas depois, e também resolvidas no mesmo dia** — 3 afirmações **vivas** sobre a estrutura da-owl, achadas pela varredura e falsas: `research.md:39` ("ZERO engine de orquestração", injetada no prompt do codex todo ciclo), `evolve.md:20` (".claude/agents/ não existe"), e **a rejeição da alternativa B dentro deste próprio ADR**. As três corrigidas; a terceira é a razão desta ratificação ser em forma B.
 
 **Note for cycle 9's ADR-027 step 0.5:** this is the fourth `human-directed` row with origin `reflection` dated 2026-08-07. If "correction to the loop's own machinery, found by human review" counts as a class, it is now well past the ≥2× threshold that step 0.5 uses to raise a normal candidate. That call is the curator's, not this review's.
 
@@ -143,7 +158,7 @@ O PR #17 — **um** evento — invalidou **3 linhas do ledger** (`least-privileg
 
 A seção **Decisão** acima descreve a forma A e deve ser **reescrita como forma B** antes de ser ratificada: uma regra presa ao momento em que uma mudança estrutural é **registrada** — *"ao registrar uma mudança estrutural, re-verifique a lista de propriedades declaradas e varra as linhas que citam a que mudou."* O ciclo 7 já fez a metade que este ADR dizia faltar (a detecção, escrita no ledger); a regra é a metade que faltou. Markdown, custo zero em ciclo sem mudança, carve-out-safe.
 
-**Não reescrita aqui de propósito:** trocar a Decisão de A para B é a decisão de ratificação, e é do dono — o mesmo limite que este ADR desenha para si na abertura (*"a proposal about the loop's own machinery does not self-approve"*).
+**RESOLVIDO — 2026-08-07:** o dono ratificou na forma B. A Decisão acima foi reescrita, o Status virou `Accepted — forma B`, e as Alternativas foram invertidas (B escolhida; A rejeitada **por medição**, com a barra declarada e não batida registrada). Esta seção fica como o rastro de auditoria de **por que** a forma ratificada difere da proposta — não é para ser apagada.
 
 ⛔ **Não proposto e não feito: editar git hooks.** Hook executa código — é superfície de segurança e decisão do dono, nunca do loop. A regra em markdown não precisa de um.
 
