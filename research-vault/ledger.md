@@ -64,6 +64,7 @@ Before scoring any candidate, `curator` checks this table. A decided `id` is **s
 | hd-reject-classes-in-research-prompt | Owner-directed: inject rejected CLASSES (not just ids) into the codex prompt | — | human-directed | ADR-030 | 2026-08-07 | 2026-08-07 | reflection |
 | hd-ledger-origin-column | Owner-directed: ledger records where each decision came from | — | human-directed | ADR-031 | 2026-08-07 | 2026-08-07 | reflection |
 | hd-unstale-rejected-class-example | Owner-directed: remove the expired `least-privilege-tool-scopes` example from ADR-030's class block (blocker fell when native subagents began enforcing `tools:`) | — | human-directed | ADR-030 (correção), ADR-033 | 2026-08-07 | 2026-08-07 | reflection |
+| hd-correct-streak-count | Owner-directed: correct the 0-accept streak in `.owl/state/last-run.json` from 5 to **3** — scored research-lane cycles only (6, 7, 8), the number ADR-030 already states. Propagation source named: cycle 7's prose says "4th consecutive", left as historical record | — | human-directed | ADR-033 | 2026-08-07 | 2026-08-07 | reflection |
 
 > Cycle 2026-07-23: circuit breaker cap = 3 accepted/cycle; cycle 1 kept conservative → **1 accepted**, rest **deferred** (revisit next cycles, evidence already captured; not re-litigated).
 >
