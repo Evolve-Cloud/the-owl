@@ -5,7 +5,16 @@
 # This wrapper is cadence-agnostic: it runs exactly one cycle per invocation; launchd sets the frequency.
 set -euo pipefail
 
-REPO="/Users/rafaelribeiro/Evolve Labs/the-owl"
+# ⚠️ 2026-08-12: este path estava SEM o nível "Evolve Labs" duplicado e apontava para
+# ~/Evolve Labs/the-owl — uma casca (só .owl/ + venv/, sem git). O launchd disparava toda
+# segunda 07:13 desde ~24/jul, o cd na casca FUNCIONAVA, e a run morria no grep do
+# loop-config abaixo, em silêncio. 3 semanas de cadência semanal morta; todo ciclo desde
+# então foi disparado por humano. O plist irmão carregava o mesmo erro em 3 paths.
+REPO="/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl"
+if [ ! -f "$REPO/.owl/loop-config.yml" ]; then
+  echo "FATAL: REPO=$REPO não parece ser o the-owl (falta .owl/loop-config.yml)." >&2
+  exit 4
+fi
 # nvm node (codex + claude), homebrew, system paths
 export PATH="$HOME/.nvm/versions/node/v20.19.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/github -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"

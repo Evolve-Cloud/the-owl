@@ -3,10 +3,14 @@ title: "Campos de frontmatter de subagent, reaberto: o bloqueio era 'não temos 
 type: idea
 tags: [frontmatter, subagents, cost, enforcement]
 supersedes_context: agent-frontmatter-fields
-awaiting_scoring: cycle-9
+scored: cycle-9 (2026-08-12)
+status: deferred
+score: 73
+adr: ""
+origin: reflection
 reopened: 2026-08-07
 reopened_by: human-directed (primeiro alvo vivo do passo 4.6, ADR-033 forma B)
-updated: 2026-08-07
+updated: 2026-08-12
 ---
 
 > [!important] **NÃO pontuado, de propósito. E sem linha no `ledger.md`, também de propósito.**
@@ -60,7 +64,57 @@ Então a forma da fatia é a mesma que destravou o `least-privilege`: **um pedid
 
 Não é "adotar todos os campos de frontmatter de 2026". Essa é a forma vaga de 2026-07-23, e ela continua sem fatia atômica. O delta é **um campo imposto, verificado, com número justificado, num conjunto nomeado de agentes**.
 
+---
+
+# PONTUAÇÃO — ciclo 9 (2026-08-12) — **DEFERRED (73)**
+
+## Q1 — RESOLVIDA, e a resposta é boa: os TRÊS campos são reais
+
+Verificação alvo na doc primária ([sub-agents](https://code.claude.com/docs/en/sub-agents), buscada 2026-08-12). Lista completa de campos de frontmatter de subagent, verbatim:
+
+> "…`description`, `prompt`, `tools`, `disallowedTools`, `model`, `permissionMode`, `mcpServers`, `hooks`, `maxTurns`, `skills`, `initialPrompt`, `memory`, `effort`, `background`, `isolation`, and `color`."
+
+| campo | veredito | correção ao candidato |
+|---|---|---|
+| `maxTurns` | **REAL** — *"Maximum number of agentic turns before the subagent stops"* | — |
+| `memory` | **REAL** | o candidato escreve `Memory`; **o campo é minúsculo** |
+| `isolation` | **REAL** — *"Set to `worktree` to run the subagent in a temporary git worktree"* | só aceita `worktree`; é concern de **VCS/runtime**, não de prompt |
+
+**O bloqueio P4/P5 caiu por inteiro.** A reabertura estava certa. E ainda assim o candidato **não passa** — por mérito, não por bloqueio, que é o desfecho que o passo 4.6 sempre disse ser possível (*"reabrir ≠ aceitar"*). Primeira vez que essa distinção é exercida na prática.
+
+## Q2 — o trade-off que o próprio candidato nomeou é o que o afunda
+
+> "Cap não é economia, é corte. Agente que bate o teto entrega trabalho truncado, e o `/owl:evolve` trata artefato ausente como **fase FALHOU**. Teto errado troca custo por falha de ciclo."
+
+Está correto, e **não existe dado para escolher o número**: a-owl nunca instrumentou contagem de turnos por agente. `.owl/state/last-cycle-metrics.json` captura wall-clock, não turnos. Escolher `maxTurns` hoje é chutar um teto cujo erro converte custo em ciclo quebrado — e o custo que ele atacaria (`cost` no `last-run.json`) está registrado como *"not instrumented this run"* há dois ciclos.
+
+**Fixar o teto antes de medir a distribuição é a ordem errada das operações.**
+
+## Q4 — duplicação com a prosa, não resolvida
+
+O bloco *"O custo do agente = piso de contexto × nº de turnos"* está em 4 dos 13 subagents. Se `maxTurns` entra, a relação prosa↔campo precisa ser declarada (pedido × imposição) ou vira a sobreposição que o ADR-009 existe para impedir. O candidato levanta e não resolve — corretamente, é decisão de integrate — mas somado ao Q2 não sobra fatia pronta.
+
+## Curator verdict — score 73 (threshold 75 · reject 60)
+
+| Criterion | Score | Note |
+|---|---|---|
+| Fit to architecture (25) | 19 | Campo imposto pela harness, superfície certa. −6: `isolation` é worktree/VCS (fora do que a-owl faz) e `memory` sobrepõe o sistema de memória que a-owl já tem — só `maxTurns` sobrevive à triagem, e a ideia como escrita agrega três coisas distintas. |
+| Evidence strength (20) | 18 | Os três campos verificados na doc primária hoje, com citação. Evidência **da existência** é forte. −2: nenhuma evidência sobre o **valor** de aplicá-los aqui. |
+| Impact (20) | 10 | Direção do efeito **desconhecida**. O ganho (menos tokens) não está quantificado — o próprio `last-run.json` diz `cost: not instrumented`. A perda (truncar um agente ⇒ fase FALHOU) é concreta e nomeada. Impacto esperado plausivelmente **negativo** sem dado de calibração. |
+| Simplicity & reversibility (15) | 10 | Uma linha por agente, revert trivial. −5: escolher o **número** não é simples e não é derivável de nada que a-owl tenha hoje. |
+| Safety (10) | 8 | Não é risco de segurança. −2: é risco de **confiabilidade** — teto errado quebra ciclo, e o loop já trata artefato ausente como falha dura. |
+| Non-duplication (10) | 8 | −2: sobrepõe o bloco de prosa de economia de turnos em 4 agentes, sem a relação declarada (Q4 aberta). |
+
+**Safety 8 ≥ floor 7** (sem veto). **Total 73 → entre 60 e 75 ⇒ DEFERRED.**
+
+## ➡️ Condição de reabertura — precisa, verificável, com prazo de premissa
+
+Reabrir como `agent-frontmatter-fields-v3` **quando, e só quando**, existir distribuição medida de turnos por agente — ou seja, quando `.owl/state/last-run.json` carregar `cost`/turnos reais por pelo menos 3 ciclos. Aí `maxTurns` deixa de ser chute e vira p95+margem.
+
+⚠️ **Escopo do v3, já delimitado para não reabrir a agregação inteira:** só `maxTurns`. `memory` e `isolation` são reais mas **fora de alcance por mérito** (memória já resolvida; worktree é concern de VCS que a-owl não usa) — isso é decisão, não bloqueio pendente, e não deve voltar como "bloqueio caiu".
+
 ## Related
 - [[structural-properties]] (P4, P5 — as propriedades cujo estado destravou isto) · [[ledger]] (deferral do ciclo 1; achado de capacidade do ciclo 7)
+- [[scout-notes-2026-08-12]] (a verificação que resolveu Q1) · [[least-privilege-tool-scopes-v2]] (irmão de reabertura — este passou, aquele não)
 - ADR-033 (forma B — o passo 4.6, cujo **primeiro alvo vivo** é este) · ADR-028 (regra do par) + **ADR-034** (a cláusula de assimetria que resolveu a Q3, condicional à verificação) · ADR-013 (verificação de claim — obrigatória para Q1) · ADR-010 (o modelo inline, origem do bloqueio P4)
 - Irmão de reabertura: `least-privilege-tool-scopes-v2` — mesmo evento (PR #17), mesmo conflito ADR-028, mesma verificação pendente

@@ -22,7 +22,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/rafaelribeiro/Evolve Labs/the-owl/scripts/owl-daily.sh</string>
+        <string>/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/scripts/owl-daily.sh</string>
     </array>
 
     <key>StartCalendarInterval</key>
@@ -36,9 +36,9 @@
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/rafaelribeiro/Evolve Labs/the-owl/.owl/state/launchd.out.log</string>
+    <string>/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.owl/state/launchd.out.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/rafaelribeiro/Evolve Labs/the-owl/.owl/state/launchd.err.log</string>
+    <string>/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl/.owl/state/launchd.err.log</string>
 
     <key>RunAtLoad</key>
     <false/>

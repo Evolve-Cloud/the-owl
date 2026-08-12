@@ -41,7 +41,8 @@ pattern: >
   <the concrete pattern in 2–4 sentences>
 evidence: [s1, s3]                      # source ids from the Sources table, + adoption note
 rationale: <why it works>
-applicability_to_owl: <1-5>            # 5 = maps cleanly to a markdown-only hub-spoke lib
+applicability_to_owl: <1-5>            # 5 = expressible as a prompt/structure/convention
+                                       #     change in a hub-spoke agent library
 applicability_note: >
   <how it would be expressed as a prompt/convention change in the-owl>
 proposed_change: >

@@ -24,12 +24,21 @@ Este registro é a **lista que a regra re-verifica**. Sem ela, a regra não tem 
 | P4 | "**inline-exec**: não existe `.claude/agents/`" | **FALSA** — 13 existem desde o PR #17. O loop roda inline por **decisão de confiabilidade** (ADR-010), não por ausência | `.claude/agents/*.md`, `.claude/commands/owl/evolve.md` | 2026-08-07 |
 | P5 | "escopo de ferramenta por agente é **inimponível**" | **FALSA (parcial)** — `tools:` é imposto pela harness em **5 de 13**. `Memory`/`isolation` seguem **não verificados** como campos reais | `.claude/agents/*.md` frontmatter | 2026-08-07 |
 | P6 | "**markdown + YAML** apenas" | **FALSA (parcial)** — há Python e shell em `scripts/` | `scripts/` | 2026-08-07 |
-| P7 | "topologia **hub-and-spoke**" | **VERDADEIRA** — especialistas devolvem o controle, nunca chamam uns aos outros | `.claude/commands/agents/*.md`, ADR-010 | 2026-08-07 |
+| P7a | "topologia **hub-and-spoke**" — **escopo: dentro do `/owl:evolve`** | **VERDADEIRA** — o orquestrador **lê o arquivo inline** e nunca invoca persona via Skill; os agentes loop-only (`curator`, `scout`) não chamam ninguém | `.claude/commands/owl/evolve.md:21`, `curator.md`, `scout.md`, ADR-010 | 2026-08-12 |
+| P7b | "topologia **hub-and-spoke**" — **escopo: DevFlow interativo** | **FALSA — por design** — **9 de 13** pares instruem invocação peer via Skill tool, em maiúsculas. Não é deriva: é mecanismo documentado | `.claude/agents/*.md` **e** `.claude/commands/agents/*.md` (os mesmos 9 nas duas metades), ADR-038 | 2026-08-12 |
 | P8 | "**carve-out NFR-SEC-1**" | **VERDADEIRA** — governança, não capacidade. Não expira por mudança de harness | ADR-001, `.owl/loop-config.yml` | 2026-08-07 |
 
-### A distinção que faz o trabalho
+### As duas distinções que fazem o trabalho
 
-**P1–P6 são capacidade. P7–P8 são escolha.** Capacidade muda quando a plataforma muda; escolha só muda por decisão do dono.
+**1. Capacidade × escolha.** P1–P6 são **capacidade**; P7a/P7b–P8 são **escolha**. Capacidade muda quando a plataforma muda; escolha só muda por decisão do dono.
+
+**2. Escopo (ADR-038, 2026-08-12).** Uma propriedade pode ser **verdadeira num escopo e falsa noutro**. Quando for, ela é cindida em linhas com escopo declarado — é o caso do P7a/P7b.
+
+> ⚠️ **Como esse eixo foi descoberto, porque a forma do erro importa mais que o erro.** O P7 afirmava hub-and-spoke como VERDADEIRA **citando `.claude/commands/agents/*.md` como prova** — e são exatamente esses arquivos que o refutam, em 9 dos 13. A afirmação não era falsa: era **verdadeira do loop, arquivada como afirmação sobre o sistema inteiro**, com o caminho-prova apontando para o escopo onde ela não vale.
+>
+> Isso não foi achado pela varredura de propriedades nem pelo passo 4.6 — foi achado pelo **gate L4**, quando uma mudança que dependia do P7 ser verdadeiro foi aplicada e teria quebrado 9 agentes em silêncio. **Toda propriedade nova ganha a pergunta: *isto vale em todo lugar, ou num escopo?*** — é a pergunta cuja ausência produziu o ADR-038.
+>
+> 📌 A cisão **não mudou nenhum arquivo de agente**. Não havia nada quebrado neles.
 
 Quase toda rejeição "runtime-shaped" da-owl está de fato correta — mas pela razão errada. O que desqualifica não é *"a-owl não tem runtime"* (falso), é **"o loop não pode mexer no runtime que existe"** (verdadeiro: carve-out + design sequencial). Conclusão certa, premissa expirada. É essa confusão que este registro existe para impedir, e é literalmente o defeito que o bloco de classes carregava até 2026-08-07.
 
@@ -58,6 +67,8 @@ Qualquer um dos dois ⇒ rodar o passo 4.6 do `curator.md`. Nenhum dos dois ⇒ 
 
 ## O que depende deste registro (manter em sincronia — os dois sentidos)
 
+- **`docs/planning/artifacts/chatgpt-research-brief-prompt.md`** (artefato 8a) → o bloco `## CONTEXT`, **injetado no prompt do codex todo ciclo** junto com o bloco de classes. Afirma P1, P2, P3, P6, P7 e a contagem de agentes. **Mudou aqui ⇒ reler lá.**
+  > 🔧 **Adicionado 2026-08-12 (ADR-035) — e a omissão dele é o achado.** Este arquivo estava fora desta lista, e por isso a varredura de 2026-08-07 corrigiu o bloco irmão em `research.md` e deixou este intacto: o prompt L0 passou a **se contradizer internamente** ("no daemon" no CONTEXT × "scheduler (launchd)" no bloco de classes, 84 linhas adiante). O mecanismo do ADR-033 disparou e funcionou; o que falhou foi **esta lista estar incompleta**. Lista incompleta = mecanismo cego, não mecanismo quebrado.
 - **`.claude/commands/owl/research.md`** → o bloco `## REJECTED CLASSES`, injetado no prompt do codex **todo ciclo**. A classe *Runtime-shaped* afirma P1–P4 e P8. **Mudou aqui ⇒ reler lá.** (O bloco aponta de volta para cá.)
 - **`.claude/commands/owl/evolve.md`** → o "Modelo de execução" afirma P4 e P7.
 - **`research-vault/ledger.md`** → razões de deferral/rejeição que citam uma propriedade. São o alvo da varredura do passo 4.6.
