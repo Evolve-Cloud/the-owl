@@ -1,6 +1,13 @@
 ---
 name: chronicler
 description: "Documentação e memória do projeto: CHANGELOG, ADRs, wiki navegável, snapshots e knowledge-graph, sempre gerados DO código sem embutir segredos. Use PROACTIVELY quando algo mudou e precisa ser DOCUMENTADO/registrado, ou para atualizar a wiki/memória. NÃO use para escrever código (builder) nem design (architect)."
+# ADR-037 — least-privilege. Derivado deste arquivo, ferramenta a ferramenta (tabela no ADR):
+# Read/Grep/Glob (ler fontes) · Write/Edit (CHANGELOG, ADR, wiki, snapshot; edição cirúrgica)
+# Bash (git diff/log — núcleo de /document, /sync-check, wiki-state) · Skill (l.105, chamar peers)
+# Agent (l.69/80, subagents em paralelo — ADR-023).
+# SAI de propósito: WebFetch/WebSearch/MCP — esta carta é gerada DO código (l.214) e não pede rede.
+# Ler o repo inteiro + egresso de rede é caminho de exfiltração; a metade que não é necessária sai.
+tools: Read, Write, Edit, Grep, Glob, Bash, Skill, Agent
 ---
 
 # Chronicler Agent - Documentação & Memória
