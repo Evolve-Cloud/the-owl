@@ -4,9 +4,10 @@ type: idea
 tags: [reflection, frontmatter, unenforceable-prose]
 sources: 2
 status: deferred
-score: 79
+score: 80
 adr: ""
 origin: reflection
+rescored: cycle-10 (79 -> 80; precondition executed, consumer found)
 updated: 2026-08-12
 ---
 
@@ -71,6 +72,40 @@ grep -rn 'quick/\|/quick:' .claude/ docs/ scripts/    # quem invoca ou referenci
 ```
 
 **É literalmente o passo que faltou no ADR-036.** Aquele ADR escreveu *"nenhum outro consumidor conhecido"* depois de verificar um; o grep que refutou custou uma linha. Esta pré-condição existe para que o mesmo erro não seja cometido duas vezes na mesma superfície, e o resultado dele vai no ADR — inclusive se for "nenhum consumidor", que aí é um negativo **verificado**, não afirmado.
+
+### ✅ PRÉ-CONDIÇÃO EXECUTADA — ciclo 10 (2026-08-12b). E ela achou um consumidor.
+
+```
+grep -rn 'quick/|/quick:' .claude/ docs/ scripts/ owl-agents/   →  28 refs, 11 externas ao próprio quick/
+```
+
+**Achado:** `scripts/pack-owl-agents.sh` **copia `quick/` para dentro do pack portátil `owl-agents/`** (linhas 64, 189), que é distribuído para outras máquinas via `install.sh`.
+
+- ✅ **A mudança é segura:** nenhuma automação invoca esses comandos **por `description`**. As 17 referências internas são exemplos de uso dentro dos próprios arquivos; as externas são o script de pack e prosa em ADR/PRD.
+- ⚠️ **Mas existe custo escondido que o candidato não tinha:** mudar `quick/*.md` **desatualiza o pack** até `update-owl-agents` ser re-rodado. Não quebra nada (o frontmatter velho é inerte de qualquer forma), mas é deriva, e deriva silenciosa é o tema do ciclo.
+
+**Era exatamente isto que a pré-condição existia para achar** — o passo que o ADR-036 pulou. Custou um `grep`, e mudou o plano de implementação.
+
+## Re-pontuação — ciclo 10: **80** (era 79)
+
+Duas notas mudaram, as duas por fato novo, nenhuma por gosto:
+
+| Criterion | antes → agora | por quê |
+|---|---|---|
+| Simplicity & reversibility | 13 → **11** | a pré-condição revelou que a mudança exige regenerar o pack para não derivar. Segundo passo, não previsto. |
+| Non-duplication | 5 → **8** | a penalidade era por adjacência a `routing-eligibility-mode`, que ia landar a mesma mecânica. **Ele foi rejeitado no gate e ENCERRADO pelo ADR-038** — a duplicação deixou de existir. |
+
+Fit 21 · Evidence 19 · Impact 12 · Simplicity 11 · Safety 9 · Non-dup 8 = **80**. Safety 9 ≥ floor 7. **Passa o threshold.**
+
+## ⏸️ E mesmo assim NÃO landa no ciclo 10 — pela razão honesta, não por cap
+
+O cap **não** está batido (1 aceito de 3). Passa a rubrica. A razão de não landar é outra, e vale dizer sem maquiagem:
+
+> **Esta sessão está muito longa, e um segundo ADR escrito sob fadiga é exatamente como mudança ruim entra.** É o mesmo raciocínio que recusou redesenhar o ADR-036 sob pressão de gate — só que a pressão aqui é cansaço em vez de gate.
+
+**O que isso NÃO é:** não é o cap (que não bateu), não é mérito (80 passa) e não é bloqueio técnico (a pré-condição está satisfeita). Registrar a razão real importa porque um deferral com motivo falso é indistinguível de um id perdido — foi assim que `agent-frontmatter-fields` sumiu por 3 semanas.
+
+**➡️ Ciclo 11: este id entra pontuado a 80, com a pré-condição já cumprida e o consumidor já mapeado.** Não há trabalho de descoberta pendente — só escrever o ADR, aplicar nos 9 arquivos e rodar `update-owl-agents`. Se o ciclo 11 passar sem pegá-lo, aí sim é defeito de roteamento.
 
 ### Ordem recomendada para o ciclo 10
 

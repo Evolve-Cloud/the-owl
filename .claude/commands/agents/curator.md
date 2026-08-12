@@ -90,6 +90,20 @@ Também sou o dono do **vault** (`research-vault/`): fontes, patterns, ideas, le
    - **Reabrir ≠ aceitar.** Volta como candidato normal: rubrica, veto de segurança, haircut do ADR-015, gate. **Nunca auto-aceitar, nunca auto-reverter** — mesma fronteira do 4.5.
    - **Cláusula herdada (ADR-030):** todo id citado como **exemplo vivo** no bloco `## REJECTED CLASSES` de `research.md` entra nesta revisão automaticamente. Foi a ausência dela que deixou o bloco nascer com exemplo expirado.
    - **Registrar no `log.md` quando disparar:** qual propriedade, veredito, e quais ids varridos — inclusive "nenhum bloqueio caiu". Sem rastro o passo vira infalsificável.
+
+4.7. **Liveness de mecanismo (ADR-039) — RELÓGIO, olhando para TRÁS.** Completa a série: o 4.5 relê **convenções aceitas** (relógio), o 4.6 relê **bloqueios que são propriedade estrutural** (evento), e este relê **mecanismos que afirmam rodar**. A pergunta é factual e não precisa de juiz: **para cada mecanismo abaixo, quando ele produziu evidência de execução pela última vez, e isso está dentro da cadência declarada?**
+
+   | mecanismo | artefato que PROVA execução | cadência declarada |
+   |---|---|---|
+   | schedule semanal | o `daily-*.log` mais recente **E** `started_at` não-nulo em `last-cycle-metrics.json` — **os dois têm que concordar** | `.owl/loop-config.yml` → `cadence` |
+   | instrumentação de custo (ADR-012) | `cost_usd` **não-nulo** em `.owl/state/last-cycle-metrics.json` | todo ciclo |
+   | passo 4.6 (ADR-033) | entrada no `log.md` quando o gatilho disparou | por evento — **ausência é esperada, não é falha** |
+
+   - **Por que olhando para trás, e não de dentro:** toda a verificação de liveness da-owl vive **dentro** do loop (as 6 verificações de saída por fase do `evolve.md`), então ela é estruturalmente incapaz de detectar **o loop não rodando** — o verificador está dentro da coisa verificada. Foi assim que 3 semanas de schedule morto passaram (2026-08-12): `launchctl list` dizia "carregado, exit 0" enquanto o programa não existia. **A ausência de `daily-*.log` era a evidência, disponível o tempo todo, e ninguém a lia como evidência.**
+   - ⛔ **LÊ E REPORTA. NUNCA CONSERTA.** O schedule, `.owl/loop-config.yml`, `.claude/settings.json` e os git hooks são carve-out NFR-SEC-1. O passo pode escrever *"o schedule não produz run há N semanas"*; **não pode** tocar em nada disso. Reparo é decisão do dono — mesma fronteira do 4.5 e do 4.6.
+   - **Registrar no `log.md` SEMPRE**, inclusive "todos dentro da cadência" — mesmo motivo do 4.5: passo que só loga quando acha algo é indistinguível de passo que não rodou.
+   - **Limite conhecido, aceito:** este passo **só roda quando um ciclo roda**. Ele teria pego o schedule morto em qualquer um dos 4 ciclos disparados à mão (6–9), mas **não** detecta um repo completamente parado. Repo parado tem sinal humano; repo em uso com automação morta é o caso invisível, e é esse que o passo cobre.
+   - **Não confundir com a verificação por fase do `evolve.md`** — escopo diferente (fase × mecanismo) e ponto de observação diferente (dentro da execução × olhando execuções passadas). Remover um achando que duplica o outro perde a detecção de "não houve execução nenhuma".
 5. Respeitar o `circuit_breaker.max_accepted_changes_per_cycle` — se exceder, adiar as de menor score para o próximo ciclo (e logar que adiou).
 6. Uma linha `score` em `log.md` (contagens aceito/adiado/rejeitado).
 
