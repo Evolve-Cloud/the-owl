@@ -339,3 +339,50 @@ O mecanismo da **forma A** (reler 1–2 linhas do ledger por ciclo) **não teria
 - **Onde a cláusula morde de verdade:** a verificação L3 do `evolve.md`. Se ela continuasse exigindo "as duas cópias ou FALHOU" incondicionalmente, o gate reprovaria exatamente as edições que o ADR-034 autoriza. Agora chaveia no que o `arquivo_alvo` **declara** — e exclusão **sem** razão verificada segue **FALHOU**.
 - **Os dois candidatos foram atualizados no mesmo commit.** Ambos nomeavam o conflito como bloqueio; virou "resolvido, condicional à verificação". Deixá-los stale faria o ciclo 9 ler um bloqueio que não existe mais — o defeito exato que ocupou o dia inteiro.
 - **A classe `Unenforceable prose` do ADR-030 NÃO afrouxou** — registrado no ADR para um leitor futuro não confundir: prosa apresentada como imposta continua sendo o modo de falha.
+
+## [2026-08-12] cycle 9 | `/owl:evolve` autônomo — 3 aceitos, **1 reprovado no gate**, 2 landados
+- **Eixo:** `orchestration topology` (round-robin após `inter-agent communication`, ciclo 8). **Cutoff:** 2026-07-13. **Modelo:** `gpt-5.5` (resolvido de `~/.codex/config.toml`; `loop-config.yml` NÃO editado — carve-out). Brief: 3 fontes, 2 ideias, 58 ids decididos injetados. **Fim do streak de 3 ciclos 0-accept.**
+- **O ciclo cumpriu as três obrigações que o ciclo 8 deixou escritas** (log de 2026-08-07): pontuou os **dois** candidatos de `ideas/` sem linha no ledger, e levantou a elevação de classe do passo 0.5 do ADR-027. Nenhuma passou batido — que era o modo de falha nomeado.
+
+### A verificação que destravou dois candidatos de uma vez
+A sub-questão que o ciclo 7 registrou *"for whoever re-opens that id"* e que o ADR-034 promoveu a **pré-requisito de caminho crítico** foi resolvida na doc primária: **`allowed-tools` num comando NÃO é imposição.** Verbatim: *"It does not restrict which tools are available: every tool remains callable."* É grant de **um turno** que **alarga** — oposto semântico de `tools:`, que é allowlist durável que estreita.
+⇒ **Condição do ADR-034 SATISFEITA e verificada** para os dois reabertos. A alternativa B do ADR-034 (*"se for imposto, edite as duas metades"*) foi **testada e falhou** — o ADR era falsificável por construção, foi exercitado e sobreviveu.
+⚠️ **Ressalva registrada, não escondida:** existe `disallowed-tools` na metade comando e ela **é** restritiva, mas expira na próxima mensagem. A afirmação verificada é *"sem allowlist durável"*, **não** "sem equivalente nenhum" — dizer o segundo seria overclaim, e o ADR-034 exige razão verificada.
+- **Bônus:** os 3 campos de `agent-frontmatter-fields` (`maxTurns`, `memory`, `isolation`) são **todos reais**. O bloqueio caiu por inteiro — e o candidato **mesmo assim não passou** (73), por mérito. Primeira vez que *"reabrir ≠ aceitar"* foi exercido na prática.
+
+### Desfechos (7 ids)
+| id | score | status | por quê |
+|---|---|---|---|
+| `stale-context-block-in-l0-prompt` | **91** | **accepted → ADR-035** | 5 propriedades falsas injetadas no prompt L0 todo ciclo; o prompt **se contradizia internamente** |
+| `routing-eligibility-mode` | 84 | ⛔ **rejected no gate L4** | aplicado, reprovado, revertido — ver abaixo |
+| `least-privilege-tool-scopes-v2` | **80** | **accepted → ADR-037** | fatia cortada para **1 agente** (chronicler), não 8 |
+| `inert-command-frontmatter` | 79 | deferred | cap + adjacência, **não mérito** — cabeça de fila do ciclo 10 |
+| `agent-frontmatter-fields-v2` | 73 | deferred | por mérito: sem dado de turnos, teto errado troca custo por ciclo quebrado |
+| `pinned-roster-snapshots` | 62 | deferred | fonte única **não verificada** ⇒ ADR-013 barra |
+| `loop-machinery-self-audit` | 54 | rejected | elevação de classe do ADR-027 (7 ocorrências) — **duplicata do ADR-033** |
+
+### ⛔ O gate reprovou o ADR-036 — e isso é o item mais valioso do ciclo
+`routing-eligibility-mode` (84) foi aplicado a 10 personas-comando e **reprovado pelo @guardian**. O ADR afirmava, depois de checar **um** consumidor (o `/owl:evolve`): *"Nenhum outro consumidor conhecido."* Um `grep` de uma linha refutou:
+```
+grep -rl 'skill="agents:\|Skill tool: /agents:' .claude/agents/   →  9 de 13
+```
+`architect.md:83` **instrui**: *"**USE A SKILL TOOL** […] não apenas mencione '@builder' no texto"*. E a doc: *"Use `disable-model-invocation: true` to **block programmatic invocation**"* ⇒ teria quebrado a delegação em 9 agentes, **em silêncio**.
+- **A forma do erro, nomeada:** verificar um caso e escrever "nenhum outro" **não é verificação — é a ausência dela com a redação de uma.** Mesma forma que o ADR-015 registrou quando o Δ=0 do `role-ownership` foi generalizado, e que o fitness de 2026-08-07 recusou repetir explicitamente.
+- **🔑 Subproduto do gate: P7 é FALSA.** `structural-properties.md` afirma *"hub-and-spoke — especialistas nunca chamam uns aos outros — **VERDADEIRA**"*, com `.claude/commands/agents/*.md` como caminho-prova. **O caminho-prova a contradiz em 9 arquivos.** P7 é classificada como **escolha**, e escolha *"só muda por decisão do dono"* ⇒ **reportado, não consertado.** É a segunda propriedade falsa achada neste ciclo, e esta foi achada **pelo mecanismo funcionando**, não por revisão humana.
+- ⛔ **Recusado sob pressão de gate:** reaplicar só nos 4 agentes que ninguém invoca. Redesenhar uma mudança para caber pela brecha que o gate abriu é como mudança ruim entra.
+
+### ADR-035 — o bloco CONTEXT do prompt L0 (91)
+O artefato 8a afirmava *"markdown-only, **NO-RUNTIME** library of **~8** agents […] no orchestration engine, no daemon"*. Contra o registro: **P1, P2, P3, P6 falsas** e são **13** agentes. Pior: a correção de 2026-08-07 consertou o bloco irmão (`REJECTED CLASSES`) **do mesmo prompt**, então o prompt montado hoje dizia *"no daemon"* na linha 33 e *"scheduler (launchd)"* na 117.
+- **A causa-raiz não é o mecanismo do ADR-033 — é a lista de alvos dele.** O gatilho (a) disparou e funcionou; `structural-properties.md` §"O que depende deste registro" simplesmente **não listava o 8a**. Corrigido nos dois lados: a afirmação **e** o registro.
+- **A verificação achou um terceiro arquivo que o plano não previa.** O critério escrito (*"remontar o prompt e confirmar 0 afirmações falsas"*) voltou `markdown-only -> 1`: o mesmo defeito em `research-brief-schema.md:44`. Não teria aparecido por revisão de diff, só por remontar o artefato final. **Ainda aberto de propósito:** 8b entrou por achado, não por regra — *como saber que a lista está completa* segue sem mecanismo.
+
+### ADR-037 — escopo de ferramentas do chronicler (80)
+`tools: Read, Write, Edit, Grep, Glob, Bash, Skill, Agent` — **derivada exaustivamente do próprio arquivo**, com tabela ferramenta↔linha-fonte publicada para o revisor conferir em vez de confiar. **Sai:** `WebFetch`/`WebSearch`/MCP. Rationale: a carta dele é *"gerado DO código"* (l.214) e ele lê o repo inteiro — ler-tudo + falar-para-fora é o par a quebrar.
+- **@challenger derrubou um overclaim e o ADR foi corrigido:** o texto citava a medição de 1-em-3 vazamentos como se justificasse tirar a rede. **Não justifica** — aquele vazamento é para dentro do artefato. A medição estabelece adjacência a segredo; o argumento do egresso é **estrutural e não medido**. Escrito assim no ADR.
+- `Skill` e `Agent` **explicitamente incluídos** — omiti-los reproduziria exatamente o FAIL do ADR-036.
+- **Fatia = 1 agente, não 8:** não existe lista de ferramentas declarada em lugar nenhum (`.meta.yaml` não declara `tools`), então cada lista é **julgada**, e lista curta demais degrada em **silêncio**. 7 seguem na fila.
+
+### Falhas e limites deste ciclo, sem maquiagem
+- **A ferramenta `advisor` estava indisponível nas 4 tentativas** (overloaded). Nenhuma revisão externa do approach foi obtida. Registrado, não escondido.
+- **`pinned-roster-snapshots` foi deferido sem que sua fonte fosse buscada** — o @scout registrou a não-verificação em vez de fingir. Custo: uma ideia julgada com evidência mais fraca do que poderia ter.
+- **O resíduo do ADR-037 não foi refutado:** a derivação cobre o que o arquivo **menciona**; comportamento real não documentado ficaria de fora, e falharia em silêncio. Exigiria instanciar o agente — não feito.
