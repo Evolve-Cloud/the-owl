@@ -137,6 +137,16 @@ Reabrir **só depois** que o dono resolver a contradição de P7, porque a respo
 - **Se hub-and-spoke é a escolha real** e as instruções de peer-invocation são deriva a corrigir ⇒ `disable-model-invocation` deixa de quebrar algo e vira **reforço** dessa escolha. A ideia volta forte.
 - **Se peer-invocation via Skill é o mecanismo real** ⇒ P7 está errada no registro, e esta ideia está morta na forma proposta.
 
+### ✅ CONDIÇÃO CUMPRIDA — 2026-08-12, e a resposta MATA a ideia. Id ENCERRADO.
+
+O dono resolveu o P7 no mesmo dia, via **ADR-038**. A resposta não foi nenhuma das duas do binário acima — **o binário estava errado.** O P7 não era verdadeiro nem falso: era **verdadeiro do loop, arquivado como afirmação global**, e foi cindido em P7a (dentro do `/owl:evolve`: VERDADEIRA) e P7b (DevFlow interativo: **FALSA por design**).
+
+**Consequência para esta ideia, e é terminal:** peer-invocation é o mecanismo **real e deliberado** do DevFlow (P7b). `disable-model-invocation` nas personas do pipeline quebra exatamente esse mecanismo — que é o que o gate mediu. Não há versão desta mudança que sobreviva na superfície que ela mirava.
+
+⛔ **`routing-eligibility-mode` está ENCERRADO, não adiado.** Nenhuma condição de reabertura permanece aberta. Um id cuja condição foi cumprida com resposta negativa e que continua parecendo "reabrível" é precisamente o modo de falha que o ADR-033 inteiro existe para combater — então ele é fechado aqui, por escrito.
+
+📌 **A fatia principiada que existe e NÃO está sendo tomada:** com o P7a isolado, elegibilidade de roteamento **só nos agentes loop-only** seria coerente. Registrado no ADR-038 e não acionado — se valer, o ciclo 10 pontua **do zero, com id novo**. Ressuscitar este id pela porta que o próprio gate abriu é o movimento recusado sob pressão de gate, e continua recusado com a pressão passada.
+
 ⛔ **Não reabrir como "aplicar só nos 4 agentes que ninguém invoca"** — foi considerado e recusado **aqui**, sob pressão de gate: redesenhar uma mudança para caber pela brecha que o gate abriu é como mudança ruim entra. E deixaria metade do par com semântica diferente da outra metade, sem ninguém ter decidido isso.
 
 ## O que sobrevive deste ADR

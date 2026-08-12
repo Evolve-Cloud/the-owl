@@ -50,9 +50,31 @@ Ou seja: cada um desses arquivos declara um `trigger:` que não dispara nada, e 
 
 > ⚖️ **Deferido por CAP e ADJACÊNCIA, não por mérito** — dito explicitamente porque foi assim que `agent-frontmatter-fields` se perdeu por 3 semanas no ciclo 1. A adjacência é razão adicional e boa: `routing-eligibility-mode` aplica a mesma mecânica num conjunto disjunto de arquivos **neste ciclo**; observar um ciclo antes de repetir é mais barato que dois ADRs sobrepostos.
 
-## ➡️ Condição de reabertura — sem gatilho externo, é fila
+## ➡️ Condição de reabertura — **revista em 2026-08-12: NÃO é mais cabeça de fila**
 
-**Reabrir no ciclo 10 como primeiro item da fila**, sem esperar evidência nova: o bloqueio é o cap, e o cap zera todo ciclo. Se o ciclo 10 passar sem pontuá-lo, o modo de falha do ciclo 1 se repetiu e isso é um defeito do roteamento, não do mérito.
+> A versão anterior desta seção dizia *"reabrir no ciclo 10 como primeiro item da fila"*. Revista por direção do dono depois do FAIL do ADR-036, que mudou o que se sabe sobre esta superfície. A revisão está escrita, não silenciosa.
+
+**Segue reabrível no ciclo 10 — mas não primeiro, e não sem pré-condição.**
+
+### Por que saiu da cabeça da fila
+
+1. **Isto NÃO é limpeza cosmética — muda roteamento.** Hoje, sem `description`, a harness cai em *"the first paragraph of markdown content"*. Pôr um `description` explícito **muda quando Claude carrega aqueles 9 comandos**. É a mesma classe de mudança que acabou de reprovar no gate (ADR-036), com raio menor mas não zero. A página original tratava isso como troca de chaves inertes; é mais que isso.
+2. **O valor é honestidade, não função.** Impacto pontuado 12/20, e o fallback da harness provavelmente já funciona. Parar de exibir configuração que não configura é real — mas não é urgente.
+3. **Seria a terceira mudança de frontmatter seguida**, num ciclo que acabou de provar que a semântica de frontmatter em comando não é óbvia (`allowed-tools` alarga em vez de restringir; `disable-model-invocation` bloqueia invocação programática).
+
+### ⛔ Pré-condição de caminho crítico — escrita, não conferência opcional
+
+Antes de qualquer ADR sobre isto, **rodar e registrar o grep de consumidores** dos 9 comandos:
+
+```bash
+grep -rn 'quick/\|/quick:' .claude/ docs/ scripts/    # quem invoca ou referencia estes comandos?
+```
+
+**É literalmente o passo que faltou no ADR-036.** Aquele ADR escreveu *"nenhum outro consumidor conhecido"* depois de verificar um; o grep que refutou custou uma linha. Esta pré-condição existe para que o mesmo erro não seja cometido duas vezes na mesma superfície, e o resultado dele vai no ADR — inclusive se for "nenhum consumidor", que aí é um negativo **verificado**, não afirmado.
+
+### Ordem recomendada para o ciclo 10
+
+Depois do ADR-038 (P7 cindido, já feito) e **atrás** de `mechanism-liveness-verification`, que carrega evidência mais fresca e mais cara. Se o ciclo 10 pontuar este e ele passar, ótimo; se o cap comer de novo, **registrar isso outra vez** — dois ciclos seguidos deferido por cap vira sinal de roteamento, não de mérito.
 
 ## Related
 - **Sources:** [[scout-notes-2026-08-12]]

@@ -118,7 +118,13 @@ grep -rl 'skill="agents:\|Skill tool: /agents:' .claude/agents/   →  9 de 13
 
 **Achado que o gate produziu:** **P7 é falsa.** O registro afirma *"hub-and-spoke — especialistas nunca chamam uns aos outros — **VERDADEIRA**"*, com `.claude/commands/agents/*.md` como caminho-prova. O caminho-prova a contradiz em 9 arquivos. P7 é classificada como **escolha**, e escolha *"só muda por decisão do dono"* — então isto é reportado, não consertado.
 
-**Reabertura:** ver ADR-036 §"Condição de reabertura". Depende do dono resolver P7 primeiro — a resposta decide se a ideia fica forte ou morre.
+**Reabertura: NENHUMA. Id ENCERRADO em 2026-08-12 (ADR-038).**
+
+A condição registrada era *"depende do dono resolver P7"*. Foi resolvida no mesmo dia — e a resposta **não foi nenhuma das duas do binário**: o P7 não era verdadeiro nem falso, era **verdadeiro do loop arquivado como afirmação global**. Cindido em P7a (dentro do `/owl:evolve`: VERDADEIRA) e **P7b (DevFlow interativo: FALSA por design — 9 de 13 pares instruem invocação peer)**.
+
+⇒ Peer-invocation é o mecanismo **real e deliberado** da superfície que esta ideia mirava. `disable-model-invocation` ali **quebra** exatamente o que o P7b descreve. Não existe versão desta mudança que sobreviva nessa superfície. **Condição cumprida, resposta negativa, id fechado** — nenhum arquivo de agente mudou em consequência, porque não havia nada quebrado neles.
+
+📌 Existe uma fatia coerente **só nos agentes loop-only** (onde o P7a é o invariante real). Registrada no ADR-038 e **não acionada**: se valer, o ciclo 10 pontua **do zero, com id novo**. Este id não volta.
 
 ## Related
 - **Sources:** [[research-brief-2026-08-12]] · [[scout-notes-2026-08-12]]

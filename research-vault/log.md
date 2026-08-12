@@ -394,3 +394,27 @@ Quatro coisas ficaram para trás na primeira passagem do L5 e foram corrigidas a
 - **Nenhuma página de `sources/` tinha sido criada** (passo 2 do INGEST). Criadas **3** — as três fontes primárias que foram de fato buscadas e citadas verbatim. ⚠️ **A quarta NÃO foi criada de propósito:** `s1` (Managed Agents) não foi buscada, e stub de fonte não lida daria aparência de evidência verificada. É a mesma razão que deferiu `pinned-roster-snapshots`.
 - **O ADR-036 usava `Status: REJECTED no gate L4`, fora do enum do `000-template.md`.** Campo que parece schema e não é — a classe `Unenforceable prose` um nível acima. `Rejected` foi **adicionado ao enum** e o ADR-036 realinhado.
 - **ADR-037 ganhou uma exclusão explícita:** o `MODO TEAM` (Claude Agent Teams, `chronicler.md:85-89`) é comportamento **documentado** cujas ferramentas o arquivo não nomeia — plausivelmente `SendMessage`/`Task*`, nenhuma na lista. Não cabia na ressalva de *comportamento não documentado*. Declarado fora de escopo com três razões verificáveis (gated por env var experimental, custo 3-5×, não verificável sem instanciar), e virou pré-requisito escrito para o próximo agente do rollout.
+
+## [2026-08-12] human-directed | P7 cindido por escopo (ADR-038) · fila do ciclo 10 resequenciada
+Passagem do dono depois do ciclo 9, fora do `/owl:evolve`. Três atos, três linhas `human-directed` (ADR-027). **Nenhum arquivo de agente mudou.**
+
+### O binário que eu levei ao dono estava errado — e a contagem mostra por quê
+Perguntei *"hub-and-spoke é a escolha real, ou peer-invocation é o mecanismo real?"*. **Nenhuma das duas.** Verificado nas **duas** metades do par:
+```
+grep -rl 'skill="agents:|Skill tool: /agents:|USE A SKILL TOOL'
+  .claude/agents/           → 9 de 13
+  .claude/commands/agents/  → 9 de 13   ← o caminho-prova do P7
+```
+Mesmos 9 nos dois lados ⇒ **par consistente, sem deriva ADR-028.** E os **4 que não fazem** peer-invocation são `curator`, `scout` (agentes **só do loop**), `team` (o **hub**, ADR-011) e `challenger` (gate que só devolve veredito). **Não é distribuição aleatória — é exatamente o conjunto que vive dentro do loop ou é gate.** Os 9 que fazem são o pipeline **DevFlow**, o mesmo que vai no pack portátil.
+Fechando o outro lado, `evolve.md:21`: *"o orquestrador **lê o arquivo** do agente e segue as instruções dele inline"*. O loop **nunca** invoca persona via Skill.
+
+⇒ **O P7 não era falso: era verdadeiro do loop, arquivado como afirmação sobre o sistema inteiro, citando como prova os arquivos exatos que o refutam.** Cindido (ADR-038) em **P7a** (dentro do `/owl:evolve`: VERDADEIRA) e **P7b** (DevFlow interativo: FALSA **por design**). O registro ganha um segundo eixo — **escopo**, ao lado de capacidade×escolha — e toda propriedade nova passa a levar a pergunta *"isto vale em todo lugar, ou num escopo?"*.
+- **Alternativa recusada, e é a que mais custava:** remover as instruções de peer-invocation dos 9 agentes para o P7 voltar a ser globalmente verdadeiro. Seriam 18 arquivos mudados para fazer a realidade caber num registro — **consertar o mapa destruindo o território.**
+
+### `routing-eligibility-mode` ENCERRADO, não adiado
+A condição registrada era *"depende do dono resolver o P7"*. Cumprida no mesmo dia, com **resposta negativa**: peer-invocation é o mecanismo real do DevFlow, então `disable-model-invocation` nas personas do pipeline quebra exatamente o que o P7b descreve. Não existe versão da mudança que sobreviva naquela superfície. **Nenhuma condição de reabertura permanece aberta** — id cuja condição foi cumprida negativamente e que segue *parecendo* reabrível é o modo de falha que o ADR-033 inteiro combate.
+- 📌 A fatia coerente **só nos agentes loop-only** (onde o P7a é o invariante real) está registrada e **não acionada**. Se valer, o ciclo 10 pontua **do zero, com id novo** — ressuscitar este id pela porta que o gate abriu é o movimento recusado sob pressão, e continua recusado sem ela.
+
+### Fila do ciclo 10 resequenciada
+- **Cabeça: `mechanism-liveness-verification`** (novo, não pontuado, **sem linha no ledger**). A lacuna: nada verifica se mecanismo que **afirma rodar** de fato roda. O ADR-033 cobre propriedade **expirada**; isto é mecanismo **morto**, e é pior de detectar porque emite **silêncio** em vez de decisão errada. **n=2 do mesmo dia:** o schedule morto ~3 semanas (com `launchctl list` dizendo "carregado, exit 0" enquanto o programa não existia e o log de erro ia pra casca com 0 bytes), e `cost` "TODO" há 2+ ciclos — falta de dado que **deferiu o `agent-frontmatter-fields-v2` (73)**: mecanismo morto custou uma decisão. ⚖️ O FAIL do ADR-036 **não** foi contado como instância — é classe diferente (disciplina de verificação), e contá-la seria fabricar evidência.
+- **`inert-command-frontmatter` sai da cabeça** (a página dele dizia que era o primeiro). Mérito e score 79 intactos; o que mudou é o que se sabe da superfície: pôr `description` **não é cosmético** — sem ele a harness cai no primeiro parágrafo, então um explícito **muda quando Claude carrega** aqueles 9 comandos. Mesma classe que acabou de reprovar no gate. Ganhou **pré-condição escrita**: rodar e registrar o grep de consumidores **antes** de qualquer ADR — literalmente o passo que o ADR-036 pulou.
