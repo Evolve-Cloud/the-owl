@@ -3,10 +3,14 @@ title: "Per-agent tool scopes, re-opened: the harness now enforces them"
 type: idea
 tags: [security, tooling, subagents, least-privilege]
 supersedes_context: least-privilege-tool-scopes
-awaiting_scoring: cycle-9
+scored: cycle-9 (2026-08-12)
+status: accepted
+score: 80
+adr: ADR-037
+origin: reflection
 reopened: 2026-08-07
 reopened_by: human-directed (ADR-033 finding)
-updated: 2026-08-07
+updated: 2026-08-12
 ---
 
 > [!important] **Este candidato NÃO está pontuado — e de propósito.**

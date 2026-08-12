@@ -1,6 +1,6 @@
 # ADR-036 — Elegibilidade de roteamento: a metade `commands/` declara que não é auto-selecionável
 
-**Status:** **REJECTED no gate L4 (2026-08-12)** — a mudança foi aplicada, reprovada pelo @guardian e **revertida**. Nada foi commitado. O ADR fica como registro da decisão de NÃO fazer, e da razão.
+**Status:** Rejected — no gate L4 (2026-08-12). A mudança foi aplicada, reprovada pelo @guardian e **revertida**; nada foi commitado. O ADR fica como registro da decisão de NÃO fazer, e da razão. (`Rejected` foi adicionado ao enum de `000-template.md` neste mesmo commit — este ADR era o primeiro caso e usava um status fora do enum.)
 **Date:** 2026-08-12
 **Author:** @architect (ciclo 9 do `/owl:evolve`)
 **Tags:** [orchestration, routing, frontmatter, topology, adr-034]

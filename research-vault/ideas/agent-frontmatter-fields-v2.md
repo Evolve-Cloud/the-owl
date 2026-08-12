@@ -3,10 +3,14 @@ title: "Campos de frontmatter de subagent, reaberto: o bloqueio era 'não temos 
 type: idea
 tags: [frontmatter, subagents, cost, enforcement]
 supersedes_context: agent-frontmatter-fields
-awaiting_scoring: cycle-9
+scored: cycle-9 (2026-08-12)
+status: deferred
+score: 73
+adr: ""
+origin: reflection
 reopened: 2026-08-07
 reopened_by: human-directed (primeiro alvo vivo do passo 4.6, ADR-033 forma B)
-updated: 2026-08-07
+updated: 2026-08-12
 ---
 
 > [!important] **NÃO pontuado, de propósito. E sem linha no `ledger.md`, também de propósito.**

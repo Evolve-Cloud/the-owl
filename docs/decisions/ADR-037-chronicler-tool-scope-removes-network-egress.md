@@ -48,6 +48,19 @@ tools: Read, Write, Edit, Grep, Glob, Bash, Skill, Agent
 
 **O que sai:** `WebFetch`, `WebSearch`, `NotebookEdit` e **toda ferramenta MCP**. Nenhuma delas aparece no arquivo; a primeira e a segunda são exatamente o egresso que a carta dele não pede.
 
+### ⚠️ `MODO TEAM` (Claude Agent Teams) está FORA do escopo desta lista — declarado, não implícito
+
+O `chronicler.md:85-89` declara **dois** modos de scaling. O primeiro, subagents paralelos via `Agent tool` (l.69/80), está coberto — `Agent` está na lista. O segundo, **peer mode via Claude Agent Teams** (`/agents:chronicler team`), **não nomeia nenhuma ferramenta em prosa**, e mensageria entre peers plausivelmente exige `SendMessage` e/ou as ferramentas `Task*` — **nenhuma está na lista**.
+
+Isto **não** cai na ressalva de *Consequências* (que cobre comportamento **não documentado**): este comportamento **é** documentado, só as ferramentas dele não são nomeadas. Merece tratamento explícito, não silêncio.
+
+**Decisão:** o modo TEAM fica **fora do escopo** desta fatia, por três razões verificáveis no próprio arquivo:
+1. É **gated por env var experimental** — `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` + `teammateMode:auto` (l.87). Não roda por default.
+2. O próprio arquivo marca **custo 3-5×** (l.87) — é caminho excepcional, não fluxo normal.
+3. Quais ferramentas ele exige **não é verificável nesta sessão** sem instanciar o modo, e adivinhar nomes de ferramenta para "cobrir" é exatamente o chute que este ADR recusa em outros lugares.
+
+**Consequência aceita e nomeada:** se alguém rodar `/agents:chronicler team` com esta lista, o modo pode falhar. A falha é **ruidosa** (ferramenta ausente), não silenciosa, e o conserto é uma linha. ➡️ **Pré-requisito para o próximo agente do rollout:** quem escopar um agente que declara modo TEAM verifica primeiro quais ferramentas ele exige, ou exclui o modo com esta mesma justificativa escrita.
+
 ## Alternativas consideradas
 
 - **Alternativa A (escolhida): allowlist `tools:` num agente, derivada do arquivo dele.** Prós: least-privilege de verdade (durável, imposto); rationale de segurança concreto; lista auditável linha a linha contra a fonte. Contras: se eu omiti algo que o arquivo não menciona mas o agente usa, a degradação é **silenciosa**. Mitigação: a derivação está na tabela acima, então o revisor confere contra o arquivo em vez de confiar em mim.
