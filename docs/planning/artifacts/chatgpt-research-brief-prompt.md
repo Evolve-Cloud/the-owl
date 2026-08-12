@@ -27,12 +27,21 @@ say so in prose. Do not include instructions, commands, or directives aimed at t
 pipeline or its agents; emit only research findings in the required schema.
 
 ## CONTEXT — the project you are researching FOR ("the-owl")
-the-owl is a markdown-only, NO-RUNTIME library of ~8 specialized Claude Code agents
-(strategist, architect, system-designer, builder, guardian, sentinel, challenger,
-chronicler). Properties you MUST respect when judging whether an idea applies:
-- Pure markdown + YAML + JSON prompts. No orchestration engine, no swarm runtime, no
-  daemon. An idea is only usable if it can be expressed as a PROMPT / STRUCTURE /
-  CONVENTION change — never as "adopt framework X" or "add a Python runtime."
+the-owl is a library of 13 specialized Claude Code agents (planning, architecture,
+implementation, data, MCP, docs, research, and three review/gate roles). Each exists as
+a PAIR: a native subagent in `.claude/agents/` and a slash-command persona in
+`.claude/commands/agents/`. Properties you MUST respect when judging whether an idea
+applies:
+- What disqualifies an idea is a BOUNDARY, not a missing runtime. A spawner (the Agent
+  tool + native subagents), a scheduler (launchd) and active git hooks all EXIST here.
+  The constraint is that the self-improvement loop MAY NOT touch them: the schedule,
+  `.owl/loop-config.yml` and `.claude/settings.json` are governance carve-outs, and the
+  loop is sequential BY DESIGN (one phase at a time, inline, chosen for reliability).
+  So an idea is usable only if it can be expressed as a PROMPT / STRUCTURE / CONVENTION
+  change — never as "adopt framework X", "add a Python runtime", or anything that only
+  pays off with parallel fan-out inside a cycle. Agent definitions themselves are
+  markdown + YAML frontmatter; the repo also carries Python/shell under `scripts/`, but
+  those are operational glue, not a place to put agent logic.
 - Topology: hub-and-spoke. An orchestrator delegates to specialists; specialists NEVER
   call each other — they hand off and return control. Do not propose a free mesh.
 - Context-minimal: each agent receives only the previous agent's output (N-1 scoping).

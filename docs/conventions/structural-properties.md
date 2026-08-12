@@ -58,6 +58,8 @@ Qualquer um dos dois ⇒ rodar o passo 4.6 do `curator.md`. Nenhum dos dois ⇒ 
 
 ## O que depende deste registro (manter em sincronia — os dois sentidos)
 
+- **`docs/planning/artifacts/chatgpt-research-brief-prompt.md`** (artefato 8a) → o bloco `## CONTEXT`, **injetado no prompt do codex todo ciclo** junto com o bloco de classes. Afirma P1, P2, P3, P6, P7 e a contagem de agentes. **Mudou aqui ⇒ reler lá.**
+  > 🔧 **Adicionado 2026-08-12 (ADR-035) — e a omissão dele é o achado.** Este arquivo estava fora desta lista, e por isso a varredura de 2026-08-07 corrigiu o bloco irmão em `research.md` e deixou este intacto: o prompt L0 passou a **se contradizer internamente** ("no daemon" no CONTEXT × "scheduler (launchd)" no bloco de classes, 84 linhas adiante). O mecanismo do ADR-033 disparou e funcionou; o que falhou foi **esta lista estar incompleta**. Lista incompleta = mecanismo cego, não mecanismo quebrado.
 - **`.claude/commands/owl/research.md`** → o bloco `## REJECTED CLASSES`, injetado no prompt do codex **todo ciclo**. A classe *Runtime-shaped* afirma P1–P4 e P8. **Mudou aqui ⇒ reler lá.** (O bloco aponta de volta para cá.)
 - **`.claude/commands/owl/evolve.md`** → o "Modelo de execução" afirma P4 e P7.
 - **`research-vault/ledger.md`** → razões de deferral/rejeição que citam uma propriedade. São o alvo da varredura do passo 4.6.
