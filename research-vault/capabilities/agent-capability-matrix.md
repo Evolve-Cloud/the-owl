@@ -38,11 +38,11 @@ Estes eixos alimentam o round-robin do `/owl:research` (ver `.claude/commands/ow
 
 | agente | capacidade | fontes (vault) | arquivo(s)-alvo | eval fixture | Δ medido | verified_on |
 |---|---|---|---|---|---|---|
-| mcp-builder | MCP spec v2026-07-28 (stateless, MRTR, deprecações SEP-2577, OAuth 2.1/segurança) | `sources/mcp-*` (54 notas) + [[mcp-server-and-client-building]] | par `mcp-builder` (ambas as cópias) | **ausente** | — (refresh PR #8, sem medida) | 2026-07-30 |
+| mcp-builder | MCP spec v2026-07-28 (stateless, MRTR, deprecações SEP-2577, OAuth 2.1/segurança) | `sources/mcp-*` (54 notas) + [[mcp-server-and-client-building]] | par `mcp-builder` (ambas as cópias) | `14-mcp-builder-spec-capability` | — (refresh PR #8, baseline a rodar) | 2026-07-30 |
 | todos (9 pipeline) | handoff com campos de incerteza (premissas/questões/confiança) | ADR-004/020/029 + primárias OpenAI handoffs | 18 arquivos (9 pares) | `01-architect-adr` (parcial) | **+11.0** (handoff-contract, dimensão handoff) | 2026-08-07 |
-| architect · system-designer · builder | `platform-engineering` (K8s, Terraform, AWS, CI/CD) | **ausentes no vault** — gap declarado | par de cada agente + `capabilities/` | ausente | — | — |
-| database-specialist | `data-engineering` (schema/query design, migrações) | **ausentes no vault** — gap declarado | par `database-specialist` | ausente | — | — |
-| builder · system-designer | `secure-sdlc` (supply chain, OWASP deltas) | **ausentes no vault** — gap declarado | pares não-carve-out + `capabilities/` | ausente | — | — |
+| architect · system-designer · builder | `platform-engineering` (K8s, Terraform, AWS, CI/CD) | **ausentes no vault** — gap declarado | par de cada agente + `capabilities/` | `11-architect-platform-capability` · `12-builder-cicd-capability` | — (baseline a rodar) | — |
+| database-specialist | `data-engineering` (schema/query design, migrações) | **ausentes no vault** — gap declarado | par `database-specialist` | `13-database-specialist-schema-capability` | — (baseline a rodar) | — |
+| builder · system-designer | `secure-sdlc` (supply chain, OWASP deltas) | **ausentes no vault** — gap declarado | pares não-carve-out + `capabilities/` | `15-system-designer-securesdlc-capability` | — (baseline a rodar) | — |
 
 ## Related
 - ADR-040 (esta matriz + classificação capability×governance) · ADR-014/015 (fitness) · ADR-023 (registry de capabilities de tooling) · [[index]] (catálogo de tooling — coisa distinta)

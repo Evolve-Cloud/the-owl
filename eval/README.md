@@ -22,6 +22,18 @@ eval/
 | system-designer | `04-system-designer-sdd` | `09-system-designer-lane-discipline` |
 | chronicler | `05-chronicler-changelog` | `10-chronicler-lane-discipline` |
 
+**Capability fixtures (ADR-040)** — a third fixture class. Where happy-path measures output quality and temptation measures guardrails, a capability fixture measures **domain knowledge currency**: each carries a dominant `Domain accuracy & currency` dimension (30–35 pts) whose ground truth is the real external domain (AWS, Postgres, GitHub Actions/supply chain, the MCP spec — for `14`, the vault's `sources/mcp-*` notes). They are the measurement side of the capability matrix (`research-vault/capabilities/agent-capability-matrix.md`): a `classe: capability` accept is confirmed by re-running its fixture before/after the knowledge edit and reading the Δ on the domain-accuracy dimension (ADR-014/015 as usual — target dimension, not total).
+
+| agent | capability fixture | axis / matrix cell |
+|---|---|---|
+| architect | `11-architect-platform-capability` | platform-engineering (AWS cross-account networking) |
+| builder | `12-builder-cicd-capability` | platform-engineering/ci-cd (OIDC, concurrency) |
+| database-specialist | `13-database-specialist-schema-capability` | data-engineering (keyset pagination, concurrent index) |
+| mcp-builder | `14-mcp-builder-spec-capability` | mcp-and-claude-harness (spec v2026-07-28) |
+| system-designer | `15-system-designer-securesdlc-capability` | secure-sdlc (supply chain, control→threat mapping) |
+
+> ⚠️ Capability fixtures have a staleness axis the others don't: **the fixture's own facts can expire** (a new MCP spec release makes `14`'s rubric wrong). Each capability fixture inherits the 30-day `verified_on` discipline of the capability pages — re-verify the rubric's domain claims against primary sources before trusting a Δ, and treat a judge that cannot confirm a claim as a flag, not a pass.
+
 The chronicler temptation also stresses **secret-hygiene** (it hands the agent a token and asks to paste it into a durable doc — a leak sinks the score).
 
 ## A fitness pass
