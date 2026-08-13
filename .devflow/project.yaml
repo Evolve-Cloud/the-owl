@@ -3,11 +3,11 @@
 # Atualizado automaticamente pelo @chronicler
 
 project:
-  name: "DevFlow"
+  name: "the-owl"
   version: "1.6.0"
-  description: "Sistema multi-agentes para desenvolvimento de software com 10 agentes especializados + loop de auto-melhoria diário (the-owl)"
+  description: "Time de 13 agentes Claude Code especializados (pares subagent+comando, ADR-028) + loop de auto-melhoria semanal /owl:evolve. Direção corrente: capability over governance (ADR-040)."
   created: "2025-11-15"
-  last_updated: "2026-07-24"
+  last_updated: "2026-08-13"
 
   # Estado atual
   status: "active"
@@ -15,7 +15,7 @@ project:
 
   # Repositório
   repository:
-    url: "https://github.com/evolve-labs-cloud/devflow"
+    url: "https://github.com/Evolve-Cloud/the-owl"
     main_branch: "main"
 
 # Agentes disponíveis
@@ -141,8 +141,8 @@ agents:
       - "snapshot"
       - "changelog"
     outputs:
-      - "docs/CHANGELOG.md"
-      - ".devflow/snapshots/"
+      - "CHANGELOG.md"
+      - "docs/snapshots/"
       - "ADRs automáticos"
       - "Knowledge graph"
       - "docs/wiki/"
@@ -173,6 +173,40 @@ agents:
     outputs:
       - "research-vault/ (vault ownership)"
       - "research-vault/ledger.md"
+
+  - id: "database-specialist"
+    name: "Database Specialist"
+    role: "data"
+    focus: "Bancos de dados, schema/query design, migrações"
+    triggers:
+      - "@database-specialist"
+      - "schema"
+      - "migration"
+      - "query"
+    outputs:
+      - "Schema/migration designs"
+      - "Query reviews"
+
+  - id: "mcp-builder"
+    name: "MCP Builder"
+    role: "mcp"
+    focus: "Servers/clients MCP conformes à spec (v2026-07-28 absorvida)"
+    triggers:
+      - "@mcp-builder"
+      - "MCP"
+      - "connector"
+    outputs:
+      - "MCP server/tool designs"
+
+  - id: "team"
+    name: "Team"
+    role: "orchestration"
+    focus: "Orquestrador DevFlow paralelo (hub) — N/A para convenções de pipeline (ADR-011)"
+    triggers:
+      - "@team"
+      - "team"
+    outputs:
+      - "Coordenação multi-agente"
 
 # Tecnologias e stack
 tech_stack:
@@ -319,10 +353,10 @@ features:
     name: "Self-Improvement Loop (the-owl)"
     status: "implemented"
     version: "1.6.0"
-    description: "Daily autonomous loop that improves the-owl's own agents. scout researches the field (codex brief + live web), curator scores each idea against a ratcheting rubric AND against our own code (L1.5 gap-analysis, ADR-005), accepted ideas become an ADR + edit, gated by guardian/sentinel/challenger, landed as a shadow PR. Armed via launchd (daily 07:13). Safety invariant NFR-SEC-1 (ADR-001): the loop cannot autonomously edit its own guardrails. 3 cycles merged (ADR-004/006/007/008/009). See docs/decisions/ADR-001..019 and docs/architecture/diagrams/."
+    description: "Weekly autonomous loop (Mondays 07:13, launchd) that improves the-owl's own agents. scout researches the delta on the cycle's axis (default: CAPABILITY axes, ADR-040), curator scores each idea against a ratcheting rubric AND against our own code (L1.5, ADR-005) with capability|governance classing, accepted ideas become an ADR + edit, gated by guardian/sentinel/challenger, landed as a shadow PR. Safety invariant NFR-SEC-1 (ADR-001): the loop cannot autonomously edit its own guardrails. 10 cycles run. See docs/decisions/ADR-001..040 and docs/architecture/diagrams/."
 
 # ── the-owl ADRs (self-improvement loop) ──
-# Authoritative decision records live as files in docs/decisions/ADR-001..019.
+# Authoritative decision records live as files in docs/decisions/ADR-001..040.
 # NOTE: these REUSE the numbers ADR-001/002/003 for NEW the-owl decisions; the
 # summary `decisions:` block below is LEGACY DevFlow context (different decisions,
 # 2025-11-15), kept for history. For the-owl, trust the files in docs/decisions/.
@@ -349,18 +383,18 @@ decisions:
 
 # Métricas (atualizadas pelo Chronicler)
 metrics:
-  total_agents: 10
+  total_agents: 13       # 13 persona PAIRS (ADR-028): .claude/agents/ + .claude/commands/agents/
   total_features: 20
-  total_decisions: 19   # 19 the-owl ADRs on disk: docs/decisions/ADR-001..019 (the legacy `decisions:` block is separate DevFlow history)
-  owl_cycles_run: 3      # autonomous /owl:evolve cycles proposed + merged (2026-07-23 x2, 2026-07-24)
-  owl_cycles_merged: 3
+  total_decisions: 40    # the-owl ADRs on disk: docs/decisions/ADR-001..040 (the legacy `decisions:` block is separate DevFlow history)
+  owl_cycles_run: 10     # /owl:evolve cycles through 2026-08-12 (cycle 10, ADR-039)
+  owl_cycles_merged: 8
   owl_carve_out_violations: 0
   npm_package: "@evolve.labs/devflow"
   npm_version: "1.5.0"
   documentation_coverage: "excellent"
   metadata_coverage: "excellent"
   orchestration_coverage: "complete"
-  last_snapshot: "2026-07-30"
+  last_snapshot: "2026-08-13"
 
 # Configurações
 config:
