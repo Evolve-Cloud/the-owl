@@ -3,14 +3,17 @@ title: "Nada verifica se os mecanismos da-owl que afirmam rodar de fato rodam"
 type: idea
 tags: [reflection, liveness, silent-failure, adr-033]
 sources: 0
-awaiting_scoring: cycle-10
+scored: cycle-10 (2026-08-12b)
+status: accepted
+score: 88
+adr: ADR-039
+origin: reflection
 raised: 2026-08-12
 raised_by: human-directed (dono, após o ciclo 9 produzir 2 instâncias frescas)
 updated: 2026-08-12
 ---
 
-> [!important] **NÃO pontuado, e sem linha no `ledger.md` — os dois de propósito.**
-> Levantar não é aceitar. O passo 1 do `curator.md` pula id que já está no ledger, então uma linha prematura mataria isto em silêncio e faria *parecer* feito. O @curator escreve a linha quando pontuar, no ciclo 10. O **ato** de levantar tem linha própria (`hd-raise-mechanism-liveness`), com id distinto.
+> [!note] **Levantado no ciclo 9 sem linha no ledger (de propósito); pontuado no ciclo 10, que é quando a linha foi escrita.** O mecanismo funcionou como projetado: o passo 1 do curator achou este arquivo como o **único** em `ideas/` sem linha, que é exatamente o ramo que o ciclo 8 registrou como "documentado e nunca exercitado".
 
 **Categoria:** self-improvement / operations · **Confiança:** high (a evidência é do próprio repo) · **Aplicabilidade:** 5/5
 
@@ -60,7 +63,50 @@ Não é *"adicionar monitoramento"*. Essa é a forma vaga que não tem fatia at�
 
 Também não é o guard que já landou: o `exit 4` do `owl-daily.sh` (commit `134fa56`) conserta **uma** instância — path errado nunca mais falha em silêncio. Ele **não** responde *"o schedule rodou semana passada?"*, que é a pergunta desta classe.
 
+---
+
+# PONTUAÇÃO — ciclo 10 (2026-08-12b, backlog pass)
+
+## L1.5 self-audit (ADR-005) — e o grounding deu um achado mais afiado que a página tinha
+
+- **`já_implementado?`** **PARCIALMENTE — e o jeito como é parcial É o defeito.** Verificado contra a árvore:
+  - `evolve.md` tem **6** verificações de saída por fase (*"artefato ausente = fase FALHOU"*) — isso **é** liveness, no nível de **fase**;
+  - `curator.md` tem o **4.5** (staleness de convenções, relógio) e o **4.6** (bloqueio expirado, evento);
+  - `owl-metrics.py` lê `last-cycle-metrics.json`, mas para **reportar custo**, não para julgar se o ciclo rodou.
+- **🔑 O achado:** **toda a verificação de liveness da-owl vive DENTRO do loop.** Logo ela é estruturalmente incapaz de detectar **o loop não rodando**. As 6 checagens de fase só rodam quando um ciclo roda; se nenhum ciclo roda, ninguém repara. É por isso que 3 semanas de schedule morto passaram: o verificador está dentro da coisa verificada.
+  Isso **responde a Q3** (*"quem verifica o verificador?"*): hoje, ninguém — e não por esquecimento, por topologia.
+- **E responde Q2 (relógio × evento) de um jeito que eu não tinha visto.** Mecanismo morto **não emite evento** — a ausência é o sinal, então o modelo do 4.6 (evento) não serve. Mas também **não precisa de daemon novo**: quando um ciclo eventualmente roda (todos os ciclos 6–9 rodaram, por disparo humano), ele pode olhar **para trás** e responder *"quantos slots agendados passaram sem produzir run?"*. **Detecção por relógio, avaliada em-ciclo, retroativamente.** Sem processo novo — e um processo novo seria só mais uma coisa que pode morrer em silêncio.
+- **O dado já existe e ninguém lê:** `.owl/state/daily-*.log` — um arquivo por run real. Os únicos são **23 e 24/jul**. **A ausência deles era a evidência**, disponível o tempo todo.
+- **`onde_está_o_gap`** `.claude/commands/agents/curator.md` — tem 4.5 (relógio/convenções) e 4.6 (evento/propriedades), e **não tem** o terceiro: relógio/**mecanismos**.
+- **`arquivo_alvo`** (ADR-028 — o **par**, prosa, sem exceção do ADR-034): `.claude/agents/curator.md` **+** `.claude/commands/agents/curator.md`. É prosa comportamental, então as **duas** metades recebem a mesma edição. Nenhuma exclusão.
+  - **Carve-out:** o passo **lê e reporta**; nunca conserta o schedule (Q5 satisfeita). `curator` não é carve-out.
+
+## Curator verdict — score 88 (threshold 75)
+
+| Criterion | Score | Note |
+|---|---|---|
+| Fit to architecture (25) | 23 | Terceiro passo na série que o `curator.md` já tem (4.5 relógio/convenções · 4.6 evento/propriedades · **4.7 relógio/mecanismos**). Reusa forma existente em vez de inventar. Lê dado que já existe (`daily-*.log`). −2: é o terceiro passo periódico no mesmo agente, e passo periódico que ninguém lê vira cerimônia — o risco que o 4.5 já carrega. |
+| Evidence strength (20) | 19 | **Ground truth interno, não afirmação externa.** As 2 instâncias são deste repo, deste dia, com prova: o schedule morto (consertado em `134fa56`, com `launchctl list` dizendo "carregado, exit 0" enquanto o programa não existia) e `cost` TODO há 2+ ciclos. E o achado do L1.5 — verificador dentro do verificado — é verificável lendo `evolve.md` + `curator.md`. |
+| Impact (20) | 17 | Uma das 2 instâncias **já custou uma decisão**: sem dado de turnos, `agent-frontmatter-fields-v2` foi deferido (73). A outra custou **3 semanas de cadência**. Não é impacto hipotético — é impacto já pago, duas vezes. −3: o passo **detecta**, não conserta; e alerta que ninguém lê é o mesmo defeito de roupa nova. |
+| Simplicity & reversibility (15) | 13 | Um passo em prosa nas duas metades do par; a checagem é comparar a data do `daily-*.log` mais novo com a cadência declarada. Revert = apagar o passo. −2: exige nomear **quais** mecanismos entram na lista, e lista incompleta é o defeito que o ADR-035 acabou de pagar. |
+| Safety (10) | 10 | **Lê e reporta, nunca repara.** O schedule, `loop-config.yml` e `settings.json` seguem carve-out intocado — o passo pode dizer "o schedule não roda há 3 semanas" e **não pode** consertá-lo. Zero capacidade nova. |
+| Non-duplication (10) | 6 | −4, e é a nota mais honesta da tabela: sobrepõe **de verdade** a verificação por fase do `evolve.md`. A diferença é escopo (fase × mecanismo) e ponto de observação (dentro do ciclo × olhando para o ciclo). Real, mas é diferença **sutil**, e o ADR tem que dizê-la explicitamente ou alguém deleta um dos dois achando que é o mesmo. |
+
+**Safety 10 ≥ floor 7.** ✅ · **ACEITO — 88.**
+
+⚠️ **Sem haircut do ADR-015:** isto **não** é afirmação comportamental sobre a qualidade do output de um agente. É um passo que responde uma pergunta factual (*"a data do último `daily-*.log` está dentro da cadência?"*) cuja resposta é verificável sem juiz. Crédito de Impacto é cheio.
+
+## Claim verification
+
+- **Claim:** a-owl não tem verificação de liveness fora do loop, e por isso não pôde detectar o próprio schedule morto por ~3 semanas.
+- **Source:** o próprio repo — `.claude/commands/owl/evolve.md` (6 verificações, todas em-fase), `.claude/commands/agents/curator.md` (4.5 e 4.6, nenhum sobre mecanismo), `.owl/state/daily-*.log` (só 2026-07-23 e 07-24), commit `134fa56`.
+- **Verdict:** **confirmed.**
+- **Evidence:**
+  > `evolve.md`: *"**VERIFICAÇÃO DE SAÍDA (obrigatória, harness).** Toda fase declara um artefato esperado. Depois da fase, **confirmar que o artefato existe**"* — em-fase, portanto só roda quando um ciclo roda.
+
+  E a ausência, que é o dado: `ls .owl/state/daily-*.log` → `daily-2026-07-23.log`, `daily-2026-07-24.log`. Nada entre 24/jul e 12/ago, com `cadence: weekly` declarado em `.owl/loop-config.yml`.
+
 ## Related
-- [[structural-properties]] · ADR-033 (o vizinho: propriedade **expirada**; isto é mecanismo **morto**) · ADR-027 (a barra ≥2× que eleva a classe) · ADR-012 (custo como sinal — a instância 2) · ADR-010 (verificação de saída por fase — possível duplicação, Q4)
+- [[structural-properties]] · ADR-033 (o vizinho: propriedade **expirada**; isto é mecanismo **morto**) · ADR-027 (a barra ≥2× que eleva a classe) · ADR-012 (custo como sinal — a instância 2) · ADR-010 (verificação de saída por fase — a duplicação parcial, Q4, resolvida acima)
 - Instância 1 consertada em `134fa56`; contexto completo em `research-vault/log.md` → `[2026-08-12]`
 - Irmão na fila: [[inert-command-frontmatter]] (atrás deste, por evidência mais fresca aqui)
