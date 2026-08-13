@@ -38,25 +38,38 @@ STARTED_AT="$(date -u +%FT%TZ)"
 echo "==== [$(date)] /owl:evolve START (landing=$LANDING) ====" >> "$LOG"
 # Headless. --permission-mode bypassPermissions: no prompts (unattended).
 # Risk bounded by shadow mode + guardian/sentinel/challenger gate + NFR-SEC-1 carve-out.
+# --output-format json (ADR-043): stdout vira o result-JSON da sessão (inclui
+# total_cost_usd + usage) — capturado em OUT_JSON; o texto final + resumo vão pro LOG.
+OUT_JSON="$REPO/.owl/state/last-run-output.json"
 set +e
-claude -p --permission-mode bypassPermissions "/owl:evolve" >> "$LOG" 2>&1
+claude -p --permission-mode bypassPermissions --output-format json "/owl:evolve" > "$OUT_JSON" 2>> "$LOG"
 RUN_EXIT=$?
 set -e
 END_EPOCH=$(date +%s)
 echo "==== [$(date)] /owl:evolve END (exit $RUN_EXIT, $((END_EPOCH - START_EPOCH))s wall) ====" >> "$LOG"
 
-# Real wall-clock cost signal (ADR-012 FP5). token/$ are NOT captured here — they must be
-# written into .owl/state/last-run.json by the loop itself from the codex/claude session
-# usage (still TODO; do NOT fabricate). owl-metrics.py reads this file for the COST section.
-cat > "$REPO/.owl/state/last-cycle-metrics.json" <<EOF
-{
-  "started_at": "$STARTED_AT",
-  "ended_at": "$(date -u +%FT%TZ)",
-  "wall_clock_s": $((END_EPOCH - START_EPOCH)),
-  "run_exit": $RUN_EXIT,
-  "cost_usd": null,
-  "tokens": null,
-  "note": "wall_clock_s is real; cost_usd/tokens are TODO (populate from codex/claude session usage)"
-}
-EOF
+# Cost instrumentation (ADR-043, closes ADR-012 FP5): parse REAL numbers from the
+# session result-JSON. Parse failure => nulls + note (never fabricate, ADR-012).
+# Note: subscription-auth runs may report cost 0.0 — tokens are the durable signal.
+python3 - "$OUT_JSON" "$REPO/.owl/state/last-cycle-metrics.json" "$STARTED_AT" "$((END_EPOCH - START_EPOCH))" "$RUN_EXIT" "$LOG" <<'PYEOF'
+import json, sys, datetime
+out_json, metrics_path, started_at, wall_s, run_exit, log = sys.argv[1:7]
+cost = tokens = None; note = "parsed from claude -p --output-format json"
+try:
+    d = json.load(open(out_json))
+    cost = d.get("total_cost_usd")
+    u = d.get("usage") or {}
+    parts = [u.get(k) for k in ("input_tokens","output_tokens","cache_read_input_tokens","cache_creation_input_tokens")]
+    tokens = sum(p for p in parts if isinstance(p, (int, float))) or None
+    result_text = d.get("result") or ""
+    open(log, "a").write("\n--- session result (from JSON) ---\n" + result_text[-4000:] + "\n")
+except Exception as e:
+    note = f"cost parse FAILED ({type(e).__name__}) — nulls kept, never fabricated"
+json.dump({
+    "started_at": started_at,
+    "ended_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "wall_clock_s": int(wall_s), "run_exit": int(run_exit),
+    "cost_usd": cost, "tokens": tokens, "note": note,
+}, open(metrics_path, "w"), indent=2)
+PYEOF
 exit $RUN_EXIT
