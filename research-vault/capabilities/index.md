@@ -7,6 +7,8 @@ updated: 2026-08-03
 
 # Capabilities registry
 
+> 🎯 **A matriz de capacidade dos AGENTES vive em [[agent-capability-matrix]] (ADR-040)** — agente × domínio × fontes × eval × Δ. Este index aqui é outra coisa: how-tos do tooling da própria owl.
+
 **Operational how-tos for the-owl's OWN tooling and harness** — "tools/techniques we already know, so we don't re-discover them." This is a *resource catalog*, distinct from [[patterns/index|patterns]]: a **pattern** is synthesis of external research (what the field knows); a **capability** is a verified, concrete how-to for a tool *this repo actually invokes* (graphify, native subagents, codex, the retrieve-delta loop).
 
 > [!info] Read rules
