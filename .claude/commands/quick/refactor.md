@@ -1,4 +1,5 @@
 ---
+description: "Refatoração segura do escopo em $ARGUMENTS via @architect + @builder: edições atômicas, comportamento preservado."
 trigger: "refactor|refatorar|refatoração|clean up|limpar código|reorganizar|extrair função|rename|renomear"
 category: quality
 priority: medium

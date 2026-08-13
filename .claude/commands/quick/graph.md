@@ -1,4 +1,5 @@
 ---
+description: "Regenera ou reconcilia o knowledge graph (.devflow/knowledge-graph.json) a partir das fontes reais; modo regenerate|check em $ARGUMENTS."
 trigger: "knowledge graph|grafo|regenerar grafo|atualizar grafo|reconcile grafo|graph check"
 category: documentation
 priority: medium

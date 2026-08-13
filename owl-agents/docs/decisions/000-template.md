@@ -2,7 +2,9 @@
 
 > Copy this file to `ADR-{NNN}-{titulo-kebab-case}.md`, increment `{NNN}` to the next sequential number, and fill every section. Delete this quote block.
 
-**Status:** Proposed | Accepted | Deprecated | Superseded by ADR-XXX
+**Status:** Proposed | Accepted | **Rejected** | Deprecated | Superseded by ADR-XXX
+
+> `Rejected` cobre o ADR que foi escrito, teve a mudança aplicada e **reprovou no gate L4** — nada commitado. O ADR permanece como registro da decisão de NÃO fazer e da razão; o número nunca é reusado. Adicionado 2026-08-12 (ADR-036 foi o primeiro caso e usava um status fora do enum, que é a mesma classe de defeito — campo que parece schema e não é — um nível acima).
 **Date:** YYYY-MM-DD
 **Author:** @architect (or the agent proposing the decision)
 **Tags:** []

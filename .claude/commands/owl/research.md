@@ -1,4 +1,5 @@
 ---
+description: "L0 do loop: monta o prompt retrieve-then-search-delta (memória injetada skill-side) e chama o codex para gerar o research brief do ciclo."
 trigger: "owl research|research brief|gerar brief|owl-research"
 category: self-improvement
 priority: medium

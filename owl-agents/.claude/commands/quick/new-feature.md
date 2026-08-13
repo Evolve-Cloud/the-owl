@@ -1,4 +1,5 @@
 ---
+description: "Dispara o pipeline completo de planejamento (@strategist→@architect→@builder) para a feature descrita em $ARGUMENTS."
 trigger: "nova feature|new feature|implementar feature|criar feature|quero implementar|preciso de uma feature"
 category: planning
 priority: high
