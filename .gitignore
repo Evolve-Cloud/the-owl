@@ -18,6 +18,12 @@ node_modules/
 .owl/state/
 .owl/last-run.json
 
+# tokensave local index (per-machine state; git rm -r --cached .tokensave to untrack)
+.tokensave/
+
+# hygiene quarantine (review & delete manually)
+_quarantine-*/
+
 # DevFlow ephemeral sessions
 .devflow/sessions/
 

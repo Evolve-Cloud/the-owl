@@ -1,7 +1,9 @@
 ---
+description: "Roda UM ciclo completo de auto-melhoria da-owl (L0→L5), com gate triplo e shadow PR. Invocado pelo schedule semanal ou pelo dono — NÃO auto-invocar."
 trigger: "owl evolve|self improve|auto melhorar|ciclo de melhoria|owl:evolve"
 category: self-improvement
 priority: high
+disable-model-invocation: true
 ---
 
 # /owl:evolve — o loop de auto-melhoria da-owl

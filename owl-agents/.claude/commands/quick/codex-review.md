@@ -1,4 +1,5 @@
 ---
+description: "Review técnico independente (segunda opinião via codex CLI, read-only) do escopo em $ARGUMENTS, antes do merge."
 trigger: "codex review|code review|revisar código|segunda opinião|pre-merge review|review antes do merge"
 category: quality
 priority: high

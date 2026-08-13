@@ -1,4 +1,5 @@
 ---
+description: "Auditoria de segurança defensiva (@sentinel, lente OWASP/CWE) do escopo descrito em $ARGUMENTS."
 trigger: "security check|auditoria de segurança|verificar segurança|security audit|vulnerabilidades|owasp"
 category: quality
 priority: high

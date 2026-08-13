@@ -1,4 +1,5 @@
 ---
+description: "Cria um Architecture Decision Record em docs/decisions/ (template 000) para a decisão descrita em $ARGUMENTS."
 trigger: "criar adr|create adr|decisão técnica|architecture decision|registrar decisão|adr"
 category: architecture
 priority: medium

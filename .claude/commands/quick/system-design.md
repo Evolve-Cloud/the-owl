@@ -1,4 +1,5 @@
 ---
+description: "Cria um System Design Document (SDD) via @system-designer para o sistema descrito em $ARGUMENTS."
 trigger: "system design|design de sistema|arquitetura de sistema|projetar sistema|sdd|back-of-the-envelope"
 category: architecture
 priority: high

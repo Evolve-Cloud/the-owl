@@ -1,4 +1,5 @@
 ---
+description: "Gera ou atualiza docs/wiki/ (documentação navegável, grounded em arquivos reais, via @chronicler); modo init|update em $ARGUMENTS."
 trigger: "wiki|repo wiki|gerar wiki|atualizar wiki|documentação navegável|agent wiki"
 category: documentation
 priority: medium

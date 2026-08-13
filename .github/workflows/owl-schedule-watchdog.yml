@@ -1,0 +1,71 @@
+name: owl-schedule-watchdog
+# ADR-044 — liveness do schedule verificada de FORA (fecha o limite declarado do
+# ADR-039/passo 4.7: "só roda quando um ciclo roda; não detecta repo parado").
+# O launchd no Mac continua sendo o EXECUTOR; isto só OBSERVA e alerta.
+on:
+  schedule:
+    - cron: "0 15 * * 2"   # terças 15:00 UTC — um dia após a janela de segunda 07:13 local
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check-weekly-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const days = 8;
+            const cutoff = Date.now() - days*24*3600*1000;
+            const branches = await github.paginate(github.rest.repos.listBranches, {
+              owner: context.repo.owner, repo: context.repo.repo, per_page: 100 });
+            const evolve = branches.filter(b => b.name.startsWith('owl/evolve-'));
+            let alive = false, freshest = null;
+            for (const b of evolve) {
+              const c = await github.rest.repos.getCommit({
+                owner: context.repo.owner, repo: context.repo.repo, ref: b.commit.sha });
+              const t = new Date(c.data.commit.committer.date).getTime();
+              if (!freshest || t > freshest.t) freshest = { name: b.name, t };
+              if (t >= cutoff) alive = true;
+            }
+            const title = '🦉 watchdog: schedule semanal sem run detectável';
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'owl-watchdog' });
+            const existing = open.data.find(i => i.title === title);
+            const freshStr = freshest
+              ? `${freshest.name} @ ${new Date(freshest.t).toISOString()}`
+              : 'nenhuma branch owl/evolve-* encontrada';
+            if (!alive) {
+              const body = [
+                `Nenhum push em branch \`owl/evolve-*\` nos últimos ${days} dias.`,
+                `Branch mais recente: ${freshStr}.`,
+                '',
+                'Checar no Mac executor:',
+                '- `launchctl print gui/$(id -u)/com.evolvelabs.owl.daily`',
+                '- `ls -la .owl/state/daily-*.log` + `started_at` em `last-cycle-metrics.json` (regra dos DOIS artefatos, ADR-039)',
+                '',
+                '_Aberto pelo watchdog externo (ADR-044). Este workflow OBSERVA; o reparo do schedule é decisão do dono (carve-out NFR-SEC-1)._'
+              ].join('\n');
+              if (existing) {
+                await github.rest.issues.createComment({ owner: context.repo.owner,
+                  repo: context.repo.repo, issue_number: existing.number,
+                  body: `Ainda sem run. Branch mais recente: ${freshStr}.` });
+              } else {
+                await github.rest.issues.create({ owner: context.repo.owner,
+                  repo: context.repo.repo, title, body, labels: ['owl-watchdog'] });
+              }
+              core.setFailed(`Sem run owl/evolve-* em ${days} dias (mais recente: ${freshStr})`);
+            } else {
+              core.info(`Vivo: ${freshStr}`);
+              if (existing) {
+                await github.rest.issues.createComment({ owner: context.repo.owner,
+                  repo: context.repo.repo, issue_number: existing.number,
+                  body: `Run detectada (${freshStr}) — fechando.` });
+                await github.rest.issues.update({ owner: context.repo.owner,
+                  repo: context.repo.repo, issue_number: existing.number, state: 'closed' });
+              }
+            }

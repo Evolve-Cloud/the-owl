@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "root_dir": "/Users/rafaelribeiro/Evolve Labs/the-owl",
+  "root_dir": "/Users/rafaelribeiro/Evolve Labs/Evolve Labs/the-owl",
   "exclude": [
     "target/**",
     ".git/**",

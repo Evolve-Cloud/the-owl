@@ -1,4 +1,5 @@
 ---
+description: "Investigação estruturada de bug via @builder: reproduzir, isolar causa-raiz e propor o fix mínimo para $ARGUMENTS."
 trigger: "debug|debugar|investigar bug|rastrear erro|por que falha|error|exception|crash|não funciona|broken"
 category: quality
 priority: high

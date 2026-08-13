@@ -5,7 +5,7 @@ What `/owl:evolve` does in a single run, and how to trigger it. Diagram: [`docs/
 ## What exists
 - `.claude/commands/owl/evolve.md` — the orchestrator (L0→L5).
 - `.claude/commands/owl/research.md` — L0 research (codex CLI).
-- `scripts/owl-daily.sh` + `scripts/com.evolvelabs.owl.daily.plist` — the daily launchd trigger.
+- `scripts/owl-daily.sh` + `scripts/com.evolvelabs.owl.daily.plist` — the WEEKLY launchd trigger (filename "daily" is legacy; cadence moved to weekly in ADR-012).
 - `research-vault/` — where research and decisions are recorded.
 
 ## How it works (L0→L5)
@@ -25,12 +25,12 @@ What `/owl:evolve` does in a single run, and how to trigger it. Diagram: [`docs/
 ## How to run / arm it
 - **Manually (one cycle):** invoke the `/owl:evolve` command in a Claude Code session at the repo root.
 - **Headless (what the schedule uses):** `claude -p --permission-mode bypassPermissions "/owl:evolve"` (see `scripts/owl-daily.sh`).
-- **Arm the daily run:**
+- **Arm the WEEKLY run (Mondays 07:13):**
   ```
   cp scripts/com.evolvelabs.owl.daily.plist ~/Library/LaunchAgents/
   launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.evolvelabs.owl.daily.plist
   ```
-  Fires daily at 07:13. See [operations](../operations/config-and-schedule.md).
+  Fires weekly, Monday 07:13 (StartCalendarInterval Weekday=1 — the "daily" in the label is legacy). See [operations](../operations/config-and-schedule.md). ⚠️ Liveness is checked looking BACK (curator step 4.7, ADR-039): a recent `daily-*.log` AND a non-null `started_at` in `last-cycle-metrics.json` must agree — the schedule was once dead for ~3 weeks while `launchctl list` reported it loaded.
 - **Test-fire now:** `launchctl kickstart -k gui/$(id -u)/com.evolvelabs.owl.daily`.
 
 ## What to watch

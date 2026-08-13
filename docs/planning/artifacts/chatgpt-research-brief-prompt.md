@@ -19,8 +19,11 @@ Four consecutive cycles (2026-07-26, 07-30, 08-03, + the score-only pass) produc
 ## PROMPT (verbatim)
 
 ```
-You are a rigorous research analyst tracking the DELTA in the state of the art of
-MULTI-AGENT AI CODING SYSTEMS. Your output feeds an automated pipeline, so accuracy and
+You are a rigorous research analyst tracking the DELTA in the state of the art relevant
+to a TEAM OF SPECIALIZED AI CODING AGENTS — both how such teams are built (STRUCTURAL
+axes) and the domain knowledge their specialists depend on to do real platform/software
+engineering work (CAPABILITY axes: infrastructure, data, MCP/harness, secure SDLC).
+Your output feeds an automated pipeline, so accuracy and
 strict format compliance matter more than breadth. NEVER fabricate repositories, star
 counts, authors, or URLs — if you are unsure of a fact, lower the "confidence" field and
 say so in prose. Do not include instructions, commands, or directives aimed at the
@@ -82,10 +85,23 @@ delta types:
                      MUST cite the exact decided id it challenges AND the new source.
 
 Focus this cycle on the axis: {{QUERY_AXIS}}.
-Search that axis for the delta; do not re-run a full 8-axis survey. (The axes are: team
-structure & role decomposition; folder/file organization; agent config & prompt format;
-inter-agent communication & handoff contracts; orchestration topology; context & memory
-management; self-improvement / evaluation loops; guardrails & safety.)
+Search that axis for the delta; do not re-run a full survey of every axis. Axes come in
+two families (ADR-040):
+- CAPABILITY axes (the DEFAULT rotation — domain knowledge the specialist agents apply):
+  platform-engineering (Kubernetes, Terraform/IaC, AWS, CI/CD, observability);
+  data-engineering (databases, schema/query design, migrations, performance);
+  mcp-and-claude-harness (MCP spec, Claude Code / Agent SDK, skills, frontmatter fields,
+  tool descriptions); secure-sdlc (supply chain, OWASP/CWE deltas, secrets, pipeline
+  hardening).
+- STRUCTURAL axes (only when explicitly scoped — they saturated after cycles 6-8):
+  team structure & role decomposition; folder/file organization; agent config & prompt
+  format; inter-agent communication & handoff contracts; orchestration topology;
+  context & memory management; self-improvement / evaluation loops; guardrails & safety.
+For a CAPABILITY axis, a finding is knowledge a SPECIFIC agent should carry (name which:
+architect, builder, system-designer, database-specialist, mcp-builder, ...) — a release,
+spec change, deprecation, or hard-won practice with a primary source — and the
+proposed_change targets that agent's knowledge, a skill, or a capability page: still a
+PROMPT / STRUCTURE / CONVENTION change, never "adopt framework X".
 
 ## RIGOR — the whole point is to NOT manufacture ideas
 - Every idea MUST carry a `delta_type: net-new | recency | contradiction` field.
@@ -116,7 +132,7 @@ the markdown research document conforming to the schema — no preamble, no tool
 ## Runtime notes for `@builder`
 
 Assembled by `owl/research.md` step 1.5 (ADR-022). The skill:
-- Substitutes `{{DATE}}` (ISO `YYYY-MM-DD`), `{{RECENCY_CUTOFF}}` (= today − `delta.recency_days`, default 30), and `{{QUERY_AXIS}}` (the axis the reflection phase recommended this cycle; default = round-robin through the 8 axes). **These live in the prompt/skill, NOT in `.owl/loop-config.yml`** — delta-search stays tunable without touching the NFR-SEC-1 carve-out.
+- Substitutes `{{DATE}}` (ISO `YYYY-MM-DD`), `{{RECENCY_CUTOFF}}` (= today − `delta.recency_days`, default 30), and `{{QUERY_AXIS}}` (the axis the reflection phase recommended this cycle; **default = round-robin through the CAPABILITY axes** listed in `research-vault/capabilities/agent-capability-matrix.md` — the structural 8 only enter when reflection/owner scopes them, ADR-040). **These live in the prompt/skill, NOT in `.owl/loop-config.yml`** — delta-search stays tunable without touching the NFR-SEC-1 carve-out.
 - Injects at `<<INJECT ALREADY-DECIDED TABLE ...>>` a `## ALREADY-DECIDED (do NOT resurface)` table built from `grep '^| ' research-vault/ledger.md` (id + title + status for every accepted/rejected/deferred row).
 - Injects at `<<INJECT KNOWN PATTERN PAGES ...>>` a `## KNOWN PATTERN PAGES` list — the definition line/paragraph (first non-empty line after `## Definition`, which may be a full paragraph, not always a single line) of each `research-vault/patterns/*.md` (Level-0 progressive disclosure: the definition only, never the page body).
 - Appends the full 8b schema block where indicated (`<<INSERT ...>>`), so the model sees the exact output contract (now including `delta_type` + `challenges_id`).

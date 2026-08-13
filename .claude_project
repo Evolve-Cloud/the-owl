@@ -1,15 +1,16 @@
-# DevFlow - Claude Code Project Configuration
+# the-owl - Claude Code Project Configuration
 
 ## Memory System Integration
 
 Always load these files for context:
-- .devflow/memory/active.json (current project state)
-- .devflow/memory/index.json (fast lookups)
-- .devflow/project.yaml (metadata)
+- .devflow/project.yaml (metadata — agents, metrics, features)
+- docs/wiki/quickstart.md (grounded index; a claim here that contradicts docs/conventions/structural-properties.md loses)
+
+(.devflow/memory/active.json and index.json were legacy DevFlow pointers to files that no longer exist — removed 2026-08-13. The durable memory is research-vault/ + docs/decisions/.)
 
 ## Agent Orchestration Rules
 
-CRITICAL: Agents must follow hard stops and mandatory delegation.
+CRITICAL: Agents must follow hard stops and mandatory delegation. 13 persona PAIRS (ADR-028) — every edit hits both .claude/agents/<x>.md and .claude/commands/agents/<x>.md.
 
 1. @strategist → Planning ONLY (never code)
 2. @architect → Software Design ONLY (never implementation, never infra at scale)
@@ -17,7 +18,13 @@ CRITICAL: Agents must follow hard stops and mandatory delegation.
 4. @builder → Code ONLY (never requirements)
 5. @guardian → Quality & Tests ONLY (never security audits → @sentinel)
 6. @sentinel → Security Audit ONLY (defensive posture, never exploits)
-7. @chronicler → Documentation ONLY (never code)
+7. @challenger → Adversarial review ONLY (verdicts, never fixes)
+8. @chronicler → Documentation ONLY (never code)
+9. @database-specialist → Data/schema ONLY
+10. @mcp-builder → MCP servers/clients ONLY
+11. @team → DevFlow parallel orchestration hub (N/A for pipeline conventions, ADR-011)
+12. @scout → External research ONLY (owl loop)
+13. @curator → Scoring + vault ownership ONLY (owl loop)
 
 ## Workflow
 
@@ -36,11 +43,10 @@ Feedback loops allowed:
 - Update CHANGELOG.md
 - Create snapshots
 - Generate stories if @strategist doesn't
-- Update active.json
 
 ## Context Loading Strategy
 
-1. Always: active.json + index.json
+1. Always: .devflow/project.yaml + docs/wiki/quickstart.md
 2. On-demand: Specific ADRs, stories, snapshots
 3. Archive: Only when explicitly requested
 
@@ -55,5 +61,5 @@ Feedback loops allowed:
 
 ## Repo Wiki
 Before searching the code for context, read `docs/wiki/quickstart.md` — a navigable index
-maintained by @chronicler (grounded in real files: the loop, the 10 agents, the safety model,
+maintained by @chronicler (grounded in real files: the loop, the 13 agent pairs, the safety model,
 workflows, and operations). Update it via `/agents:chronicler /wiki update` after structural changes.

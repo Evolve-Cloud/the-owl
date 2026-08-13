@@ -1,4 +1,5 @@
 ---
+description: "L0 do loop: monta o prompt retrieve-then-search-delta (memória injetada skill-side) e chama o codex para gerar o research brief do ciclo."
 trigger: "owl research|research brief|gerar brief|owl-research"
 category: self-improvement
 priority: medium
@@ -54,7 +55,7 @@ Gera o brief diário de pesquisa externa que alimenta o loop de auto-melhoria. �
 
    - **RECENCY + AXIS SCOPE** (duas variáveis do lado da skill, substituídas no prompt):
      - `{{RECENCY_CUTOFF}}` = hoje menos `delta.recency_days` (default **30**): `date -v-30d +%F` (macOS) / `date -d '30 days ago' +%F` (Linux).
-     - `{{QUERY_AXIS}}` = o eixo que a fase de reflexão recomendou este ciclo (ADR-024); **default = round-robin** pelos 8 eixos (escolha por `dia-do-ano mod 8`, ou o próximo eixo após o último registrado em `.owl/state/last-run.json` se existir).
+     - `{{QUERY_AXIS}}` = o eixo que a fase de reflexão recomendou este ciclo (ADR-024); **default = round-robin pelos eixos de CAPACIDADE (ADR-040)** — a lista canônica vive em `research-vault/capabilities/agent-capability-matrix.md` → "Eixos de capacidade" (hoje: `platform-engineering`, `data-engineering`, `mcp-and-claude-harness`, `secure-sdlc`; fallback estático se o arquivo faltar). Escolha por `dia-do-ano mod N` (N = nº de eixos de capacidade), ou o próximo eixo após o último registrado em `.owl/state/last-run.json` se existir. **Os 8 eixos estruturais saem do default** (saturaram — ciclos 6–8, 0 aceites, tudo alias) e só entram quando a reflexão (ADR-024) ou o dono os escopar explicitamente.
 
    > ⚖️ **Carve-out:** `{{RECENCY_CUTOFF}}` e `{{QUERY_AXIS}}` vivem **no PROMPT/skill, NÃO** em `.owl/loop-config.yml` — o delta-search é ajustável sem tocar o freio de mão NFR-SEC-1. `delta.recency_days` é um default documentado aqui, não uma chave do loop-config.
 
