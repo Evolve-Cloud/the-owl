@@ -80,7 +80,8 @@ EU NÃO FAÇO:
 - **Chunking:** 200–500 tokens em **fronteiras naturais** (seção/parágrafo), com overlap; nunca cortar no meio da frase.
 - **Índice vetorial:** pgvector (HNSW p/ recall, IVFFlat p/ memória); dimensão = do modelo de embedding; distância (cosine/L2) coerente com o treino do embedding.
 - **Hybrid search:** combinar semântico + BM25/keyword (o semântico erra em termos exatos/códigos).
-- **Avaliação de retrieval (não "parece certo"):** **recall@k / precision@k** — o doc que responde à pergunta é recuperado? Monte um golden set de (pergunta → doc esperado) e meça; **freshness do índice = frequência de atualização da fonte** (docs diários + índice semanal = retrieval velho).
+- **⚠️ Filtro + índice aproximado = top-k que SOME em silêncio.** Com HNSW/IVFFlat o `WHERE` é aplicado **depois** da varredura do índice, não durante: o índice devolve uma lista de candidatos de tamanho **fixo** (`hnsw.ef_search`, default 40) e o filtro descarta a maior parte dela. Resultado: `k=10` com filtro pode retornar 2 — **sem erro, sem aviso**, só um resultado curto que parece "o corpus não tinha mais". Doc do pgvector: seletividade de 10% × `ef_search` 40 ⇒ *"only 4 rows will match on average"*. Saídas: **iterative scan** (`hnsw.iterative_scan`/`ivfflat.iterative_scan`, limitado por `max_scan_tuples`) · **over-fetch** (subir `ef_search` bem acima de k) · **índice parcial** por valor de filtro, quando a cardinalidade é baixa. ⚖️ A **propriedade** (aproximado + pós-filtro ⇒ sob-retorno) é geral; o **knob** é grafia do pgvector — outros motores (Qdrant/Milvus/Weaviate) anunciam pré-filtro real; confirme no seu antes de assumir.
+- **Avaliação de retrieval (não "parece certo"):** **recall@k / precision@k** — o doc que responde à pergunta é recuperado? Monte um golden set de (pergunta → doc esperado) e meça **com o filtro de produção aplicado** — golden set sem filtro passa com recall cheio enquanto a query real (tenant/ACL/tipo/data — ou seja, quase todas) devolve uma fração de k; medir sem filtro é construir a avaliação que **esconde** exatamente o defeito acima. **Freshness do índice = frequência de atualização da fonte** (docs diários + índice semanal = retrieval velho).
 - **RAG vs alternativas:** RAG p/ KB grande/atualizando + resposta citável; **long-context** quando cabe (<~200k) e a qualidade do retrieval preocupa; **fine-tuning** p/ comportamento, não fatos.
 - **Fronteira (não cruzar):** a ordenação na injeção (mais relevante nas bordas, lost-in-the-middle), instruir o modelo a citar/priorizar/sinalizar contexto insuficiente, e a escolha de modelo = **skill `claude-architecture`**, não eu. Eu entrego chunks recuperados + fontes; a skill/@builder cuidam da geração.
 
@@ -133,6 +134,7 @@ EU NÃO FAÇO:
 - Índice novo sem padrão de acesso que o justifique (write-amplification) → cortar.
 - Segredo (connection string com senha) em migration/seed/log versionado → env/secret store.
 - RAG avaliado por "parece certo" → golden set + recall@k. Índice vetorial nunca reindexado (fonte muda) → stale retrieval.
+- Busca vetorial **com filtro** medida num golden set **sem** filtro → passa no teste e sob-retorna em produção; e num RAG multi-tenant o filtro é o ACL, então "menos resultados" vira resposta incompleta que ninguém percebe.
 - Chunk cortado no meio da frase / sem metadados de fonte → o modelo recebe fragmento sem como citar.
 
 ---

@@ -2,7 +2,7 @@
 title: Agent Capability Matrix
 type: index
 tags: [capabilities, matrix, capability-over-governance]
-updated: 2026-08-13
+updated: 2026-08-17
 adr: ADR-040
 ---
 
@@ -39,6 +39,7 @@ Estes eixos alimentam o round-robin do `/owl:research` (ver `.claude/commands/ow
 | agente | capacidade | fontes (vault) | arquivo(s)-alvo | eval fixture | Δ medido | verified_on |
 |---|---|---|---|---|---|---|
 | mcp-builder | MCP spec v2026-07-28 (stateless, MRTR, deprecações SEP-2577, OAuth 2.1/segurança) | `sources/mcp-*` (54 notas) + [[mcp-server-and-client-building]] | par `mcp-builder` (ambas as cópias) | `14-mcp-builder-spec-capability` | — (refresh PR #8, baseline a rodar) | 2026-07-30 |
+| database-specialist | busca vetorial **filtrada**: filtro é pós-varredura em índice aproximado ⇒ top-k sob-retorna em silêncio; `hnsw.iterative_scan`/over-fetch/índice parcial; e medir recall@k **com o filtro de produção** | [[pgvector-readme]] (primária, fetch ao vivo) + [[filtered-vector-search-overfiltering]] | par `database-specialist` (ambas as cópias) | **ausente para esta dimensão** — `13-database-specialist-schema-capability` é a MESMA célula da matriz mas exercita paginação OFFSET/índice parcial/`CONCURRENTLY`, **não** filtro sobre índice vetorial (lido, não presumido). Follow-up: `16-database-specialist-rag-filter-capability` | — (ADR-014/015: sem fixture na dimensão-alvo, impacto é hipótese; aceite provisório) | 2026-08-17 |
 | todos (9 pipeline) | handoff com campos de incerteza (premissas/questões/confiança) | ADR-004/020/029 + primárias OpenAI handoffs | 18 arquivos (9 pares) | `01-architect-adr` (parcial) | **+11.0** (handoff-contract, dimensão handoff) | 2026-08-07 |
 | architect · system-designer · builder | `platform-engineering` (K8s, Terraform, AWS, CI/CD) | **ausentes no vault** — gap declarado | par de cada agente + `capabilities/` | `11-architect-platform-capability` · `12-builder-cicd-capability` | — (baseline a rodar) | — |
 | database-specialist | `data-engineering` (schema/query design, migrações) | **ausentes no vault** — gap declarado | par `database-specialist` | `13-database-specialist-schema-capability` | — (baseline a rodar) | — |
