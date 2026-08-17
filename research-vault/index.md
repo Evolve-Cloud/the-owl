@@ -24,6 +24,11 @@ External-research knowledge base for **agent-team engineering**. See [[SCHEMA]] 
 
 **51 source notes in `sources/`.** Tiers: **25 read-in-full** pages (full summary, key points, quotes, gaps), **24 brief-materialized** stubs (one line per codex-brief source, awaiting a full read), and **2 from the scheduled cycle 4** (2026-07-26).
 
+### Cycle 11 — 2026-08-17 (axis: `data-engineering`, CX2)
+- [[pgvector-readme]] — primary, **read in full via live fetch**; supplied both the mechanism and the quantified example behind ADR-045.
+- [[postgresql-18-release-notes]] — primary, **read in full via live fetch**; sole evidence for the deferred skip-scan candidate.
+- Plus 4 primary docs cited by [[research-brief-2026-08-17]] (Databricks ×2, gcloud, Iceberg) — **not independently re-fetched** by @scout, so they remain brief claims rather than verified facts; ADR-013 obliges the confirmation fetch only for ideas about to be accepted, and none of those four were.
+
 ### Cycle 9 — 2026-08-12 (axis: orchestration topology) → **112 pages**
 Três fontes **primárias de fornecedor**, todas buscadas e citadas verbatim; nenhuma materializada de tabela de brief.
 - [[claude-code-subagents-frontmatter]] — a lista **completa** de campos de frontmatter de subagent. Derrubou o bloqueio de `agent-frontmatter-fields` inteiro (`maxTurns`, `memory` — minúsculo — e `isolation` são **todos reais**). O **negativo** também fez trabalho: `disable-model-invocation` **não** existe nesta superfície, e é isso que verifica a assimetria do ADR-034 no sentido espelhado.
@@ -120,6 +125,9 @@ Fresh-research sources from the scheduled `/owl:evolve` cycle: [[anthropic-trust
 - [[trajectory-evals]] — **rejected (58)** — its own best-cited source, read in full, argues the opposite framing; the-owl's fitness harness already does the better-supported version.
 - [[contract-amendment-before-downstream-handoff]] — **rejected (58)** — cycle 8. Source verified to the paper *body* (the abstract omits the mechanism), so the evidence is real; rejected because the-owl already amends contracts via ADR supersession + the ledger's suffixed-id rule, and did so **twice the same day** (ADR-027, ADR-028). Decisive argument: ADR-020's field has **0/13 adoption after 3 cycles** — adding a bigger field group to an unused convention is over-production.
 - **`human-directed` rows (ADR-027, first execution):** `hd-scout-source-surface-first-party` · `hd-ingest-claude-blog-loops` · `hd-arquivo-alvo-persona-pair` — records, not decisions (score `—`). 0 classes at ≥2× ⇒ 0 candidates raised.
+- [[filtered-vector-search-overfiltering]] — **accepted, provisional (80)** → ADR-045. Cycle 11, first `classe: capability` accept off a capability axis. With HNSW/IVFFlat the filter runs **after** the index scan, so a filtered top-k silently under-returns — and the `database-specialist`'s own advice (unfiltered golden set + recall@k) is precisely what hides it. Impact is hypothesis: fixture 13 is the same matrix cell but exercises OFFSET pagination, **not** vector filtering (read, not presumed).
+- [[btree-skip-scan-leftmost-prefix]] — **deferred (74)**, cycle 11, **on merit not cap** (breaker was 1/3): PG18 skip scan is real and primary-sourced, but the agent never states the leftmost rule, so there is no live error to correct — and a half-stated version causes the opposite error.
+- Cycle 11's four codex candidates — [[iceberg-catalog-side-scan-planning]] (68) · [[managed-connector-schema-tombstones]] (66) · [[migration-cli-auto-commit-default]] (63) · [[delta-table-auto-feature-upgrades]] (60) — all **deferred**: single-vendor platform facts grafted onto a deliberately vendor-neutral agent with no known consumer. See [[log]] for the durable generalization they share, deliberately **not** raised as a candidate this cycle.
 - Others deferred; see [[ledger]].
 
 > [!todo]
